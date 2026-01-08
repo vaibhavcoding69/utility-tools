@@ -264,30 +264,94 @@ z1x/
 
 ## UI Design Concept
 
-### Layout
-- **Sidebar**: Category navigation with collapsible sections
-- **Main Area**: Tool interface with input/output panels
-- **Theme**: Dark mode by default with light mode toggle
+### Design Philosophy
+**Plain, functional, developer-friendly** - Inspired by tools like Linear, Raycast, and Vercel. No gradients, no glow effects, no unnecessary animations. Just clean typography and purposeful spacing.
 
-### Color Palette
+### Design Principles
+1. **Whitespace is a feature** - Generous padding, breathing room
+2. **Typography-first** - Good fonts do the heavy lifting
+3. **Subtle borders** - Thin 1px borders, not shadows everywhere
+4. **Monospace for data** - Code and data in monospace fonts
+5. **No decorative elements** - Every element serves a purpose
+
+### Layout
+- **Top Navigation**: Simple horizontal nav with category tabs
+- **Main Area**: Single-column tool interface, centered
+- **No sidebar clutter**: Clean, focused workspace
+
+### Typography
 ```css
-/* Dark Theme */
---bg-primary: #0f0f0f
---bg-secondary: #1a1a1a
---bg-tertiary: #252525
---accent: #6366f1 /* Indigo */
---accent-hover: #818cf8
---text-primary: #ffffff
---text-secondary: #a1a1aa
---success: #22c55e
---warning: #f59e0b
---error: #ef4444
+/* Fonts */
+--font-sans: Inter, system-ui, sans-serif;
+--font-mono: JetBrains Mono, Fira Code, monospace;
+
+/* Sizes */
+--text-xs: 0.75rem;
+--text-sm: 0.875rem;
+--text-base: 1rem;
+--text-lg: 1.125rem;
+--text-xl: 1.25rem;
+--text-2xl: 1.5rem;
 ```
 
+### Color Palette - Minimal
+```css
+/* Light Theme - Default */
+--bg: #ffffff;
+--bg-secondary: #fafafa;
+--border: #e5e5e5;
+--text: #171717;
+--text-muted: #737373;
+--accent: #171717;  /* Black accent - simple */
+--accent-text: #ffffff;
+
+/* Dark Theme */
+--bg: #0a0a0a;
+--bg-secondary: #141414;
+--border: #262626;
+--text: #fafafa;
+--text-muted: #a3a3a3;
+--accent: #fafafa;  /* White accent - simple */
+--accent-text: #0a0a0a;
+```
+
+### Component Style Guide
+
+**Buttons**
+- Primary: Black bg, white text, no border-radius or minimal 4px
+- Secondary: Transparent bg, thin border, dark text
+- Ghost: No bg, no border, just text
+
+**Inputs**
+- Simple bordered box, no shadows
+- Focus: darker border only
+- Placeholder: muted gray text
+
+**Cards**
+- White bg, 1px border, no shadow
+- Or: subtle bg color difference, no border
+
+### What We Are NOT Doing
+- ❌ Gradient backgrounds
+- ❌ Glowing effects or neon colors
+- ❌ Rounded corners everywhere - pills
+- ❌ Drop shadows on everything
+- ❌ Animated backgrounds
+- ❌ 3D elements or illustrations
+- ❌ Overly colorful accent palettes
+
+### What We ARE Doing
+- ✅ Black and white with purpose
+- ✅ Clean monospaced code displays
+- ✅ Thin borders, subtle separators
+- ✅ Generous whitespace
+- ✅ Fast, instant interactions
+- ✅ Clear hierarchy with typography
+
 ### Responsive Design
-- Desktop: Sidebar + Main content
-- Tablet: Collapsible sidebar
-- Mobile: Bottom navigation + Full-width content
+- Desktop: Centered content, max-width 900px
+- Tablet: Same layout, slightly less padding
+- Mobile: Full-width, stacked elements
 
 ---
 
@@ -356,44 +420,67 @@ z1x/
 
 ---
 
-## Wireframe
+## Wireframe - Clean Layout
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│  ☰ z1x                                    🔍  ⌨️  🌙  ⭐        │
-├────────────┬────────────────────────────────────────────────────┤
-│            │                                                    │
-│  🔧 Dev    │  JSON Formatter                                   │
-│    JSON    │  ──────────────────────────────────────────────   │
-│    YAML    │                                                    │
-│    Base64  │  ┌─────────────────┐  ┌─────────────────┐        │
-│    Regex   │  │                 │  │                 │        │
-│            │  │    INPUT        │  │    OUTPUT       │        │
-│  🔒 Security│  │                 │  │                 │        │
-│    Password│  │                 │  │                 │        │
-│    Hash    │  │                 │  │                 │        │
-│            │  │                 │  │                 │        │
-│  📊 Data   │  └─────────────────┘  └─────────────────┘        │
-│    CSV     │                                                    │
-│    Convert │  [Format]  [Minify]  [Validate]  [Copy]          │
-│            │                                                    │
-│  🎨 Media  │  ──────────────────────────────────────────────   │
-│    QR Code │                                                    │
-│    Color   │  Options:                                          │
-│            │  ☑ Indent with 2 spaces                           │
-│  ⏱️ Timer  │  ☐ Sort keys alphabetically                       │
-│    Pomodoro│  ☐ Escape unicode characters                      │
-│    Notes   │                                                    │
-│            │                                                    │
-└────────────┴────────────────────────────────────────────────────┘
+│                                                                 │
+│   z1x          Dev  Data  Security  Media  Time           ◐    │
+│   ─────────────────────────────────────────────────────────    │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────┐
+│                                                                 │
+│                                                                 │
+│                      JSON Formatter                             │
+│                      Format and validate JSON data              │
+│                                                                 │
+│                                                                 │
+│   ┌─────────────────────────────────────────────────────────┐   │
+│   │                                                         │   │
+│   │  Paste your JSON here...                                │   │
+│   │                                                         │   │
+│   │                                                         │   │
+│   │                                                         │   │
+│   │                                                         │   │
+│   └─────────────────────────────────────────────────────────┘   │
+│                                                                 │
+│                                                                 │
+│   Indent   [2]       [ ] Sort keys                              │
+│                                                                 │
+│                                                                 │
+│   [Format]     [Minify]     [Copy]                              │
+│                                                                 │
+│                                                                 │
+│   Output                                                        │
+│   ┌─────────────────────────────────────────────────────────┐   │
+│   │                                                         │   │
+│   │  {                                                      │   │
+│   │    "result": "formatted"                                │   │
+│   │  }                                                      │   │
+│   │                                                         │   │
+│   └─────────────────────────────────────────────────────────┘   │
+│                                                                 │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
 ```
+
+### Design Notes
+- Top nav only, no sidebar - clean and focused
+- Centered content with max-width constraint
+- Monospace font for input/output areas
+- Simple black buttons, no colors
+- Generous vertical spacing between sections
+- Dark mode toggle in header - half circle icon
 
 ---
 
 ## Next Steps
 
-1. Set up project structure
-2. Initialize backend with FastAPI
-3. Initialize frontend with Vite + React
-4. Implement core layout
-5. Build tools incrementally by category
+1. Set up project structure with backend/ and frontend/ directories
+2. Initialize FastAPI backend with base routes
+3. Initialize Vite + React + TypeScript frontend
+4. Implement clean navigation and layout
+5. Build tools incrementally starting with JSON Formatter
+6. Add dark/light theme toggle
