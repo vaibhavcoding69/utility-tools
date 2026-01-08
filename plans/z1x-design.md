@@ -27,79 +27,77 @@ z1x is a comprehensive utility suite built with Python (FastAPI) backend and Rea
 
 ---
 
-## Feature Categories
+## Feature Categories - Practical & Useful Tools
 
 ### 1. Developer Tools
 | Tool | Description |
 |------|-------------|
-| JSON Formatter | Pretty print, minify, validate JSON |
-| YAML/JSON Converter | Convert between YAML and JSON |
-| Base64 Encoder/Decoder | Encode/decode Base64 strings |
-| URL Encoder/Decoder | Encode/decode URLs |
-| Regex Tester | Test regex patterns with live preview |
-| UUID Generator | Generate UUIDs v1, v4, v5 |
-| Lorem Ipsum Generator | Generate placeholder text |
-| Diff Checker | Compare two texts side-by-side |
-| Code Beautifier | Format HTML, CSS, JS, Python |
-| JWT Decoder | Decode and inspect JWT tokens |
-| Cron Expression Parser | Parse and explain cron expressions |
-| Unix Timestamp Converter | Convert timestamps to dates |
+| API Tester | Make HTTP requests, test APIs with headers/body |
+| Webhook Tester | Generate webhook URLs to capture and inspect requests |
+| Regex Builder | Visual regex builder with explanations |
+| JWT Inspector | Decode, verify, and debug JWT tokens with key validation |
+| Cron Builder | Visual cron expression builder with next run times |
+| Git Command Generator | Generate git commands for common workflows |
+| .env Editor | Manage environment variables with encryption |
+| SQL Query Builder | Visual SQL query builder |
+| Mock Data Generator | Generate realistic fake data - names, emails, addresses |
+| Response Time Checker | Check API/website response times from multiple locations |
 
 ### 2. Productivity Tools
 | Tool | Description |
 |------|-------------|
-| Pomodoro Timer | Focus timer with breaks |
-| Note Pad | Quick notes with auto-save |
-| Todo List | Simple task manager |
-| Word Counter | Count words, characters, sentences |
-| Text Case Converter | uppercase, lowercase, title, sentence |
-| Markdown Preview | Live markdown to HTML preview |
-| Meeting Cost Calculator | Calculate meeting costs by attendees |
-| Reading Time Estimator | Estimate reading time for text |
-| Stopwatch | Simple stopwatch with laps |
-| Countdown Timer | Set countdown timers |
+| Pomodoro Timer | Focus timer with stats and history |
+| Quick Notes | Markdown notes with sync and search |
+| Kanban Board | Simple project task board |
+| Habit Tracker | Track daily habits with streaks |
+| Time Zone Converter | Convert times across zones with meeting planner |
+| Bookmark Manager | Save and organize links with tags |
+| Clipboard History | Track clipboard history with search |
+| Screenshot Annotator | Capture and annotate screenshots |
+| Link Shortener | Create short URLs with click tracking |
+| Expense Tracker | Track expenses with categories and charts |
 
 ### 3. Data Tools
 | Tool | Description |
 |------|-------------|
-| CSV to JSON | Convert CSV to JSON |
-| JSON to CSV | Convert JSON to CSV |
-| SQL Formatter | Format SQL queries |
-| Data Generator | Generate fake data for testing |
-| Number Base Converter | Binary, Octal, Decimal, Hex |
-| Unit Converter | Length, weight, temperature, etc. |
-| Percentage Calculator | Various percentage calculations |
-| Statistics Calculator | Mean, median, mode, std dev |
-| File Size Converter | Convert between KB, MB, GB |
-| Epoch Converter | Unix epoch to human readable |
+| Data Transformer | Transform data between formats - JSON/CSV/XML/YAML |
+| SQL to NoSQL | Convert SQL queries to MongoDB/Firebase queries |
+| Database Schema Designer | Visual database schema designer with export |
+| Data Faker | Generate realistic test datasets |
+| File Converter | Convert documents - PDF/Word/Markdown |
+| Spreadsheet Editor | Edit CSV/Excel files in browser |
+| Data Visualizer | Create charts from data |
+| Diff Tool | Compare files/text with merge support |
+| Log Parser | Parse and analyze log files |
+| Regex Data Extractor | Extract data from text using patterns |
 
 ### 4. Security Tools
 | Tool | Description |
 |------|-------------|
-| Password Generator | Generate secure passwords |
-| Password Strength Checker | Check password strength |
-| Hash Generator | MD5, SHA-1, SHA-256, SHA-512 |
-| Hash Verifier | Verify hash matches |
-| UUID Validator | Validate UUID format |
-| Credit Card Validator | Luhn algorithm validator |
-| Email Validator | Validate email format |
-| IP Address Lookup | Get info about IP addresses |
-| Random Number Generator | Cryptographically secure random |
-| Checksum Calculator | Calculate file checksums |
+| Password Generator | Generate secure passwords with policies |
+| Password Manager | Encrypted password storage - local only |
+| Secret Vault | Store API keys and secrets securely |
+| File Encryptor | Encrypt/decrypt files with AES |
+| Hash Generator | Generate and verify hashes |
+| SSL Checker | Check SSL certificate status and expiry |
+| Security Headers Checker | Analyze website security headers |
+| Leaked Password Checker | Check if password is in breached databases |
+| 2FA Code Generator | Generate TOTP codes |
+| Privacy Policy Generator | Generate privacy policies from templates |
 
 ### 5. Media Tools
 | Tool | Description |
 |------|-------------|
-| QR Code Generator | Generate QR codes |
-| QR Code Reader | Read QR codes from images |
-| Color Picker | Pick and convert colors |
-| Color Palette Generator | Generate color palettes |
-| Image to Base64 | Convert images to Base64 |
-| Favicon Generator | Create favicons from images |
-| SVG to PNG Converter | Convert SVG to PNG |
-| Image Compressor | Compress images losslessly |
-| Placeholder Image Generator | Generate placeholder images |
-| Gradient Generator | Create CSS gradients |
+| QR Code Studio | Generate styled QR codes with logos |
+| Image Editor | Crop, resize, filter images |
+| Color Palette Generator | Extract palettes from images |
+| Icon Generator | Generate app icons for all platforms |
+| Image Optimizer | Compress images with quality control |
+| Background Remover | Remove backgrounds from images |
+| Favicon Generator | Create favicons from any image |
+| OG Image Generator | Create social media preview images |
+| Video to GIF | Convert video clips to GIFs |
+| Audio Recorder | Record and trim audio clips |
 
 ---
 
