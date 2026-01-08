@@ -37,6 +37,8 @@ Deploy this project to Vercel with one click:
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fvaibhavcoding69%2Futility-tools)
 
+> **Note:** For Vercel deployment to work, you'll need to modify `main.py` to handle HTTP requests. Consider using a framework like Flask or FastAPI to create a web application.
+
 ## Project Structure
 
 ```
