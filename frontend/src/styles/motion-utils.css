@@ -1,0 +1,1965 @@
+/* Motion utility classes (generated) */
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+
+
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+
+
+@keyframes slide-left {
+  from { opacity: 0; transform: translateX(10px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+
+
+/* fade-up stagger set */
+
+.fade-up-1 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 30ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-2 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 50ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-3 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 70ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-4 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 90ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-5 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 110ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-6 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 130ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-7 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 150ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-8 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 170ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-9 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 190ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-10 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 210ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-11 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 230ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-12 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 250ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-13 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 270ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-14 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 290ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-15 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 310ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-16 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 330ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-17 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 350ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-18 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 370ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-19 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 390ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-20 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 410ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-21 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 430ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-22 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 450ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-23 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 470ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-24 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 490ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-25 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 510ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-26 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 530ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-27 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 550ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-28 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 570ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-29 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 590ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-30 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 610ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-31 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 630ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-32 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 650ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-33 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 670ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-34 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 690ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-35 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 710ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-36 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 730ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-37 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 750ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-38 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 770ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-39 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 790ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-40 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 810ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-41 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 830ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-42 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 850ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-43 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 870ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-44 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 890ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-45 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 910ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-46 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 930ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-47 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 950ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-48 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 970ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-49 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 990ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-50 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1010ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-51 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1030ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-52 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1050ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-53 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1070ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-54 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1090ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-55 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1110ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-56 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1130ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-57 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1150ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-58 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1170ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-59 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1190ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-60 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1210ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-61 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1230ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-62 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1250ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-63 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1270ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-64 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1290ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-65 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1310ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-66 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1330ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-67 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1350ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-68 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1370ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-69 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1390ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-70 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1410ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-71 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1430ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-72 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1450ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-73 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1470ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-74 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1490ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-75 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1510ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-76 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1530ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-77 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1550ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-78 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1570ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-79 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1590ms;
+  will-change: transform, opacity;
+}
+
+.fade-up-80 {
+  animation: fade-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1610ms;
+  will-change: transform, opacity;
+}
+
+
+
+/* fade-in stagger set */
+
+.fade-in-1 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 30ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-2 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 50ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-3 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 70ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-4 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 90ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-5 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 110ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-6 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 130ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-7 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 150ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-8 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 170ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-9 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 190ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-10 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 210ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-11 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 230ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-12 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 250ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-13 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 270ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-14 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 290ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-15 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 310ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-16 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 330ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-17 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 350ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-18 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 370ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-19 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 390ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-20 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 410ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-21 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 430ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-22 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 450ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-23 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 470ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-24 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 490ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-25 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 510ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-26 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 530ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-27 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 550ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-28 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 570ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-29 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 590ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-30 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 610ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-31 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 630ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-32 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 650ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-33 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 670ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-34 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 690ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-35 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 710ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-36 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 730ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-37 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 750ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-38 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 770ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-39 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 790ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-40 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 810ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-41 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 830ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-42 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 850ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-43 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 870ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-44 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 890ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-45 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 910ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-46 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 930ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-47 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 950ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-48 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 970ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-49 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 990ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-50 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1010ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-51 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1030ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-52 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1050ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-53 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1070ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-54 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1090ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-55 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1110ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-56 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1130ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-57 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1150ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-58 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1170ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-59 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1190ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-60 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1210ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-61 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1230ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-62 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1250ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-63 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1270ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-64 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1290ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-65 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1310ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-66 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1330ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-67 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1350ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-68 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1370ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-69 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1390ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-70 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1410ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-71 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1430ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-72 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1450ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-73 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1470ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-74 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1490ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-75 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1510ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-76 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1530ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-77 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1550ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-78 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1570ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-79 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1590ms;
+  will-change: transform, opacity;
+}
+
+.fade-in-80 {
+  animation: fade-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1610ms;
+  will-change: transform, opacity;
+}
+
+
+
+/* scale-in stagger set */
+
+.scale-in-1 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 30ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-2 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 50ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-3 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 70ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-4 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 90ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-5 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 110ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-6 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 130ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-7 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 150ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-8 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 170ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-9 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 190ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-10 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 210ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-11 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 230ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-12 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 250ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-13 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 270ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-14 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 290ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-15 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 310ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-16 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 330ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-17 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 350ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-18 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 370ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-19 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 390ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-20 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 410ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-21 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 430ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-22 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 450ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-23 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 470ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-24 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 490ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-25 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 510ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-26 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 530ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-27 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 550ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-28 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 570ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-29 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 590ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-30 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 610ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-31 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 630ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-32 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 650ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-33 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 670ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-34 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 690ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-35 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 710ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-36 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 730ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-37 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 750ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-38 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 770ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-39 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 790ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-40 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 810ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-41 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 830ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-42 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 850ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-43 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 870ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-44 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 890ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-45 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 910ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-46 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 930ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-47 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 950ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-48 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 970ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-49 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 990ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-50 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1010ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-51 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1030ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-52 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1050ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-53 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1070ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-54 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1090ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-55 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1110ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-56 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1130ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-57 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1150ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-58 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1170ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-59 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1190ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-60 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1210ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-61 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1230ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-62 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1250ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-63 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1270ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-64 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1290ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-65 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1310ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-66 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1330ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-67 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1350ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-68 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1370ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-69 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1390ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-70 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1410ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-71 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1430ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-72 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1450ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-73 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1470ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-74 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1490ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-75 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1510ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-76 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1530ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-77 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1550ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-78 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1570ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-79 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1590ms;
+  will-change: transform, opacity;
+}
+
+.scale-in-80 {
+  animation: scale-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1610ms;
+  will-change: transform, opacity;
+}
+
+
+
+/* slide-left stagger set */
+
+.slide-left-1 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 30ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-2 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 50ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-3 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 70ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-4 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 90ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-5 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 110ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-6 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 130ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-7 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 150ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-8 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 170ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-9 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 190ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-10 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 210ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-11 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 230ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-12 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 250ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-13 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 270ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-14 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 290ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-15 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 310ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-16 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 330ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-17 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 350ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-18 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 370ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-19 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 390ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-20 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 410ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-21 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 430ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-22 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 450ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-23 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 470ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-24 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 490ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-25 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 510ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-26 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 530ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-27 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 550ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-28 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 570ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-29 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 590ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-30 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 610ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-31 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 630ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-32 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 650ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-33 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 670ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-34 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 690ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-35 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 710ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-36 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 730ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-37 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 750ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-38 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 770ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-39 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 790ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-40 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 810ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-41 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 830ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-42 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 850ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-43 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 870ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-44 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 890ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-45 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 910ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-46 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 930ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-47 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 950ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-48 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 970ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-49 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 990ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-50 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1010ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-51 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1030ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-52 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1050ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-53 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1070ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-54 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1090ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-55 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1110ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-56 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1130ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-57 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1150ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-58 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1170ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-59 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1190ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-60 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1210ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-61 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1230ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-62 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1250ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-63 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1270ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-64 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1290ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-65 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1310ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-66 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1330ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-67 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1350ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-68 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1370ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-69 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1390ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-70 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1410ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-71 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1430ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-72 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1450ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-73 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1470ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-74 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1490ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-75 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1510ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-76 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1530ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-77 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1550ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-78 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1570ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-79 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1590ms;
+  will-change: transform, opacity;
+}
+
+.slide-left-80 {
+  animation: slide-left 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 1610ms;
+  will-change: transform, opacity;
+}
+
+

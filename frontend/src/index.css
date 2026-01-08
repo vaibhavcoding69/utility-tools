@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import './styles/motion-utils.css';
 
 @tailwind base;
 @tailwind components;
@@ -326,6 +327,11 @@ textarea, input {
   box-shadow: 0px 8px 24px rgba(0,0,0,0.04);
 }
 
+.hoverable:active {
+  transform: translateY(-1px);
+  box-shadow: 0px 4px 14px rgba(0,0,0,0.03);
+}
+
 .card-head {
   display: flex;
   align-items: center;
@@ -421,3 +427,29 @@ textarea, input {
     flex-wrap: wrap;
   }
 }
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .hoverable, .btn, .pill {
+    transition: none !important;
+  }
+  .hoverable:hover { transform: none !important; box-shadow: none !important; }
+  .btn:hover { transform: none !important; }
+  .pill:hover { transform: none !important; }
+}
+
+/* Stagger helper classes */
+.stagger-hero-left { animation: fade-scale 360ms ease forwards; animation-delay: 20ms; }
+.stagger-hero-right { animation: fade-scale 360ms ease forwards; animation-delay: 70ms; }
+.stagger-category { animation: fade-scale 380ms ease forwards; animation-delay: 120ms; }
+.stagger-card-1 { animation: fade-scale 360ms ease forwards; animation-delay: 40ms; }
+.stagger-card-2 { animation: fade-scale 360ms ease forwards; animation-delay: 90ms; }
+.stagger-card-3 { animation: fade-scale 360ms ease forwards; animation-delay: 140ms; }
+.stagger-card-4 { animation: fade-scale 360ms ease forwards; animation-delay: 190ms; }
+.stagger-card-5 { animation: fade-scale 360ms ease forwards; animation-delay: 240ms; }
+.stagger-card-6 { animation: fade-scale 360ms ease forwards; animation-delay: 290ms; }
