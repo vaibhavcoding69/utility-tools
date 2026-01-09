@@ -2,7 +2,6 @@ import os
 import subprocess
 import sys
 
-
 def run_frontend():
     root = os.path.abspath(os.path.dirname(__file__))
     frontend_dir = os.path.join(root, "frontend")

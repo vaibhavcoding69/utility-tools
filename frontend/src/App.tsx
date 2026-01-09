@@ -9,13 +9,17 @@ export default function App() {
     <div className="app-shell">
       <Header />
       <main>
-        <section className="hero">
-          <Hero />
-          <div className="hero-right">
+        <section className="hero fade-up-1">
+          <div className="fade-up-2">
+            <Hero />
+          </div>
+          <div className="hero-right fade-up-3 scale-in-4">
             <FeaturedCard />
           </div>
         </section>
-        <CategoryGrid />
+        <div className="fade-in-2 slide-left-3">
+          <CategoryGrid />
+        </div>
       </main>
     </div>
   )
