@@ -67,4 +67,4 @@ This project is open source and available under the MIT License.
 
 ## Author
 
-Created by [vaibhavcoding69](https://github.com/vaibhavcoding69)
+Created by [vaibhavcoding69](https://github.com/vaibhavcoding69) and [CloudCompile](https://github.com/CloudCompile).
