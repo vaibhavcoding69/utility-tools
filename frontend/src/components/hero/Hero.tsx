@@ -1,30 +1,38 @@
-const meta = [
-  { label: 'Tools', value: '50+' },
-  { label: 'Categories', value: '5' },
-  { label: 'Offline', value: 'Many local' },
+const companyLogos = [
+  'CURSOR',
+  'Decagon',
+  'zoom',
+  'Salesforce',
+  'Merrily',
+  'K3',
+  'Cog',
 ]
 
 export function Hero() {
   return (
-    <section className="hero">
-      <div className="hero-left">
-        <div className="badge">All-in-one utility desk</div>
-        <h1 className="hero-title">Plain, fast, useful.</h1>
+    <section className="hero-section">
+      <div className="hero-background">
+        <div className="hero-arc"></div>
+        <div className="hero-dots"></div>
+      </div>
+      <div className="hero-content">
+        <h1 className="hero-title">
+          Build on the <span className="text-gradient">AI Native Cloud</span>
+        </h1>
         <p className="hero-subtitle">
-          z1x is a focused toolkit for builders: APIs, data, security, media, and productivity tools in a clean, distraction-free workspace.
+          Engineered for AI natives, powered by cutting-edge research
         </p>
         <div className="hero-actions">
-          <button className="btn">Open workspace</button>
-          <button className="btn secondary">View tools</button>
+          <button className="btn btn-primary">Start building now</button>
+          <button className="btn btn-outline">Contact sales</button>
         </div>
-        <div className="hero-meta">
-          {meta.map((m) => (
-            <div key={m.label}>
-              <div className="meta-number">{m.value}</div>
-              <div className="meta-label">{m.label}</div>
-            </div>
-          ))}
-        </div>
+      </div>
+      <div className="company-logos">
+        {companyLogos.map((logo) => (
+          <div key={logo} className="company-logo">
+            {logo}
+          </div>
+        ))}
       </div>
     </section>
   )
