@@ -2,11 +2,6 @@
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
 
-interface ApiResponse<T> {
-  success: boolean;
-  [key: string]: any;
-}
-
 class ApiClient {
   private baseUrl: string;
 
@@ -38,52 +33,52 @@ class ApiClient {
 
   // Health check
   async health() {
-    return this.request<ApiResponse<any>>('/health');
+    return this.request<any>('/health');
   }
 
   // Developer Tools
   async formatJson(data: string, indent: number = 2, sortKeys: boolean = false) {
-    return this.request<ApiResponse<{ formatted: string; valid: boolean }>>('/developer/json/format', {
+    return this.request<any>('/developer/json/format', {
       method: 'POST',
       body: JSON.stringify({ data, indent, sort_keys: sortKeys }),
     });
   }
 
   async minifyJson(data: string) {
-    return this.request<ApiResponse<{ minified: string; valid: boolean }>>('/developer/json/minify', {
+    return this.request<any>('/developer/json/minify', {
       method: 'POST',
       body: JSON.stringify({ data }),
     });
   }
 
   async encodeBase64(data: string) {
-    return this.request<ApiResponse<{ encoded: string }>>('/developer/base64/encode', {
+    return this.request<any>('/developer/base64/encode', {
       method: 'POST',
       body: JSON.stringify({ data }),
     });
   }
 
   async decodeBase64(data: string) {
-    return this.request<ApiResponse<{ decoded: string }>>('/developer/base64/decode', {
+    return this.request<any>('/developer/base64/decode', {
       method: 'POST',
       body: JSON.stringify({ data }),
     });
   }
 
   async testRegex(pattern: string, text: string, flags: string = '') {
-    return this.request<ApiResponse<{ matches: any[]; count: number }>>('/developer/regex/test', {
+    return this.request<any>('/developer/regex/test', {
       method: 'POST',
       body: JSON.stringify({ pattern, text, flags }),
     });
   }
 
   async generateUuid() {
-    return this.request<ApiResponse<{ uuid: string }>>('/developer/uuid/generate');
+    return this.request<any>('/developer/uuid/generate');
   }
 
   // Security Tools
   async generateHash(data: string, algorithm: string = 'sha256') {
-    return this.request<ApiResponse<{ hash: string; algorithm: string }>>('/security/hash/generate', {
+    return this.request<any>('/security/hash/generate', {
       method: 'POST',
       body: JSON.stringify({ data, algorithm }),
     });
@@ -96,7 +91,7 @@ class ApiClient {
     include_numbers?: boolean;
     include_symbols?: boolean;
   } = {}) {
-    return this.request<ApiResponse<{ password: string; length: number }>>('/security/password/generate', {
+    return this.request<any>('/security/password/generate', {
       method: 'POST',
       body: JSON.stringify({
         length: 16,
@@ -110,7 +105,7 @@ class ApiClient {
   }
 
   async checkPasswordStrength(password: string) {
-    return this.request<ApiResponse<{ strength: string; score: number; max_score: number; feedback: string[] }>>('/security/password/strength', {
+    return this.request<any>('/security/password/strength', {
       method: 'POST',
       body: JSON.stringify({ data: password }),
     });
@@ -118,14 +113,14 @@ class ApiClient {
 
   // Data Tools
   async wordCount(text: string) {
-    return this.request<ApiResponse<{ words: number; characters: number; characters_no_spaces: number; lines: number }>>('/data/text/word-count', {
+    return this.request<any>('/data/text/word-count', {
       method: 'POST',
       body: JSON.stringify({ data: text }),
     });
   }
 
   async convertCase(text: string) {
-    return this.request<ApiResponse<any>>('/data/text/case-convert', {
+    return this.request<any>('/data/text/case-convert', {
       method: 'POST',
       body: JSON.stringify({ data: text }),
     });

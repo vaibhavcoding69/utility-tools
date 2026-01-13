@@ -1,3 +1,13 @@
 /.vscode
 /plans
 .env
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+dist/
+build/
