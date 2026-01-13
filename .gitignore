@@ -1,3 +1,17 @@
 /.vscode
 /plans
 .env
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+/frontend/dist/
+/frontend/src/**/*.js
+/frontend/src/**/*.d.ts
+/frontend/*.tsbuildinfo
+/frontend/vite.config.js
+/frontend/vite.config.d.ts

@@ -890,3 +890,346 @@ textarea, input {
 .stagger-card-4 { animation: fade-scale 360ms ease forwards; animation-delay: 190ms; }
 .stagger-card-5 { animation: fade-scale 360ms ease forwards; animation-delay: 240ms; }
 .stagger-card-6 { animation: fade-scale 360ms ease forwards; animation-delay: 290ms; }
+
+/* Tools Page Styles */
+.tools-page {
+  display: flex;
+  min-height: calc(100vh - 80px);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.tools-sidebar {
+  width: 300px;
+  padding: 2rem;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.sidebar-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0 0 1.5rem 0;
+  color: #e8edf7;
+}
+
+.tools-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.tool-nav-item {
+  padding: 1rem;
+  text-align: left;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #e8edf7;
+}
+
+.tool-nav-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.tool-nav-item.active {
+  background: rgba(37, 99, 235, 0.2);
+  border-color: rgba(37, 99, 235, 0.5);
+}
+
+.tool-nav-name {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.tool-nav-description {
+  font-size: 0.875rem;
+  color: rgba(232, 237, 247, 0.7);
+}
+
+.tools-main {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+.tool-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.tool-header {
+  margin-bottom: 2rem;
+}
+
+.tool-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+  color: #e8edf7;
+}
+
+.tool-description {
+  font-size: 1rem;
+  color: rgba(232, 237, 247, 0.7);
+  margin: 0;
+}
+
+.tool-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.tool-input-section,
+.tool-output-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.tool-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #e8edf7;
+}
+
+.tool-textarea {
+  width: 100%;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: #e8edf7;
+  font-size: 0.875rem;
+  resize: vertical;
+}
+
+.tool-textarea:focus {
+  outline: none;
+  border-color: rgba(37, 99, 235, 0.5);
+}
+
+.tool-output {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 1rem;
+  overflow-x: auto;
+}
+
+.tool-output code {
+  color: #e8edf7;
+  font-size: 0.875rem;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.tool-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+}
+
+.tool-option {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.tool-input-small {
+  width: 80px;
+  padding: 0.5rem;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  color: #e8edf7;
+  font-size: 0.875rem;
+}
+
+.tool-input-small:focus {
+  outline: none;
+  border-color: rgba(37, 99, 235, 0.5);
+}
+
+.tool-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+}
+
+.tool-checkbox-label input[type="checkbox"] {
+  cursor: pointer;
+}
+
+.tool-slider {
+  width: 100%;
+  max-width: 300px;
+}
+
+.tool-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  font-size: 0.875rem;
+}
+
+.btn-primary {
+  background: rgba(37, 99, 235, 0.8);
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: rgba(37, 99, 235, 1);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.1);
+  color: #e8edf7;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-large {
+  padding: 1rem 2rem;
+  font-size: 1rem;
+}
+
+.tool-error {
+  padding: 1rem;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 8px;
+  color: #fca5a5;
+  font-size: 0.875rem;
+}
+
+.password-output {
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+}
+
+.password-text {
+  font-size: 1.25rem;
+  color: #e8edf7;
+  word-break: break-all;
+}
+
+.password-strength {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+}
+
+.strength-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.strength-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.strength-weak {
+  background: rgba(239, 68, 68, 0.2);
+  color: #fca5a5;
+}
+
+.strength-medium {
+  background: rgba(251, 191, 36, 0.2);
+  color: #fde68a;
+}
+
+.strength-strong {
+  background: rgba(34, 197, 94, 0.2);
+  color: #86efac;
+}
+
+.strength-score {
+  font-size: 0.875rem;
+  color: rgba(232, 237, 247, 0.7);
+}
+
+.strength-feedback {
+  margin: 0.5rem 0 0 0;
+  padding-left: 1.5rem;
+  font-size: 0.875rem;
+  color: rgba(232, 237, 247, 0.7);
+}
+
+.hero-cta {
+  text-align: center;
+  padding: 3rem 0;
+}
+
+.back-button {
+  position: fixed;
+  top: 90px;
+  left: 20px;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: #e8edf7;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.875rem;
+}
+
+.back-button:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+@media (max-width: 768px) {
+  .tools-page {
+    flex-direction: column;
+  }
+  
+  .tools-sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .tools-main {
+    padding: 1rem;
+  }
+  
+  .back-button {
+    top: 70px;
+  }
+}
