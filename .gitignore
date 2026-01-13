@@ -9,5 +9,9 @@ __pycache__/
 env/
 venv/
 .venv/
-dist/
-build/
+/frontend/dist/
+/frontend/src/**/*.js
+/frontend/src/**/*.d.ts
+/frontend/*.tsbuildinfo
+/frontend/vite.config.js
+/frontend/vite.config.d.ts
