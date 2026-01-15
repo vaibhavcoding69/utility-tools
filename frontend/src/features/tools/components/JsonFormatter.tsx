@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import api from '../../lib/api';
+import { useState } from 'react'
+import api from '../../../lib/api'
 
 export function JsonFormatter() {
   const [input, setInput] = useState('');
@@ -96,21 +96,21 @@ export function JsonFormatter() {
 
         <div className="tool-actions">
           <button
-            className="btn btn-primary"
+            className="btn primary"
             onClick={handleFormat}
             disabled={loading || !input}
           >
             {loading ? 'Processing...' : 'Format'}
           </button>
           <button
-            className="btn btn-secondary"
+            className="btn ghost"
             onClick={handleMinify}
             disabled={loading || !input}
           >
             Minify
           </button>
           <button
-            className="btn btn-secondary"
+            className="btn ghost"
             onClick={handleCopy}
             disabled={!output}
           >

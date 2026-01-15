@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import api from '../../lib/api';
+import { useState } from 'react'
+import api from '../../../lib/api'
 
 export function Base64Tool() {
   const [input, setInput] = useState('');
@@ -66,21 +66,21 @@ export function Base64Tool() {
 
         <div className="tool-actions">
           <button
-            className="btn btn-primary"
+            className="btn primary"
             onClick={handleEncode}
             disabled={loading || !input}
           >
             {loading ? 'Processing...' : 'Encode'}
           </button>
           <button
-            className="btn btn-secondary"
+            className="btn ghost"
             onClick={handleDecode}
             disabled={loading || !input}
           >
             Decode
           </button>
           <button
-            className="btn btn-secondary"
+            className="btn ghost"
             onClick={handleCopy}
             disabled={!output}
           >

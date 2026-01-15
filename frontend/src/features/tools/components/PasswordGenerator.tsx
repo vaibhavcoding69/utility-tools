@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import api from '../../lib/api';
+import { useState } from 'react'
+import api from '../../../lib/api'
 
 export function PasswordGenerator() {
   const [password, setPassword] = useState('');
@@ -120,14 +120,14 @@ export function PasswordGenerator() {
 
         <div className="tool-actions">
           <button
-            className="btn btn-primary"
+            className="btn primary"
             onClick={handleGenerate}
             disabled={loading}
           >
             {loading ? 'Generating...' : 'Generate Password'}
           </button>
           <button
-            className="btn btn-secondary"
+            className="btn ghost"
             onClick={handleCopy}
             disabled={!password}
           >

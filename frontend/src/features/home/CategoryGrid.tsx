@@ -1,3 +1,7 @@
+type CategoryGridProps = {
+  onSelectCategory?: () => void
+}
+
 const categories = [
   {
     name: 'Dev',
@@ -21,23 +25,24 @@ const categories = [
   },
 ]
 
-export function CategoryGrid() {
+export function CategoryGrid({ onSelectCategory }: CategoryGridProps) {
   return (
-    <section className="category-section">
+    <section className="category-section" aria-labelledby="tool-categories">
       <div className="section-head">
         <div>
-          <div className="section-label">Browse</div>
-          <h2 className="section-title-lg">Tools by category</h2>
+          <p className="eyebrow">Browse</p>
+          <h2 id="tool-categories">Tools by category</h2>
+          <p className="muted">Jump straight to the utility you need. No ads, no noise.</p>
         </div>
-        <button className="btn secondary">See all</button>
+        <button className="btn ghost" onClick={onSelectCategory}>Open tool desk</button>
       </div>
       <div className="card-grid">
         {categories.map((cat) => (
-          <div key={cat.name} className="card hoverable">
+          <article key={cat.name} className="card hoverable">
             <div className="card-body">
               <div className="card-head">
                 <div className="card-title">{cat.name}</div>
-                <span className="pill pill-ghost">{cat.tools.length} tools</span>
+                <span className="pill ghost">{cat.tools.length} tools</span>
               </div>
               <ul className="tool-list">
                 {cat.tools.map((tool) => (
@@ -45,10 +50,10 @@ export function CategoryGrid() {
                 ))}
               </ul>
               <div className="card-footer">
-                <button className="btn secondary">Open</button>
+                <button className="btn subtle" onClick={onSelectCategory}>Use these</button>
               </div>
             </div>
-          </div>
+          </article>
         ))}
       </div>
     </section>

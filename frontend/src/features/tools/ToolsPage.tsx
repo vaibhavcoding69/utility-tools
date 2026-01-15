@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import JsonFormatter from '../components/tools/JsonFormatter';
-import Base64Tool from '../components/tools/Base64Tool';
-import PasswordGenerator from '../components/tools/PasswordGenerator';
+import { useState } from 'react'
+import JsonFormatter from './components/JsonFormatter'
+import Base64Tool from './components/Base64Tool'
+import PasswordGenerator from './components/PasswordGenerator'
 
 type ToolType = 'json' | 'base64' | 'password' | null;
 
