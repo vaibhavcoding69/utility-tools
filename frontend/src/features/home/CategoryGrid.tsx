@@ -1,7 +1,3 @@
-type CategoryGridProps = {
-  onSelectCategory?: () => void
-}
-
 const categories = [
   {
     name: 'Dev',
@@ -25,7 +21,7 @@ const categories = [
   },
 ]
 
-export function CategoryGrid({ onSelectCategory }: CategoryGridProps) {
+export function CategoryGrid() {
   return (
     <section className="category-section" aria-labelledby="tool-categories">
       <div className="section-head">
@@ -34,7 +30,7 @@ export function CategoryGrid({ onSelectCategory }: CategoryGridProps) {
           <h2 id="tool-categories">Tools by category</h2>
           <p className="muted">Jump straight to the utility you need. No ads, no noise.</p>
         </div>
-        <button className="btn ghost" onClick={onSelectCategory}>Open tool desk</button>
+        <a className="btn ghost" href="#tool-desk">Open tool desk</a>
       </div>
       <div className="card-grid">
         {categories.map((cat) => (
@@ -50,7 +46,7 @@ export function CategoryGrid({ onSelectCategory }: CategoryGridProps) {
                 ))}
               </ul>
               <div className="card-footer">
-                <button className="btn subtle" onClick={onSelectCategory}>Use these</button>
+                <a className="btn subtle" href="#tool-desk">Use these</a>
               </div>
             </div>
           </article>

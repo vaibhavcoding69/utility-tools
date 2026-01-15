@@ -1,23 +1,18 @@
-type HeaderProps = {
-  onLaunchTools?: () => void
-  onBackHome?: () => void
-  isToolsView?: boolean
-}
-
 const navLinks = [
   { label: 'Overview', href: '#home' },
   { label: 'Tools', href: '#tools' },
   { label: 'Changelog', href: '#changelog' },
+  { label: 'Docs', href: '#docs' },
+  { label: 'Status', href: '#status' },
 ]
 
-export function Header({ onLaunchTools, onBackHome, isToolsView }: HeaderProps) {
+export function Header() {
   return (
     <header className="site-header">
       <div className="brand">
         <div className="brand-mark">UT</div>
         <div className="brand-text">
           <span className="brand-name">Utility Tools</span>
-          <span className="brand-sub">Fast, reliable helpers for builders</span>
         </div>
       </div>
       <nav className="nav-links" aria-label="Primary">
@@ -28,12 +23,8 @@ export function Header({ onLaunchTools, onBackHome, isToolsView }: HeaderProps) 
         ))}
       </nav>
       <div className="nav-actions">
-        {isToolsView ? (
-          <button className="btn ghost" onClick={onBackHome}>Back</button>
-        ) : (
-          <button className="btn ghost" onClick={onBackHome}>Overview</button>
-        )}
-        <button className="btn primary" onClick={onLaunchTools}>Open tools</button>
+        <a className="btn ghost" href="#home">Overview</a>
+        <a className="btn primary" href="#tool-desk">Open tools</a>
       </div>
     </header>
   )

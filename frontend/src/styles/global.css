@@ -27,6 +27,7 @@ body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   letter-spacing: -0.01em;
   -webkit-font-smoothing: antialiased;
+  transition: background 220ms ease, color 220ms ease;
 }
 
 a {
@@ -44,24 +45,25 @@ button {
 }
 
 .page-body {
-  max-width: 1200px;
+  max-width: 1320px;
   margin: 0 auto;
-  padding: 32px 20px 80px;
+  padding: 56px 32px 108px;
   display: flex;
   flex-direction: column;
-  gap: 48px;
+  gap: 80px;
 }
 
 .site-header {
   position: sticky;
   top: 0;
   z-index: 20;
-  background: var(--bg);
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--border);
-  padding: 14px 24px;
+  padding: 16px 28px;
   display: flex;
   align-items: center;
-  gap: 18px;
+  gap: 20px;
   justify-content: space-between;
 }
 
@@ -114,6 +116,7 @@ button {
   color: var(--text);
   background: #f3f4f6;
   transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
 }
 
 .nav-actions {
@@ -124,19 +127,20 @@ button {
 
 .btn {
   border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 10px 14px;
+  border-radius: 14px;
+  padding: 12px 18px;
   background: #f8fafc;
   color: var(--text);
-  font-weight: 600;
-  transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease, border-color 120ms ease;
+  font-weight: 700;
+  font-size: 15px;
+  transition: transform 140ms ease, box-shadow 140ms ease, background 140ms ease, border-color 140ms ease;
 }
 
 .btn.primary {
   background: var(--text);
   border-color: var(--text);
   color: #ffffff;
-  box-shadow: var(--shadow);
+  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.16);
 }
 
 .btn.ghost {
@@ -151,8 +155,8 @@ button {
 }
 
 .btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.12);
 }
 
 .eyebrow {
@@ -170,61 +174,69 @@ button {
 
 .hero {
   display: grid;
-  grid-template-columns: 1fr 0.95fr;
+  grid-template-columns: minmax(0, 1fr);
   gap: 36px;
   align-items: center;
   position: relative;
+  padding: 32px;
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  background: linear-gradient(145deg, #ffffff 0%, #f8fafc 60%, #eef2f7 100%);
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.09);
 }
 
 .hero-left {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 18px;
 }
 
 .hero-title {
-  font-size: clamp(38px, 7vw, 64px);
+  font-size: clamp(52px, 8vw, 82px);
   margin: 0;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.035em;
+  line-height: 1.08;
 }
 
 .hero-lead {
   color: var(--muted);
-  font-size: 18px;
-  line-height: 1.6;
-  margin: 6px 0 0;
-  max-width: 620px;
+  font-size: 20px;
+  line-height: 1.7;
+  margin: 8px 0 0;
+  max-width: 740px;
 }
 
 .hero-actions {
   display: flex;
-  gap: 12px;
+  gap: 16px;
   align-items: center;
-  padding-top: 6px;
+  padding-top: 12px;
+  flex-wrap: wrap;
 }
 
 .hero-stats {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 12px;
-  padding-top: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 18px;
+  padding-top: 18px;
 }
 
 .stat-card {
-  padding: 14px;
+  padding: 18px;
   border: 1px solid var(--border);
-  border-radius: 14px;
-  background: var(--panel-strong);
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
 }
 
 .stat-value {
-  font-size: 22px;
-  font-weight: 700;
+  font-size: 24px;
+  font-weight: 800;
 }
 
 .stat-label {
   color: var(--muted);
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .hero-right {
@@ -312,21 +324,22 @@ button {
 
 .card-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 14px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 18px;
 }
 
 .card {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: #ffffff;
-  box-shadow: var(--shadow);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.07);
   height: 100%;
 }
 
 .card.hoverable:hover {
   transform: translateY(-2px);
-  transition: transform 120ms ease;
+  transition: transform 160ms ease, box-shadow 160ms ease;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.09);
 }
 
 .card-body {
@@ -462,6 +475,21 @@ button {
   display: flex;
   flex-direction: column;
   gap: 14px;
+}
+
+/* Simple fade-up animation variants */
+.fade-up {
+  animation: fade-up 420ms ease both;
+}
+
+.fade-up-1 { animation: fade-up 420ms ease 60ms both; }
+.fade-up-2 { animation: fade-up 420ms ease 120ms both; }
+.fade-up-3 { animation: fade-up 420ms ease 180ms both; }
+.fade-up-4 { animation: fade-up 420ms ease 240ms both; }
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .tool-header {
