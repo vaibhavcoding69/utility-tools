@@ -15,9 +15,9 @@ export function JsonFormatter() {
     try {
       const result = await api.formatJson(input, indent, sortKeys);
       if (result.success && result.valid) {
-        setOutput(result.formatted);
+        setOutput(result.formatted as string);
       } else {
-        setError(result.error || 'Invalid JSON');
+        setError(result.error as string || 'Invalid JSON');
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to format JSON');
@@ -30,11 +30,11 @@ export function JsonFormatter() {
     setLoading(true);
     setError('');
     try {
-      const result = await api.minifyJson(input);
+      const result = await api.formatJson(input, 0, false);
       if (result.success && result.valid) {
-        setOutput(result.minified);
+        setOutput(result.formatted as string);
       } else {
-        setError(result.error || 'Invalid JSON');
+        setError(result.error as string || 'Invalid JSON');
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to minify JSON');

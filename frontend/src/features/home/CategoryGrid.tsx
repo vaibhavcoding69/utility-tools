@@ -1,23 +1,23 @@
+import { Link } from 'react-router-dom'
+
 const categories = [
   {
-    name: 'Dev',
-    tools: ['API Tester', 'Webhook Tester', 'JWT Inspector', 'Cron Builder', 'Regex Builder'],
-  },
-  {
-    name: 'Data',
-    tools: ['Data Transformer', 'SQL to NoSQL', 'Schema Designer', 'Log Parser', 'Diff Tool'],
+    name: 'Developer',
+    slug: 'developer',
+    description: 'JSON, Base64, UUID, Regex & more',
+    tools: ['JSON Formatter', 'Base64 Encoder', 'UUID Generator', 'Regex Tester', 'JWT Decoder', 'URL Encoder', 'Text Diff'],
   },
   {
     name: 'Security',
-    tools: ['Password Vault', 'File Encryptor', 'Hash Generator', 'SSL Checker', 'Headers Check'],
+    slug: 'security',
+    description: 'Passwords, hashing & encryption',
+    tools: ['Password Generator', 'Hash Generator', 'TOTP Generator', 'HMAC Generator', 'Email Validator'],
   },
   {
-    name: 'Media',
-    tools: ['QR Studio', 'Image Optimizer', 'Icon Generator', 'Palette Extractor', 'Video → GIF'],
-  },
-  {
-    name: 'Productivity',
-    tools: ['Pomodoro', 'Quick Notes', 'Kanban', 'Time Zone Planner', 'Clipboard History'],
+    name: 'Data',
+    slug: 'data',
+    description: 'Transform & convert data formats',
+    tools: ['CSV to JSON', 'JSON to CSV', 'SQL Formatter', 'Fake Data Generator', 'Base Converter'],
   },
 ]
 
@@ -30,7 +30,6 @@ export function CategoryGrid() {
           <h2 id="tool-categories">Tools by category</h2>
           <p className="muted">Jump straight to the utility you need. No ads, no noise.</p>
         </div>
-        <a className="btn ghost" href="#tool-desk">Open tool desk</a>
       </div>
       <div className="card-grid">
         {categories.map((cat) => (
@@ -40,13 +39,16 @@ export function CategoryGrid() {
                 <div className="card-title">{cat.name}</div>
                 <span className="pill ghost">{cat.tools.length} tools</span>
               </div>
+              <p className="card-description">{cat.description}</p>
               <ul className="tool-list">
                 {cat.tools.map((tool) => (
                   <li key={tool}>{tool}</li>
                 ))}
               </ul>
               <div className="card-footer">
-                <a className="btn subtle" href="#tool-desk">Use these</a>
+                <Link className="btn primary" to={`/tools/${cat.slug}`}>
+                  Open {cat.name} Tools
+                </Link>
               </div>
             </div>
           </article>

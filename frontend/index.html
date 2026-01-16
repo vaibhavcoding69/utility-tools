@@ -10,6 +10,22 @@
       rel="stylesheet"
     />
     <title>z1x</title>
+    <script>
+      (function() {
+        try {
+          const storage = localStorage.getItem('theme-storage');
+          if (storage) {
+            const { state } = JSON.parse(storage);
+            if (state && state.theme) {
+              document.documentElement.setAttribute('data-theme', state.theme);
+              return;
+            }
+          }
+        } catch (e) {}
+        // Default to dark if no preference found
+        document.documentElement.setAttribute('data-theme', 'dark');
+      })();
+    </script>
   </head>
   <body class="bg-surface text-ink">
     <div id="root"></div>

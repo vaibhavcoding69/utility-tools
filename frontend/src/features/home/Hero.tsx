@@ -1,34 +1,59 @@
-type HeroProps = {
-  onLaunchTools?: () => void
-}
+import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 
-const stats = [
-  { label: 'Requests handled', value: '2.3M' },
-  { label: 'Avg. response', value: '48ms' },
-  { label: 'Uptime', value: '99.98%' },
-]
+export function Hero() {
+  const [requestCount, setRequestCount] = useState<string>('0')
 
-export function Hero({ onLaunchTools }: HeroProps) {
+  useEffect(() => {
+    const fetchRequestCount = async () => {
+      try {
+        const response = await fetch('/api/v1/stats/requests')
+        const data = await response.json()
+        setRequestCount(new Intl.NumberFormat().format(data.count))
+      } catch {
+        setRequestCount('NaN')
+      }
+    }
+    fetchRequestCount()
+  }, [])
+
   return (
     <section className="hero" id="home">
-      <div className="hero-left fade-up">
-        <p className="eyebrow">Developer utilities</p>
-        <h1 className="hero-title">Ship faster with a focused tool desk</h1>
-        <p className="hero-lead">
-          A streamlined workspace for the boring but critical tasks: formatting JSON, encoding payloads,
-          and generating secure passwords. Built for teams that want clarity over chaos.
-        </p>
-        <div className="hero-actions">
-          <button className="btn primary" onClick={onLaunchTools}>Launch tools</button>
-          <a className="btn ghost" href="#tools">See categories</a>
+      <div className="hero-aurora" aria-hidden="true" />
+      <div className="hero-bg-grid" aria-hidden="true" />
+      <div className="hero-spotlight" aria-hidden="true" />
+      
+      <div className="hero-badge">
+        <span className="hero-badge-dot" />
+        Developer utilities that just work
+      </div>
+      
+      <h1 className="hero-title">
+        Build on the <span className="gradient-text">Utility Cloud</span>
+      </h1>
+      
+      <p className="hero-lead">
+        A streamlined platform for the boring but critical tasks—formatting JSON, 
+        encoding payloads, generating passwords. Fast, reliable, and ad-free.
+      </p>
+      
+      <div className="hero-actions">
+        <Link className="btn primary" to="/tools/developer">Start building now →</Link>
+        <a className="btn ghost" href="#features">Learn more</a>
+      </div>
+      
+      <div className="hero-stats">
+        <div className="stat-item">
+          <div className="stat-value">{requestCount}</div>
+          <div className="stat-label">Requests processed</div>
         </div>
-        <div className="hero-stats" aria-label="Service stats">
-          {stats.map((item, idx) => (
-            <div key={item.label} className={`stat-card fade-up-${idx + 1}`}>
-              <div className="stat-value">{item.value}</div>
-              <div className="stat-label">{item.label}</div>
-            </div>
-          ))}
+        <div className="stat-item">
+          <div className="stat-value">48ms</div>
+          <div className="stat-label">Avg. response</div>
+        </div>
+        <div className="stat-item">
+          <div className="stat-value">99.98%</div>
+          <div className="stat-label">Uptime</div>
         </div>
       </div>
     </section>

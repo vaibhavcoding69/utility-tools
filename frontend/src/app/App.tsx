@@ -1,38 +1,34 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Header from './layout/Header'
-import { Hero } from '../features/home/Hero'
-import { CategoryGrid } from '../features/home/CategoryGrid'
-import ToolsPage from '../features/tools/ToolsPage'
+import HomePage from '../features/home/HomePage'
+import DeveloperToolsPage from '../features/tools/pages/DeveloperToolsPage'
+import SecurityToolsPage from '../features/tools/pages/SecurityToolsPage'
+import DataToolsPage from '../features/tools/pages/DataToolsPage'
+import ToolPage from '../features/tools/pages/ToolPage'
 
 export default function App() {
   return (
-    <div className="page">
-      <Header />
-      <main className="page-body">
-        <Hero />
-        <CategoryGrid />
-        <section className="cta-banner" id="tools">
-          <div className="cta-copy">
-            <p className="eyebrow">Ready to work?</p>
-            <h3>Open the tool desk and start shipping faster.</h3>
-            <p className="muted">Formatted JSON, encoded strings, secure passwords - all in one focused workspace.</p>
-          </div>
-          <div className="cta-actions">
-            <a className="btn primary" href="#tool-desk">Open tools</a>
-            <a className="btn ghost" href="#home">Back to top</a>
-          </div>
-        </section>
-        <section className="tools-wrapper" id="tool-desk">
-          <div className="tools-header">
-            <div>
-              <p className="eyebrow">Utility suite</p>
-              <h2>All tools in one clean surface</h2>
-              <p className="muted">Switch between JSON, Base64, and password utilities without leaving the page.</p>
-            </div>
-            <a className="btn ghost" href="#home">Back to overview</a>
-          </div>
-          <ToolsPage />
-        </section>
-      </main>
-    </div>
+    <BrowserRouter>
+      <div className="page">
+        <Header />
+        <main className="page-body">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            
+            {/* Developer Tools */}
+            <Route path="/tools/developer" element={<DeveloperToolsPage />} />
+            <Route path="/tools/developer/:toolId" element={<ToolPage category="developer" />} />
+            
+            {/* Security Tools */}
+            <Route path="/tools/security" element={<SecurityToolsPage />} />
+            <Route path="/tools/security/:toolId" element={<ToolPage category="security" />} />
+            
+            {/* Data Tools */}
+            <Route path="/tools/data" element={<DataToolsPage />} />
+            <Route path="/tools/data/:toolId" element={<ToolPage category="data" />} />
+          </Routes>
+        </main>
+      </div>
+    </BrowserRouter>
   )
 }
