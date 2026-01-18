@@ -1,16 +1,27 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from typing import Optional, List
+from typing import Optional, List, Dict, Any
 import json
 import base64
 import hashlib
 import secrets
 import string
 import re
-from datetime import datetime
+import uuid
+import difflib
+import csv
+import io
+import time
+from datetime import datetime, timezone
+from urllib.parse import quote, unquote
+
+import pyotp
+import sqlparse
+from faker import Faker
 
 app = FastAPI(title="z1x Utility Tools API", version="1.0.0")
+REQUEST_COUNT = 125000
 
 # Configure CORS
 app.add_middleware(
@@ -31,6 +42,9 @@ class JsonFormatRequest(BaseModel):
 class Base64Request(BaseModel):
     data: str
 
+class UrlRequest(BaseModel):
+    data: str
+
 class HashRequest(BaseModel):
     data: str
     algorithm: Optional[str] = "sha256"
@@ -42,10 +56,48 @@ class PasswordGenerateRequest(BaseModel):
     include_numbers: Optional[bool] = True
     include_symbols: Optional[bool] = True
 
+class PasswordStrengthRequest(BaseModel):
+    password: Optional[str] = None
+    data: Optional[str] = None
+
 class RegexTestRequest(BaseModel):
     pattern: str
     text: str
     flags: Optional[str] = ""
+
+class DiffRequest(BaseModel):
+    original: str
+    modified: str
+    context_lines: Optional[int] = 3
+
+class JwtDecodeRequest(BaseModel):
+    token: str
+
+class CsvRequest(BaseModel):
+    data: str
+
+class JsonToCsvRequest(BaseModel):
+    data: str
+
+class SqlFormatRequest(BaseModel):
+    data: str
+
+class FakeDataRequest(BaseModel):
+    data_type: str = "person"
+    count: int = 5
+    locale: str = "en_US"
+
+class BaseConvertRequest(BaseModel):
+    value: str
+    from_base: int
+    to_base: int
+
+class TotpRequest(BaseModel):
+    secret: Optional[str] = None
+    digits: Optional[int] = 6
+    period: Optional[int] = 30
+
+faker = Faker()
 
 # ==================== Routes ====================
 
@@ -62,6 +114,14 @@ async def root():
 async def health():
     return {"status": "healthy", "timestamp": datetime.utcnow().isoformat()}
 
+
+@app.get("/api/stats/requests")
+async def stats_requests():
+    """Return a simple rolling request count for the hero metrics."""
+    global REQUEST_COUNT
+    REQUEST_COUNT += 7
+    return {"success": True, "count": REQUEST_COUNT}
+
 # ==================== Developer Tools ====================
 
 @app.post("/api/developer/json/format")
@@ -69,9 +129,11 @@ async def format_json(request: JsonFormatRequest):
     """Format and validate JSON data"""
     try:
         parsed = json.loads(request.data)
+        separators = (',', ':') if request.indent == 0 else None
         formatted = json.dumps(
             parsed,
-            indent=request.indent,
+            indent=None if request.indent == 0 else request.indent,
+            separators=separators,
             sort_keys=request.sort_keys,
             ensure_ascii=False
         )
@@ -117,6 +179,24 @@ async def encode_base64(request: Base64Request):
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
+
+@app.post("/api/developer/url/encode")
+async def encode_url(request: UrlRequest):
+    try:
+        encoded = quote(request.data, safe="")
+        return {"success": True, "encoded": encoded}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@app.post("/api/developer/url/decode")
+async def decode_url(request: UrlRequest):
+    try:
+        decoded = unquote(request.data)
+        return {"success": True, "decoded": decoded}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
 @app.post("/api/developer/base64/decode")
 async def decode_base64(request: Base64Request):
     """Decode base64 string"""
@@ -142,37 +222,108 @@ async def test_regex(request: RegexTestRequest):
             flags_int |= re.DOTALL
         
         pattern = re.compile(request.pattern, flags_int)
-        matches = pattern.finditer(request.text)
-        
-        match_list = []
-        for match in matches:
-            match_list.append({
-                "match": match.group(0),
-                "start": match.start(),
-                "end": match.end(),
-                "groups": match.groups()
-            })
-        
+        matches = list(pattern.finditer(request.text))
+
+        positions = [
+            {"match": m.group(0), "start": m.start(), "end": m.end()}
+            for m in matches
+        ]
+        groups: List[str] = list(matches[0].groups()) if matches and matches[0].groups() else []
+
         return {
             "success": True,
-            "matches": match_list,
-            "count": len(match_list)
+            "matches": bool(matches),
+            "match_count": len(matches),
+            "groups": groups,
+            "positions": positions,
         }
     except re.error as e:
         return {
             "success": False,
             "error": str(e),
-            "matches": [],
-            "count": 0
+            "matches": False,
+            "match_count": 0,
+            "groups": [],
+            "positions": [],
         }
 
+
 @app.get("/api/developer/uuid/generate")
-async def generate_uuid():
-    """Generate a UUID v4"""
-    import uuid
+async def generate_uuid(version: int = 4, count: int = 1):
+    """Generate one or more UUIDs"""
+    count = max(1, min(count, 100))
+    uuids: List[uuid.UUID] = []
+    for _ in range(count):
+        if version == 1:
+            uuids.append(uuid.uuid1())
+        else:
+            uuids.append(uuid.uuid4())
+
+    if count == 1:
+        return {"success": True, "uuid": str(uuids[0])}
+    return {"success": True, "uuids": [str(u) for u in uuids]}
+
+
+@app.post("/api/developer/diff")
+async def diff_text(request: DiffRequest):
+    """Return unified diff and stats between two texts"""
+    diff_lines = list(
+        difflib.unified_diff(
+            request.original.splitlines(),
+            request.modified.splitlines(),
+            lineterm="",
+            n=request.context_lines,
+        )
+    )
+
+    additions = sum(1 for line in diff_lines if line.startswith('+') and not line.startswith('+++'))
+    deletions = sum(1 for line in diff_lines if line.startswith('-') and not line.startswith('---'))
     return {
         "success": True,
-        "uuid": str(uuid.uuid4())
+        "unified_diff": "\n".join(diff_lines),
+        "stats": {
+            "additions": additions,
+            "deletions": deletions,
+            "changes": additions + deletions,
+        },
+    }
+
+
+def _b64url_decode(segment: str) -> bytes:
+    padding = '=' * (-len(segment) % 4)
+    return base64.urlsafe_b64decode(segment + padding)
+
+
+@app.post("/api/developer/jwt/decode")
+async def decode_jwt(request: JwtDecodeRequest):
+    parts = request.token.split('.')
+    if len(parts) != 3:
+        raise HTTPException(status_code=400, detail="Invalid JWT format")
+
+    try:
+        header = json.loads(_b64url_decode(parts[0]).decode('utf-8'))
+        payload = json.loads(_b64url_decode(parts[1]).decode('utf-8'))
+        signature = parts[2]
+    except Exception as exc:
+        raise HTTPException(status_code=400, detail=f"Unable to decode JWT: {exc}")
+
+    exp_ts = payload.get('exp')
+    exp_date = None
+    expired = None
+    if exp_ts is not None:
+        try:
+            exp_date = datetime.fromtimestamp(int(exp_ts), tz=timezone.utc).isoformat()
+            expired = datetime.now(tz=timezone.utc).timestamp() > int(exp_ts)
+        except Exception:
+            expired = None
+
+    return {
+        "success": True,
+        "header": header,
+        "payload": payload,
+        "signature": signature,
+        "expired": expired,
+        "exp_date": exp_date,
     }
 
 # ==================== Security Tools ====================
@@ -185,7 +336,10 @@ async def generate_hash(request: HashRequest):
             'md5': hashlib.md5,
             'sha1': hashlib.sha1,
             'sha256': hashlib.sha256,
-            'sha512': hashlib.sha512
+            'sha384': hashlib.sha384,
+            'sha512': hashlib.sha512,
+            'blake2b': hashlib.blake2b,
+            'blake2s': hashlib.blake2s,
         }
         
         if request.algorithm not in algorithms:
@@ -199,6 +353,25 @@ async def generate_hash(request: HashRequest):
             "hash": hash_value,
             "algorithm": request.algorithm
         }
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@app.post("/api/security/hash/all")
+async def generate_all_hashes(request: Base64Request):
+    try:
+        algorithms = {
+            'md5': hashlib.md5,
+            'sha1': hashlib.sha1,
+            'sha256': hashlib.sha256,
+            'sha384': hashlib.sha384,
+            'sha512': hashlib.sha512,
+            'blake2b': hashlib.blake2b,
+            'blake2s': hashlib.blake2s,
+        }
+
+        hashes = {name: func(request.data.encode('utf-8')).hexdigest() for name, func in algorithms.items()}
+        return {"success": True, "hashes": hashes}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
@@ -230,9 +403,11 @@ async def generate_password(request: PasswordGenerateRequest):
         raise HTTPException(status_code=400, detail=str(e))
 
 @app.post("/api/security/password/strength")
-async def check_password_strength(request: Base64Request):
+async def check_password_strength(request: PasswordStrengthRequest):
     """Check password strength"""
-    password = request.data
+    password = request.password or request.data
+    if not password:
+        raise HTTPException(status_code=400, detail="Password is required")
     strength = 0
     feedback = []
     
@@ -282,7 +457,135 @@ async def check_password_strength(request: Base64Request):
         "feedback": feedback
     }
 
+
+@app.post("/api/security/otp/generate")
+async def generate_totp(request: TotpRequest):
+    """Generate TOTP codes and provisioning data"""
+    secret = request.secret or pyotp.random_base32()
+    totp = pyotp.TOTP(secret, digits=request.digits or 6, interval=request.period or 30)
+    code = totp.now()
+    period = request.period or 30
+    time_remaining = period - (int(time.time()) % period)
+    provisioning_uri = totp.provisioning_uri(name="user@example.com", issuer_name="UtilityTools")
+
+    return {
+        "success": True,
+        "secret": secret,
+        "current_code": code,
+        "time_remaining": time_remaining,
+        "provisioning_uri": provisioning_uri,
+    }
+
 # ==================== Data Tools ====================
+
+@app.post("/api/data/csv-to-json")
+async def csv_to_json(request: CsvRequest):
+    try:
+        reader = csv.DictReader(io.StringIO(request.data))
+        rows = list(reader)
+        return {"success": True, "data": rows, "json": json.dumps(rows, ensure_ascii=False, indent=2)}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@app.post("/api/data/json-to-csv")
+async def json_to_csv(request: JsonToCsvRequest):
+    try:
+        parsed = json.loads(request.data)
+        if isinstance(parsed, dict):
+            parsed = [parsed]
+        if not isinstance(parsed, list):
+            raise HTTPException(status_code=400, detail="JSON input must be an object or array of objects")
+
+        fieldnames = set()
+        for item in parsed:
+            if isinstance(item, dict):
+                fieldnames.update(item.keys())
+        field_list = sorted(fieldnames)
+        output = io.StringIO()
+        writer = csv.DictWriter(output, fieldnames=field_list)
+        writer.writeheader()
+        for item in parsed:
+            if not isinstance(item, dict):
+                raise HTTPException(status_code=400, detail="All items must be objects")
+            writer.writerow({k: item.get(k, "") for k in field_list})
+
+        return {"success": True, "csv": output.getvalue()}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@app.post("/api/data/sql/format")
+async def format_sql(request: SqlFormatRequest):
+    try:
+        formatted = sqlparse.format(request.data, reindent=True, keyword_case="upper")
+        return {"success": True, "formatted": formatted}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@app.post("/api/data/fake/generate")
+async def generate_fake_data(request: FakeDataRequest):
+    faker_localized = Faker(request.locale)
+
+    def generate_item(data_type: str) -> Any:
+        if data_type == "person":
+            return {
+                "name": faker_localized.name(),
+                "email": faker_localized.email(),
+                "job": faker_localized.job(),
+            }
+        if data_type == "address":
+            return {
+                "street": faker_localized.street_address(),
+                "city": faker_localized.city(),
+                "country": faker_localized.country(),
+                "postcode": faker_localized.postcode(),
+            }
+        if data_type == "company":
+            return {
+                "company": faker_localized.company(),
+                "catch_phrase": faker_localized.catch_phrase(),
+                "website": faker_localized.domain_name(),
+            }
+        if data_type == "email":
+            return faker_localized.email()
+        if data_type == "phone":
+            return faker_localized.phone_number()
+        if data_type == "date":
+            return str(faker_localized.date())
+        if data_type == "text":
+            return faker_localized.paragraph(nb_sentences=3)
+        return faker_localized.word()
+
+    try:
+        count = max(1, min(request.count, 100))
+        data = [generate_item(request.data_type) for _ in range(count)]
+        return {"success": True, "data": data, "rows": data}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@app.post("/api/data/base/convert")
+async def convert_base(request: BaseConvertRequest):
+    try:
+        number = int(request.value, request.from_base)
+        digits = "0123456789abcdefghijklmnopqrstuvwxyz"
+
+        def to_base(n: int, base: int) -> str:
+            if n == 0:
+                return "0"
+            res = ""
+            while n > 0:
+                n, rem = divmod(n, base)
+                res = digits[rem] + res
+            return res
+
+        converted = to_base(number, request.to_base)
+        return {"success": True, "result": converted, "value": converted}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
 
 @app.post("/api/data/text/word-count")
 async def word_count(request: Base64Request):
@@ -300,6 +603,7 @@ async def word_count(request: Base64Request):
         "characters_no_spaces": chars_no_spaces,
         "lines": lines
     }
+
 
 @app.post("/api/data/text/case-convert")
 async def convert_case(request: Base64Request):

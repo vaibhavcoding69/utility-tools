@@ -1,6 +1,7 @@
 // API client for z1x utility tools
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || '/api/v1';
+// Default to the FastAPI router prefix used by the backend
+const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
 
 interface ApiResponse<T = any> {
   success: boolean;
