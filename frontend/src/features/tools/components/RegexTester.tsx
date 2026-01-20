@@ -1,22 +1,22 @@
-import { useState } from 'react'
-import api from '../../../lib/api'
+import { useState } from "react";
+import api from "../../../lib/api";
 
 export function RegexTester() {
-  const [pattern, setPattern] = useState('');
-  const [text, setText] = useState('');
-  const [flags, setFlags] = useState('');
+  const [pattern, setPattern] = useState("");
+  const [text, setText] = useState("");
+  const [flags, setFlags] = useState("");
   const [result, setResult] = useState<{
     matches: boolean;
     match_count: number;
     groups: string[];
     positions: Array<{ start: number; end: number; match: string }>;
   } | null>(null);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleTest = async () => {
     setLoading(true);
-    setError('');
+    setError("");
     setResult(null);
     try {
       const res = await api.testRegex(pattern, text, flags);
@@ -25,11 +25,15 @@ export function RegexTester() {
           matches: res.matches as boolean,
           match_count: res.match_count as number,
           groups: res.groups as string[],
-          positions: res.positions as Array<{ start: number; end: number; match: string }>,
+          positions: res.positions as Array<{
+            start: number;
+            end: number;
+            match: string;
+          }>,
         });
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to test regex');
+      setError(err instanceof Error ? err.message : "Failed to test regex");
     } finally {
       setLoading(false);
     }
@@ -40,7 +44,7 @@ export function RegexTester() {
       return text;
     }
 
-    let highlighted = '';
+    let highlighted = "";
     let lastIndex = 0;
 
     result.positions.forEach((pos) => {
@@ -57,7 +61,9 @@ export function RegexTester() {
     <div className="tool-container">
       <div className="tool-header">
         <h2 className="tool-title">Regex Tester</h2>
-        <p className="tool-description">Test regular expressions with live highlighting</p>
+        <p className="tool-description">
+          Test regular expressions with live highlighting
+        </p>
       </div>
 
       <div className="tool-content">
@@ -75,7 +81,7 @@ export function RegexTester() {
         <div className="tool-input-section">
           <label className="tool-label">Flags</label>
           <div className="regex-flags">
-            {['g', 'i', 'm', 's'].map((flag) => (
+            {["g", "i", "m", "s"].map((flag) => (
               <label key={flag} className="tool-checkbox-label">
                 <input
                   type="checkbox"
@@ -84,11 +90,19 @@ export function RegexTester() {
                     if (e.target.checked) {
                       setFlags(flags + flag);
                     } else {
-                      setFlags(flags.replace(flag, ''));
+                      setFlags(flags.replace(flag, ""));
                     }
                   }}
                 />
-                {flag} ({flag === 'g' ? 'global' : flag === 'i' ? 'case-insensitive' : flag === 'm' ? 'multiline' : 'dotall'})
+                {flag} (
+                {flag === "g"
+                  ? "global"
+                  : flag === "i"
+                    ? "case-insensitive"
+                    : flag === "m"
+                      ? "multiline"
+                      : "dotall"}
+                )
               </label>
             ))}
           </div>
@@ -111,54 +125,60 @@ export function RegexTester() {
             onClick={handleTest}
             disabled={loading || !pattern || !text}
           >
-            {loading ? 'Testing...' : 'Test Pattern'}
+            {loading ? "Testing..." : "Test Pattern"}
           </button>
         </div>
 
-        {error && (
-          <div className="tool-error">{error}</div>
-        )}
+        {error && <div className="tool-error">{error}</div>}
 
         {result && (
           <div className="tool-output-section">
-            <div className={`regex-status ${result.matches ? 'match' : 'no-match'}`}>
-              {result.matches ? `✅ ${result.match_count} match(es) found` : '❌ No matches'}
+            <div
+              className={`regex-status ${result.matches ? "match" : "no-match"}`}
+            >
+              {result.matches
+                ? `✅ ${result.match_count} match(es) found`
+                : "❌ No matches"}
             </div>
 
-            {result.matches && result.positions && result.positions.length > 0 && (
-              <>
-                <label className="tool-label">Highlighted Matches</label>
-                <div 
-                  className="regex-highlighted"
-                  dangerouslySetInnerHTML={{ __html: highlightMatches() }}
-                />
+            {result.matches &&
+              result.positions &&
+              result.positions.length > 0 && (
+                <>
+                  <label className="tool-label">Highlighted Matches</label>
+                  <div
+                    className="regex-highlighted"
+                    dangerouslySetInnerHTML={{ __html: highlightMatches() }}
+                  />
 
-                <label className="tool-label">Match Details</label>
-                <div className="regex-matches">
-                  {result.positions.map((pos, index) => (
-                    <div key={index} className="regex-match-item">
-                      <span className="match-index">#{index + 1}</span>
-                      <code className="match-text">{pos.match}</code>
-                      <span className="match-position">pos {pos.start}-{pos.end}</span>
-                    </div>
-                  ))}
-                </div>
+                  <label className="tool-label">Match Details</label>
+                  <div className="regex-matches">
+                    {result.positions.map((pos, index) => (
+                      <div key={index} className="regex-match-item">
+                        <span className="match-index">#{index + 1}</span>
+                        <code className="match-text">{pos.match}</code>
+                        <span className="match-position">
+                          pos {pos.start}-{pos.end}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
 
-                {result.groups && result.groups.length > 0 && (
-                  <>
-                    <label className="tool-label">Capture Groups</label>
-                    <div className="regex-groups">
-                      {result.groups.map((group, index) => (
-                        <div key={index} className="regex-group-item">
-                          <span className="group-index">Group {index}</span>
-                          <code>{group}</code>
-                        </div>
-                      ))}
-                    </div>
-                  </>
-                )}
-              </>
-            )}
+                  {result.groups && result.groups.length > 0 && (
+                    <>
+                      <label className="tool-label">Capture Groups</label>
+                      <div className="regex-groups">
+                        {result.groups.map((group, index) => (
+                          <div key={index} className="regex-group-item">
+                            <span className="group-index">Group {index}</span>
+                            <code>{group}</code>
+                          </div>
+                        ))}
+                      </div>
+                    </>
+                  )}
+                </>
+              )}
           </div>
         )}
       </div>

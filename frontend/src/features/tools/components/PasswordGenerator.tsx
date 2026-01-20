@@ -1,8 +1,8 @@
-import { useState } from 'react'
-import api from '../../../lib/api'
+import { useState } from "react";
+import api from "../../../lib/api";
 
 export function PasswordGenerator() {
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState("");
   const [strength, setStrength] = useState<any>(null);
   const [length, setLength] = useState(16);
   const [includeUppercase, setIncludeUppercase] = useState(true);
@@ -27,7 +27,7 @@ export function PasswordGenerator() {
         checkStrength(result.password);
       }
     } catch (err) {
-      console.error('Failed to generate password:', err);
+      console.error("Failed to generate password:", err);
     } finally {
       setLoading(false);
     }
@@ -40,7 +40,7 @@ export function PasswordGenerator() {
         setStrength(result);
       }
     } catch (err) {
-      console.error('Failed to check strength:', err);
+      console.error("Failed to check strength:", err);
     }
   };
 
@@ -48,7 +48,7 @@ export function PasswordGenerator() {
     try {
       await navigator.clipboard.writeText(password);
     } catch (err) {
-      console.error('Failed to copy:', err);
+      console.error("Failed to copy:", err);
     }
   };
 
@@ -124,7 +124,7 @@ export function PasswordGenerator() {
             onClick={handleGenerate}
             disabled={loading}
           >
-            {loading ? 'Generating...' : 'Generate Password'}
+            {loading ? "Generating..." : "Generate Password"}
           </button>
           <button
             className="btn ghost"
@@ -141,12 +141,14 @@ export function PasswordGenerator() {
             <div className="password-output">
               <code className="password-text">{password}</code>
             </div>
-            
+
             {strength && (
               <div className="password-strength">
                 <div className="strength-header">
                   <span className="tool-label">Strength:</span>
-                  <span className={`strength-badge strength-${strength.strength}`}>
+                  <span
+                    className={`strength-badge strength-${strength.strength}`}
+                  >
                     {strength.strength}
                   </span>
                   <span className="strength-score">

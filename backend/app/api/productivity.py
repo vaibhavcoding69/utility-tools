@@ -2,10 +2,13 @@ from fastapi import APIRouter
 from pydantic import BaseModel
 import markdown as md
 
+
 class TextPayload(BaseModel):
     data: str
 
+
 router = APIRouter()
+
 
 @router.post("/text/word-count")
 async def word_count(payload: TextPayload):
@@ -22,6 +25,7 @@ async def word_count(payload: TextPayload):
         "lines": lines,
     }
 
+
 @router.post("/text/case-convert")
 async def case_convert(payload: TextPayload):
     text = payload.data
@@ -35,6 +39,7 @@ async def case_convert(payload: TextPayload):
         "kebab_case": text.lower().replace(" ", "-"),
         "camel_case": "".join(word.capitalize() for word in text.split()),
     }
+
 
 @router.post("/markdown/render")
 async def markdown_render(payload: TextPayload):

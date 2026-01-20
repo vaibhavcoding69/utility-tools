@@ -1,32 +1,46 @@
 /* Motion utility classes (generated) */
 
 @keyframes fade-up {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
-
-
 
 @keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
-
-
 
 @keyframes scale-in {
-  from { opacity: 0; transform: scale(0.98); }
-  to { opacity: 1; transform: scale(1); }
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
-
-
 
 @keyframes slide-left {
-  from { opacity: 0; transform: translateX(10px); }
-  to { opacity: 1; transform: translateX(0); }
+  from {
+    opacity: 0;
+    transform: translateX(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
-
-
 
 /* fade-up stagger set */
 
@@ -510,8 +524,6 @@
   will-change: transform, opacity;
 }
 
-
-
 /* fade-in stagger set */
 
 .fade-in-1 {
@@ -993,8 +1005,6 @@
   animation-delay: 1610ms;
   will-change: transform, opacity;
 }
-
-
 
 /* scale-in stagger set */
 
@@ -1478,8 +1488,6 @@
   will-change: transform, opacity;
 }
 
-
-
 /* slide-left stagger set */
 
 .slide-left-1 {
@@ -1961,5 +1969,3 @@
   animation-delay: 1610ms;
   will-change: transform, opacity;
 }
-
-

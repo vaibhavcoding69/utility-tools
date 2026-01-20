@@ -15,4 +15,3 @@ venv/
 /frontend/*.tsbuildinfo
 /frontend/vite.config.js
 /frontend/vite.config.d.ts
-generate_image_temp.py

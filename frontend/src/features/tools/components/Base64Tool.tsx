@@ -1,22 +1,22 @@
-import { useState } from 'react'
-import api from '../../../lib/api'
+import { useState } from "react";
+import api from "../../../lib/api";
 
 export function Base64Tool() {
-  const [input, setInput] = useState('');
-  const [output, setOutput] = useState('');
-  const [error, setError] = useState('');
+  const [input, setInput] = useState("");
+  const [output, setOutput] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleEncode = async () => {
     setLoading(true);
-    setError('');
+    setError("");
     try {
       const result = await api.encodeBase64(input);
       if (result.success) {
         setOutput(result.encoded);
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to encode');
+      setError(err instanceof Error ? err.message : "Failed to encode");
     } finally {
       setLoading(false);
     }
@@ -24,14 +24,14 @@ export function Base64Tool() {
 
   const handleDecode = async () => {
     setLoading(true);
-    setError('');
+    setError("");
     try {
       const result = await api.decodeBase64(input);
       if (result.success) {
         setOutput(result.decoded);
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to decode');
+      setError(err instanceof Error ? err.message : "Failed to decode");
     } finally {
       setLoading(false);
     }
@@ -41,7 +41,7 @@ export function Base64Tool() {
     try {
       await navigator.clipboard.writeText(output);
     } catch (err) {
-      console.error('Failed to copy:', err);
+      console.error("Failed to copy:", err);
     }
   };
 
@@ -70,7 +70,7 @@ export function Base64Tool() {
             onClick={handleEncode}
             disabled={loading || !input}
           >
-            {loading ? 'Processing...' : 'Encode'}
+            {loading ? "Processing..." : "Encode"}
           </button>
           <button
             className="btn ghost"
@@ -79,20 +79,12 @@ export function Base64Tool() {
           >
             Decode
           </button>
-          <button
-            className="btn ghost"
-            onClick={handleCopy}
-            disabled={!output}
-          >
+          <button className="btn ghost" onClick={handleCopy} disabled={!output}>
             Copy
           </button>
         </div>
 
-        {error && (
-          <div className="tool-error">
-            {error}
-          </div>
-        )}
+        {error && <div className="tool-error">{error}</div>}
 
         {output && (
           <div className="tool-output-section">

@@ -1,26 +1,30 @@
-import { useState } from 'react'
-import api from '../../../../lib/api'
+import { useState } from "react";
+import api from "../../../../lib/api";
 
 export function CsvToJsonTool() {
-  const [input, setInput] = useState('')
-  const [output, setOutput] = useState('')
-  const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
+  const [input, setInput] = useState("");
+  const [output, setOutput] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleConvert = async () => {
-    setLoading(true)
-    setError('')
+    setLoading(true);
+    setError("");
     try {
-      const result = await api.csvToJson(input)
+      const result = await api.csvToJson(input);
       if (result.success) {
-        setOutput(typeof result.json === 'string' ? result.json : JSON.stringify(result.data, null, 2))
+        setOutput(
+          typeof result.json === "string"
+            ? result.json
+            : JSON.stringify(result.data, null, 2),
+        );
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Conversion failed')
+      setError(err instanceof Error ? err.message : "Conversion failed");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <div className="tool-container">
@@ -40,18 +44,24 @@ export function CsvToJsonTool() {
           />
         </div>
         <div className="tool-actions">
-          <button className="btn primary" onClick={handleConvert} disabled={loading || !input}>
-            {loading ? 'Converting...' : 'Convert to JSON'}
+          <button
+            className="btn primary"
+            onClick={handleConvert}
+            disabled={loading || !input}
+          >
+            {loading ? "Converting..." : "Convert to JSON"}
           </button>
         </div>
         {error && <div className="tool-error">{error}</div>}
         {output && (
           <div className="tool-output-section">
             <label className="tool-label">JSON Output</label>
-            <pre className="tool-output"><code>{output}</code></pre>
+            <pre className="tool-output">
+              <code>{output}</code>
+            </pre>
           </div>
         )}
       </div>
     </div>
-  )
+  );
 }

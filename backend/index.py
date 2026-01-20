@@ -34,20 +34,25 @@ app.add_middleware(
 
 # ==================== Models ====================
 
+
 class JsonFormatRequest(BaseModel):
     data: str
     indent: Optional[int] = 2
     sort_keys: Optional[bool] = False
 
+
 class Base64Request(BaseModel):
     data: str
+
 
 class UrlRequest(BaseModel):
     data: str
 
+
 class HashRequest(BaseModel):
     data: str
     algorithm: Optional[str] = "sha256"
+
 
 class PasswordGenerateRequest(BaseModel):
     length: Optional[int] = 16
@@ -56,50 +61,62 @@ class PasswordGenerateRequest(BaseModel):
     include_numbers: Optional[bool] = True
     include_symbols: Optional[bool] = True
 
+
 class PasswordStrengthRequest(BaseModel):
     password: Optional[str] = None
     data: Optional[str] = None
+
 
 class RegexTestRequest(BaseModel):
     pattern: str
     text: str
     flags: Optional[str] = ""
 
+
 class DiffRequest(BaseModel):
     original: str
     modified: str
     context_lines: Optional[int] = 3
 
+
 class JwtDecodeRequest(BaseModel):
     token: str
+
 
 class CsvRequest(BaseModel):
     data: str
 
+
 class JsonToCsvRequest(BaseModel):
     data: str
 
+
 class SqlFormatRequest(BaseModel):
     data: str
+
 
 class FakeDataRequest(BaseModel):
     data_type: str = "person"
     count: int = 5
     locale: str = "en_US"
 
+
 class BaseConvertRequest(BaseModel):
     value: str
     from_base: int
     to_base: int
+
 
 class TotpRequest(BaseModel):
     secret: Optional[str] = None
     digits: Optional[int] = 6
     period: Optional[int] = 30
 
+
 faker = Faker()
 
 # ==================== Routes ====================
+
 
 @app.get("/")
 async def root():
@@ -107,8 +124,9 @@ async def root():
         "name": "z1x Utility Tools API",
         "version": "1.0.0",
         "status": "active",
-        "timestamp": datetime.utcnow().isoformat()
+        "timestamp": datetime.utcnow().isoformat(),
     }
+
 
 @app.get("/api/health")
 async def health():
@@ -122,60 +140,45 @@ async def stats_requests():
     REQUEST_COUNT += 7
     return {"success": True, "count": REQUEST_COUNT}
 
+
 # ==================== Developer Tools ====================
+
 
 @app.post("/api/developer/json/format")
 async def format_json(request: JsonFormatRequest):
     """Format and validate JSON data"""
     try:
         parsed = json.loads(request.data)
-        separators = (',', ':') if request.indent == 0 else None
+        separators = (",", ":") if request.indent == 0 else None
         formatted = json.dumps(
             parsed,
             indent=None if request.indent == 0 else request.indent,
             separators=separators,
             sort_keys=request.sort_keys,
-            ensure_ascii=False
+            ensure_ascii=False,
         )
-        return {
-            "success": True,
-            "formatted": formatted,
-            "valid": True
-        }
+        return {"success": True, "formatted": formatted, "valid": True}
     except json.JSONDecodeError as e:
-        return {
-            "success": False,
-            "error": str(e),
-            "valid": False
-        }
+        return {"success": False, "error": str(e), "valid": False}
+
 
 @app.post("/api/developer/json/minify")
 async def minify_json(request: JsonFormatRequest):
     """Minify JSON data"""
     try:
         parsed = json.loads(request.data)
-        minified = json.dumps(parsed, separators=(',', ':'), ensure_ascii=False)
-        return {
-            "success": True,
-            "minified": minified,
-            "valid": True
-        }
+        minified = json.dumps(parsed, separators=(",", ":"), ensure_ascii=False)
+        return {"success": True, "minified": minified, "valid": True}
     except json.JSONDecodeError as e:
-        return {
-            "success": False,
-            "error": str(e),
-            "valid": False
-        }
+        return {"success": False, "error": str(e), "valid": False}
+
 
 @app.post("/api/developer/base64/encode")
 async def encode_base64(request: Base64Request):
     """Encode string to base64"""
     try:
-        encoded = base64.b64encode(request.data.encode('utf-8')).decode('utf-8')
-        return {
-            "success": True,
-            "encoded": encoded
-        }
+        encoded = base64.b64encode(request.data.encode("utf-8")).decode("utf-8")
+        return {"success": True, "encoded": encoded}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
@@ -197,38 +200,38 @@ async def decode_url(request: UrlRequest):
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
+
 @app.post("/api/developer/base64/decode")
 async def decode_base64(request: Base64Request):
     """Decode base64 string"""
     try:
-        decoded = base64.b64decode(request.data).decode('utf-8')
-        return {
-            "success": True,
-            "decoded": decoded
-        }
+        decoded = base64.b64decode(request.data).decode("utf-8")
+        return {"success": True, "decoded": decoded}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
+
 
 @app.post("/api/developer/regex/test")
 async def test_regex(request: RegexTestRequest):
     """Test regular expression against text"""
     try:
         flags_int = 0
-        if 'i' in request.flags:
+        if "i" in request.flags:
             flags_int |= re.IGNORECASE
-        if 'm' in request.flags:
+        if "m" in request.flags:
             flags_int |= re.MULTILINE
-        if 's' in request.flags:
+        if "s" in request.flags:
             flags_int |= re.DOTALL
-        
+
         pattern = re.compile(request.pattern, flags_int)
         matches = list(pattern.finditer(request.text))
 
         positions = [
-            {"match": m.group(0), "start": m.start(), "end": m.end()}
-            for m in matches
+            {"match": m.group(0), "start": m.start(), "end": m.end()} for m in matches
         ]
-        groups: List[str] = list(matches[0].groups()) if matches and matches[0].groups() else []
+        groups: List[str] = (
+            list(matches[0].groups()) if matches and matches[0].groups() else []
+        )
 
         return {
             "success": True,
@@ -276,8 +279,12 @@ async def diff_text(request: DiffRequest):
         )
     )
 
-    additions = sum(1 for line in diff_lines if line.startswith('+') and not line.startswith('+++'))
-    deletions = sum(1 for line in diff_lines if line.startswith('-') and not line.startswith('---'))
+    additions = sum(
+        1 for line in diff_lines if line.startswith("+") and not line.startswith("+++")
+    )
+    deletions = sum(
+        1 for line in diff_lines if line.startswith("-") and not line.startswith("---")
+    )
     return {
         "success": True,
         "unified_diff": "\n".join(diff_lines),
@@ -290,24 +297,24 @@ async def diff_text(request: DiffRequest):
 
 
 def _b64url_decode(segment: str) -> bytes:
-    padding = '=' * (-len(segment) % 4)
+    padding = "=" * (-len(segment) % 4)
     return base64.urlsafe_b64decode(segment + padding)
 
 
 @app.post("/api/developer/jwt/decode")
 async def decode_jwt(request: JwtDecodeRequest):
-    parts = request.token.split('.')
+    parts = request.token.split(".")
     if len(parts) != 3:
         raise HTTPException(status_code=400, detail="Invalid JWT format")
 
     try:
-        header = json.loads(_b64url_decode(parts[0]).decode('utf-8'))
-        payload = json.loads(_b64url_decode(parts[1]).decode('utf-8'))
+        header = json.loads(_b64url_decode(parts[0]).decode("utf-8"))
+        payload = json.loads(_b64url_decode(parts[1]).decode("utf-8"))
         signature = parts[2]
     except Exception as exc:
         raise HTTPException(status_code=400, detail=f"Unable to decode JWT: {exc}")
 
-    exp_ts = payload.get('exp')
+    exp_ts = payload.get("exp")
     exp_date = None
     expired = None
     if exp_ts is not None:
@@ -326,33 +333,33 @@ async def decode_jwt(request: JwtDecodeRequest):
         "exp_date": exp_date,
     }
 
+
 # ==================== Security Tools ====================
+
 
 @app.post("/api/security/hash/generate")
 async def generate_hash(request: HashRequest):
     """Generate hash of input data"""
     try:
         algorithms = {
-            'md5': hashlib.md5,
-            'sha1': hashlib.sha1,
-            'sha256': hashlib.sha256,
-            'sha384': hashlib.sha384,
-            'sha512': hashlib.sha512,
-            'blake2b': hashlib.blake2b,
-            'blake2s': hashlib.blake2s,
+            "md5": hashlib.md5,
+            "sha1": hashlib.sha1,
+            "sha256": hashlib.sha256,
+            "sha384": hashlib.sha384,
+            "sha512": hashlib.sha512,
+            "blake2b": hashlib.blake2b,
+            "blake2s": hashlib.blake2s,
         }
-        
+
         if request.algorithm not in algorithms:
-            raise HTTPException(status_code=400, detail=f"Unsupported algorithm: {request.algorithm}")
-        
+            raise HTTPException(
+                status_code=400, detail=f"Unsupported algorithm: {request.algorithm}"
+            )
+
         hash_func = algorithms[request.algorithm]
-        hash_value = hash_func(request.data.encode('utf-8')).hexdigest()
-        
-        return {
-            "success": True,
-            "hash": hash_value,
-            "algorithm": request.algorithm
-        }
+        hash_value = hash_func(request.data.encode("utf-8")).hexdigest()
+
+        return {"success": True, "hash": hash_value, "algorithm": request.algorithm}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
@@ -361,19 +368,23 @@ async def generate_hash(request: HashRequest):
 async def generate_all_hashes(request: Base64Request):
     try:
         algorithms = {
-            'md5': hashlib.md5,
-            'sha1': hashlib.sha1,
-            'sha256': hashlib.sha256,
-            'sha384': hashlib.sha384,
-            'sha512': hashlib.sha512,
-            'blake2b': hashlib.blake2b,
-            'blake2s': hashlib.blake2s,
+            "md5": hashlib.md5,
+            "sha1": hashlib.sha1,
+            "sha256": hashlib.sha256,
+            "sha384": hashlib.sha384,
+            "sha512": hashlib.sha512,
+            "blake2b": hashlib.blake2b,
+            "blake2s": hashlib.blake2s,
         }
 
-        hashes = {name: func(request.data.encode('utf-8')).hexdigest() for name, func in algorithms.items()}
+        hashes = {
+            name: func(request.data.encode("utf-8")).hexdigest()
+            for name, func in algorithms.items()
+        }
         return {"success": True, "hashes": hashes}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
+
 
 @app.post("/api/security/password/generate")
 async def generate_password(request: PasswordGenerateRequest):
@@ -388,19 +399,18 @@ async def generate_password(request: PasswordGenerateRequest):
             chars += string.digits
         if request.include_symbols:
             chars += string.punctuation
-        
+
         if not chars:
-            raise HTTPException(status_code=400, detail="At least one character type must be selected")
-        
-        password = ''.join(secrets.choice(chars) for _ in range(request.length))
-        
-        return {
-            "success": True,
-            "password": password,
-            "length": len(password)
-        }
+            raise HTTPException(
+                status_code=400, detail="At least one character type must be selected"
+            )
+
+        password = "".join(secrets.choice(chars) for _ in range(request.length))
+
+        return {"success": True, "password": password, "length": len(password)}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
+
 
 @app.post("/api/security/password/strength")
 async def check_password_strength(request: PasswordStrengthRequest):
@@ -410,37 +420,37 @@ async def check_password_strength(request: PasswordStrengthRequest):
         raise HTTPException(status_code=400, detail="Password is required")
     strength = 0
     feedback = []
-    
+
     # Length check
     if len(password) >= 8:
         strength += 1
     else:
         feedback.append("Password should be at least 8 characters long")
-    
+
     if len(password) >= 12:
         strength += 1
-    
+
     # Character variety checks
-    if re.search(r'[a-z]', password):
+    if re.search(r"[a-z]", password):
         strength += 1
     else:
         feedback.append("Add lowercase letters")
-    
-    if re.search(r'[A-Z]', password):
+
+    if re.search(r"[A-Z]", password):
         strength += 1
     else:
         feedback.append("Add uppercase letters")
-    
-    if re.search(r'\d', password):
+
+    if re.search(r"\d", password):
         strength += 1
     else:
         feedback.append("Add numbers")
-    
+
     if re.search(r'[!@#$%^&*(),.?":{}|<>]', password):
         strength += 1
     else:
         feedback.append("Add special characters")
-    
+
     # Determine strength level
     if strength <= 2:
         level = "weak"
@@ -448,13 +458,13 @@ async def check_password_strength(request: PasswordStrengthRequest):
         level = "medium"
     else:
         level = "strong"
-    
+
     return {
         "success": True,
         "strength": level,
         "score": strength,
         "max_score": 6,
-        "feedback": feedback
+        "feedback": feedback,
     }
 
 
@@ -466,7 +476,9 @@ async def generate_totp(request: TotpRequest):
     code = totp.now()
     period = request.period or 30
     time_remaining = period - (int(time.time()) % period)
-    provisioning_uri = totp.provisioning_uri(name="user@example.com", issuer_name="UtilityTools")
+    provisioning_uri = totp.provisioning_uri(
+        name="user@example.com", issuer_name="UtilityTools"
+    )
 
     return {
         "success": True,
@@ -476,14 +488,20 @@ async def generate_totp(request: TotpRequest):
         "provisioning_uri": provisioning_uri,
     }
 
+
 # ==================== Data Tools ====================
+
 
 @app.post("/api/data/csv-to-json")
 async def csv_to_json(request: CsvRequest):
     try:
         reader = csv.DictReader(io.StringIO(request.data))
         rows = list(reader)
-        return {"success": True, "data": rows, "json": json.dumps(rows, ensure_ascii=False, indent=2)}
+        return {
+            "success": True,
+            "data": rows,
+            "json": json.dumps(rows, ensure_ascii=False, indent=2),
+        }
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
@@ -495,7 +513,10 @@ async def json_to_csv(request: JsonToCsvRequest):
         if isinstance(parsed, dict):
             parsed = [parsed]
         if not isinstance(parsed, list):
-            raise HTTPException(status_code=400, detail="JSON input must be an object or array of objects")
+            raise HTTPException(
+                status_code=400,
+                detail="JSON input must be an object or array of objects",
+            )
 
         fieldnames = set()
         for item in parsed:
@@ -595,13 +616,13 @@ async def word_count(request: Base64Request):
     chars = len(text)
     chars_no_spaces = len(text.replace(" ", "").replace("\n", "").replace("\t", ""))
     lines = len(text.split("\n"))
-    
+
     return {
         "success": True,
         "words": words,
         "characters": chars,
         "characters_no_spaces": chars_no_spaces,
-        "lines": lines
+        "lines": lines,
     }
 
 
@@ -609,7 +630,7 @@ async def word_count(request: Base64Request):
 async def convert_case(request: Base64Request):
     """Convert text case to various formats"""
     text = request.data
-    
+
     return {
         "success": True,
         "uppercase": text.upper(),
@@ -618,8 +639,9 @@ async def convert_case(request: Base64Request):
         "sentence_case": text.capitalize(),
         "snake_case": text.lower().replace(" ", "_"),
         "kebab_case": text.lower().replace(" ", "-"),
-        "camel_case": ''.join(word.capitalize() for word in text.split())
+        "camel_case": "".join(word.capitalize() for word in text.split()),
     }
+
 
 # For Vercel serverless deployment
 handler = app

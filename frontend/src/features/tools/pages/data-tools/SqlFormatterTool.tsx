@@ -1,26 +1,26 @@
-import { useState } from 'react'
-import api from '../../../../lib/api'
+import { useState } from "react";
+import api from "../../../../lib/api";
 
 export function SqlFormatterTool() {
-  const [input, setInput] = useState('')
-  const [output, setOutput] = useState('')
-  const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
+  const [input, setInput] = useState("");
+  const [output, setOutput] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleFormat = async () => {
-    setLoading(true)
-    setError('')
+    setLoading(true);
+    setError("");
     try {
-      const result = await api.formatSql(input)
+      const result = await api.formatSql(input);
       if (result.success) {
-        setOutput(result.formatted as string)
+        setOutput(result.formatted as string);
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Formatting failed')
+      setError(err instanceof Error ? err.message : "Formatting failed");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <div className="tool-container">
@@ -40,18 +40,24 @@ export function SqlFormatterTool() {
           />
         </div>
         <div className="tool-actions">
-          <button className="btn primary" onClick={handleFormat} disabled={loading || !input}>
-            {loading ? 'Formatting...' : 'Format SQL'}
+          <button
+            className="btn primary"
+            onClick={handleFormat}
+            disabled={loading || !input}
+          >
+            {loading ? "Formatting..." : "Format SQL"}
           </button>
         </div>
         {error && <div className="tool-error">{error}</div>}
         {output && (
           <div className="tool-output-section">
             <label className="tool-label">Formatted SQL</label>
-            <pre className="tool-output"><code>{output}</code></pre>
+            <pre className="tool-output">
+              <code>{output}</code>
+            </pre>
           </div>
         )}
       </div>
     </div>
-  )
+  );
 }

@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import api from '../../../lib/api'
+import { useState } from "react";
+import api from "../../../lib/api";
 
 export function UuidGenerator() {
   const [uuids, setUuids] = useState<string[]>([]);
@@ -19,7 +19,7 @@ export function UuidGenerator() {
         }
       }
     } catch (err) {
-      console.error('Failed to generate UUID:', err);
+      console.error("Failed to generate UUID:", err);
     } finally {
       setLoading(false);
     }
@@ -29,15 +29,15 @@ export function UuidGenerator() {
     try {
       await navigator.clipboard.writeText(text);
     } catch (err) {
-      console.error('Failed to copy:', err);
+      console.error("Failed to copy:", err);
     }
   };
 
   const handleCopyAll = async () => {
     try {
-      await navigator.clipboard.writeText(uuids.join('\n'));
+      await navigator.clipboard.writeText(uuids.join("\n"));
     } catch (err) {
-      console.error('Failed to copy:', err);
+      console.error("Failed to copy:", err);
     }
   };
 
@@ -45,7 +45,9 @@ export function UuidGenerator() {
     <div className="tool-container">
       <div className="tool-header">
         <h2 className="tool-title">UUID Generator</h2>
-        <p className="tool-description">Generate universally unique identifiers</p>
+        <p className="tool-description">
+          Generate universally unique identifiers
+        </p>
       </div>
 
       <div className="tool-content">
@@ -81,13 +83,10 @@ export function UuidGenerator() {
             onClick={handleGenerate}
             disabled={loading}
           >
-            {loading ? 'Generating...' : 'Generate UUID'}
+            {loading ? "Generating..." : "Generate UUID"}
           </button>
           {uuids.length > 1 && (
-            <button
-              className="btn ghost"
-              onClick={handleCopyAll}
-            >
+            <button className="btn ghost" onClick={handleCopyAll}>
               Copy All
             </button>
           )}
@@ -100,7 +99,11 @@ export function UuidGenerator() {
               {uuids.map((uuid, index) => (
                 <div key={index} className="uuid-result-item">
                   <code>{uuid}</code>
-                  <button className="btn-icon" onClick={() => handleCopy(uuid)} title="Copy">
+                  <button
+                    className="btn-icon"
+                    onClick={() => handleCopy(uuid)}
+                    title="Copy"
+                  >
                     📋
                   </button>
                 </div>

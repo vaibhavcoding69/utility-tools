@@ -1,26 +1,26 @@
-import { useState } from 'react'
-import api from '../../../lib/api'
+import { useState } from "react";
+import api from "../../../lib/api";
 
 export function JsonFormatter() {
-  const [input, setInput] = useState('');
-  const [output, setOutput] = useState('');
+  const [input, setInput] = useState("");
+  const [output, setOutput] = useState("");
   const [indent, setIndent] = useState(2);
   const [sortKeys, setSortKeys] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleFormat = async () => {
     setLoading(true);
-    setError('');
+    setError("");
     try {
       const result = await api.formatJson(input, indent, sortKeys);
       if (result.success && result.valid) {
         setOutput(result.formatted as string);
       } else {
-        setError(result.error as string || 'Invalid JSON');
+        setError((result.error as string) || "Invalid JSON");
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to format JSON');
+      setError(err instanceof Error ? err.message : "Failed to format JSON");
     } finally {
       setLoading(false);
     }
@@ -28,16 +28,16 @@ export function JsonFormatter() {
 
   const handleMinify = async () => {
     setLoading(true);
-    setError('');
+    setError("");
     try {
       const result = await api.formatJson(input, 0, false);
       if (result.success && result.valid) {
         setOutput(result.formatted as string);
       } else {
-        setError(result.error as string || 'Invalid JSON');
+        setError((result.error as string) || "Invalid JSON");
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to minify JSON');
+      setError(err instanceof Error ? err.message : "Failed to minify JSON");
     } finally {
       setLoading(false);
     }
@@ -47,7 +47,7 @@ export function JsonFormatter() {
     try {
       await navigator.clipboard.writeText(output);
     } catch (err) {
-      console.error('Failed to copy:', err);
+      console.error("Failed to copy:", err);
     }
   };
 
@@ -100,7 +100,7 @@ export function JsonFormatter() {
             onClick={handleFormat}
             disabled={loading || !input}
           >
-            {loading ? 'Processing...' : 'Format'}
+            {loading ? "Processing..." : "Format"}
           </button>
           <button
             className="btn ghost"
@@ -109,20 +109,12 @@ export function JsonFormatter() {
           >
             Minify
           </button>
-          <button
-            className="btn ghost"
-            onClick={handleCopy}
-            disabled={!output}
-          >
+          <button className="btn ghost" onClick={handleCopy} disabled={!output}>
             Copy
           </button>
         </div>
 
-        {error && (
-          <div className="tool-error">
-            {error}
-          </div>
-        )}
+        {error && <div className="tool-error">{error}</div>}
 
         {output && (
           <div className="tool-output-section">

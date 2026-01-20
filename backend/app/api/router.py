@@ -8,4 +8,6 @@ api_router.include_router(developer.router, prefix="/developer", tags=["develope
 api_router.include_router(security.router, prefix="/security", tags=["security"])
 api_router.include_router(data.router, prefix="/data", tags=["data"])
 api_router.include_router(media.router, prefix="/media", tags=["media"])
-api_router.include_router(productivity.router, prefix="/productivity", tags=["productivity"])
+api_router.include_router(
+    productivity.router, prefix="/productivity", tags=["productivity"]
+)

@@ -1,106 +1,76 @@
-import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
-import type { LucideIcon } from 'lucide-react'
-import { ArrowUpRight, Shield, Sparkles } from 'lucide-react'
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import type { LucideIcon } from "lucide-react";
+import { ArrowUpRight, Shield, Sparkles } from "lucide-react";
 
 type InfoPanel =
   | {
-      id: string
-      type: 'metrics'
-      title: string
-      primary: string
-      note: string
-      metrics: { label: string; value: string }[]
+      id: string;
+      type: "metrics";
+      title: string;
+      primary: string;
+      note: string;
+      metrics: { label: string; value: string }[];
     }
   | {
-      id: string
-      type: 'text'
-      title: string
-      eyebrow?: string
-      body: string
-      icon: LucideIcon
+      id: string;
+      type: "text";
+      title: string;
+      eyebrow?: string;
+      body: string;
+      icon: LucideIcon;
     }
   | {
-      id: string
-      type: 'list'
-      title: string
-      items: { label: string; status: string }[]
-    }
-
-const infoPanels: InfoPanel[] = [
-  {
-    id: 'conformance',
-    type: 'metrics',
-    title: 'Conformance',
-    primary: '9.5',
-    note: 'Excellent',
-    metrics: [
-      { label: 'Total Issues', value: '34' },
-      { label: 'Major Issues', value: '12' },
-    ],
-  },
-  {
-    id: 'secure',
-    type: 'text',
-    eyebrow: 'Secure Compute',
-    title: 'Limit your exposure.',
-    body: 'Internal APIs, private databases, and runtime traces stay off the public internet. Dedicated IPs, no shared tenants.',
-    icon: Shield,
-  },
-  {
-    id: 'ops',
-    type: 'list',
-    title: 'Workflow queue',
-    items: [
-      { label: 'Data tools rollout', status: '00:32 ETA' },
-      { label: 'JWT inspector update', status: 'Shipped' },
-      { label: 'Hash ring audit', status: 'In review' },
-    ],
-  },
-]
+      id: string;
+      type: "list";
+      title: string;
+      items: { label: string; status: string }[];
+    };
 
 const heroQuickLinks = [
-  { label: 'JSON Formatter', href: '/tools/developer/json' },
-  { label: 'UUID Generator', href: '/tools/developer/uuid' },
-  { label: 'Hash Generator', href: '/tools/security/hash' },
-  { label: 'CSV ⇌ JSON', href: '/tools/data/csv-to-json' },
-]
+  { label: "JSON Formatter", href: "/tools/developer/json" },
+  { label: "UUID Generator", href: "/tools/developer/uuid" },
+  { label: "Hash Generator", href: "/tools/security/hash" },
+  { label: "CSV ⇌ JSON", href: "/tools/data/csv-to-json" },
+];
 
 function InfoCard({ panel }: { panel: InfoPanel }) {
-  if (panel.type === 'metrics') {
+  if (panel.type === "metrics") {
     return (
       <article className="info-card metrics">
-        <header>
-          <p className="eyebrow">{panel.title}</p>
-          <div className="metrics-primary">
-            <span>{panel.primary}</span>
-            <small>{panel.note}</small>
-          </div>
-        </header>
-        <div className="metrics-details">
+        <p className="eyebrow">{panel.title}</p>
+        <div className="metric-primary">
+          <span className="metric-value">{panel.primary}</span>
+          <span className="metric-note">{panel.note}</span>
+        </div>
+        <div className="metric-grid">
           {panel.metrics.map((metric) => (
-            <div key={metric.label}>
-              <p className="metrics-label">{metric.label}</p>
-              <p className="metrics-value">{metric.value}</p>
+            <div key={metric.label} className="metric-tile">
+              <span className="metric-label">{metric.label}</span>
+              <span className="metric-number">{metric.value}</span>
             </div>
           ))}
         </div>
       </article>
-    )
+    );
   }
 
-  if (panel.type === 'text') {
-    const Icon = panel.icon
+  if (panel.type === "text") {
+    const Icon = panel.icon;
     return (
-      <article className="info-card narrative">
-        {panel.eyebrow && <p className="eyebrow">{panel.eyebrow}</p>}
-        <div className="narrative-title">
-          <Icon size={18} />
-          <h3>{panel.title}</h3>
+      <article className="info-card text">
+        {panel.eyebrow ? <p className="eyebrow">{panel.eyebrow}</p> : null}
+        <div className="text-row">
+          <div className="text-icon" aria-hidden>
+            <Icon size={16} />
+          </div>
+          <div>
+            <h3>{panel.title}</h3>
+            <p>{panel.body}</p>
+          </div>
         </div>
-        <p className="narrative-body">{panel.body}</p>
       </article>
-    )
+    );
   }
 
   return (
@@ -115,7 +85,7 @@ function InfoCard({ panel }: { panel: InfoPanel }) {
         ))}
       </ul>
     </article>
-  )
+  );
 }
 
 function HeroVisualFrame() {
@@ -124,34 +94,79 @@ function HeroVisualFrame() {
       <div className="hero-visual">
         <div className="hero-visual-placeholder">
           <Sparkles size={18} />
-          <div>
+          {/* <div>
             <p>Bring your own graphic</p>
-            <span>Drop a render into /public/hero-visual.png and update this slot.</span>
-          </div>
+            <span>
+              Drop a render into /public/hero-visual.png and update this slot.
+            </span>
+          </div> */}
         </div>
       </div>
       <div className="hero-visual-actions">
-        <p className="hero-visual-hint">This frame is ready for your custom artwork or video still.</p>
+        <p className="hero-visual-hint">
+          {/* This frame is ready for your custom artwork or video still. */}
+        </p>
       </div>
     </div>
-  )
+  );
 }
 
 export function Hero() {
-  const [requestCount, setRequestCount] = useState<string>('0')
+  const [requestCount, setRequestCount] = useState<string>("0");
+  const totalTools = 32;
+  const totalDeveloperTools = 24;
+  const totalSecurityTools = 3;
+  const totalDataTools = 5;
+
+  const infoPanels: InfoPanel[] = [
+    {
+      id: "usage",
+      type: "metrics",
+      title: "Live usage",
+      primary: requestCount,
+      note: "Requests processed",
+      metrics: [
+        { label: "Requests", value: requestCount },
+        { label: "Avg. latency", value: "48ms" },
+        { label: "Uptime", value: "99.98%" },
+      ],
+    },
+    {
+      id: "secure",
+      type: "text",
+      eyebrow: "Secure Compute",
+      title: "Limit your exposure.",
+      body: "Internal APIs, private databases, and runtime traces stay off the public internet. Dedicated IPs, no shared tenants.",
+      icon: Shield,
+    },
+    {
+      id: "ops",
+      type: "list",
+      title: "Catalog",
+      items: [
+        { label: "Developer tools", status: `${totalDeveloperTools}` },
+        { label: "Security tools", status: `${totalSecurityTools}` },
+        { label: "Data tools", status: `${totalDataTools}` },
+        { label: "Total", status: `${totalTools}` },
+      ],
+    },
+  ];
 
   useEffect(() => {
     const fetchRequestCount = async () => {
       try {
-        const response = await fetch('/api/stats/requests')
-        const data = await response.json()
-        setRequestCount(new Intl.NumberFormat().format(data.count))
+        const response = await fetch("/api/stats/requests");
+        const data = await response.json();
+        setRequestCount(new Intl.NumberFormat().format(data.count));
       } catch {
-        setRequestCount('NaN')
+        setRequestCount("NaN");
       }
-    }
-    fetchRequestCount()
-  }, [])
+    };
+    fetchRequestCount();
+
+    const interval = setInterval(fetchRequestCount, 5000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <section className="hero" id="home">
@@ -164,17 +179,25 @@ export function Hero() {
         <div className="hero-left">
           <div className="hero-badge">
             <span className="hero-badge-dot" />
-            Introducing Utility Ops
+            Free + No ads 
           </div>
           <h1 className="hero-title">
-            Introducing the latest <span className="gradient-text">utility tools</span> to power your workflow.
+            Introducing the latest{" "}
+            <span className="gradient-text">utility tools</span> to power your
+            workflow.
           </h1>
           <p className="hero-lead">
-            From JSON diffing to secure token tooling, this surface keeps your favorite utilities pinned, performant, and ready in <strong>two clicks</strong>.
+            From JSON diffing to secure token tooling, this surface keeps your
+            favorite utilities pinned, performant, and ready in{" "}
+            <strong>two clicks</strong>.
           </p>
           <div className="hero-actions">
-            <Link className="btn primary" to="/tools/developer">Launch developer suite →</Link>
-            <a className="btn ghost" href="#features">Explore platform</a>
+            <Link className="btn primary" to="/tools/developer">
+              Launch developer suite →
+            </Link>
+            <a className="btn ghost" href="#features">
+              Explore platform
+            </a>
           </div>
           <div className="hero-stats">
             <div className="stat-item">
@@ -210,7 +233,7 @@ export function Hero() {
         </div>
       </div>
     </section>
-  )
+  );
 }
 
-export default Hero
+export default Hero;

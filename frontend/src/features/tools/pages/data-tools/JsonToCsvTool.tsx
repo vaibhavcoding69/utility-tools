@@ -1,26 +1,26 @@
-import { useState } from 'react'
-import api from '../../../../lib/api'
+import { useState } from "react";
+import api from "../../../../lib/api";
 
 export function JsonToCsvTool() {
-  const [input, setInput] = useState('')
-  const [output, setOutput] = useState('')
-  const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
+  const [input, setInput] = useState("");
+  const [output, setOutput] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleConvert = async () => {
-    setLoading(true)
-    setError('')
+    setLoading(true);
+    setError("");
     try {
-      const result = await api.jsonToCsv(input)
+      const result = await api.jsonToCsv(input);
       if (result.success) {
-        setOutput(result.csv as string)
+        setOutput(result.csv as string);
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Conversion failed')
+      setError(err instanceof Error ? err.message : "Conversion failed");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <div className="tool-container">
@@ -40,18 +40,24 @@ export function JsonToCsvTool() {
           />
         </div>
         <div className="tool-actions">
-          <button className="btn primary" onClick={handleConvert} disabled={loading || !input}>
-            {loading ? 'Converting...' : 'Convert to CSV'}
+          <button
+            className="btn primary"
+            onClick={handleConvert}
+            disabled={loading || !input}
+          >
+            {loading ? "Converting..." : "Convert to CSV"}
           </button>
         </div>
         {error && <div className="tool-error">{error}</div>}
         {output && (
           <div className="tool-output-section">
             <label className="tool-label">CSV Output</label>
-            <pre className="tool-output"><code>{output}</code></pre>
+            <pre className="tool-output">
+              <code>{output}</code>
+            </pre>
           </div>
         )}
       </div>
     </div>
-  )
+  );
 }

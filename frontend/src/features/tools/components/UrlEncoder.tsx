@@ -1,22 +1,22 @@
-import { useState } from 'react'
-import api from '../../../lib/api'
+import { useState } from "react";
+import api from "../../../lib/api";
 
 export function UrlEncoder() {
-  const [input, setInput] = useState('');
-  const [output, setOutput] = useState('');
-  const [error, setError] = useState('');
+  const [input, setInput] = useState("");
+  const [output, setOutput] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleEncode = async () => {
     setLoading(true);
-    setError('');
+    setError("");
     try {
       const result = await api.encodeUrl(input);
       if (result.success) {
         setOutput(result.encoded as string);
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to encode URL');
+      setError(err instanceof Error ? err.message : "Failed to encode URL");
     } finally {
       setLoading(false);
     }
@@ -24,14 +24,14 @@ export function UrlEncoder() {
 
   const handleDecode = async () => {
     setLoading(true);
-    setError('');
+    setError("");
     try {
       const result = await api.decodeUrl(input);
       if (result.success) {
         setOutput(result.decoded as string);
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to decode URL');
+      setError(err instanceof Error ? err.message : "Failed to decode URL");
     } finally {
       setLoading(false);
     }
@@ -41,7 +41,7 @@ export function UrlEncoder() {
     try {
       await navigator.clipboard.writeText(output);
     } catch (err) {
-      console.error('Failed to copy:', err);
+      console.error("Failed to copy:", err);
     }
   };
 
@@ -79,18 +79,12 @@ export function UrlEncoder() {
           >
             Decode
           </button>
-          <button
-            className="btn ghost"
-            onClick={handleCopy}
-            disabled={!output}
-          >
+          <button className="btn ghost" onClick={handleCopy} disabled={!output}>
             Copy
           </button>
         </div>
 
-        {error && (
-          <div className="tool-error">{error}</div>
-        )}
+        {error && <div className="tool-error">{error}</div>}
 
         {output && (
           <div className="tool-output-section">

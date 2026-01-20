@@ -12,7 +12,14 @@ def run_backend():
 
     cmd = [
         sys.executable,
-        "-m", "uvicorn", "backend.index:app", "--host", "0.0.0.0", "--port", "8000", "--reload",
+        "-m",
+        "uvicorn",
+        "backend.index:app",
+        "--host",
+        "0.0.0.0",
+        "--port",
+        "8000",
+        "--reload",
     ]
     return subprocess.Popen(cmd, cwd=root)
 

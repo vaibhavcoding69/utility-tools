@@ -1,9 +1,9 @@
-import { useState } from 'react'
-import api from '../../../lib/api'
+import { useState } from "react";
+import api from "../../../lib/api";
 
 export function DiffTool() {
-  const [original, setOriginal] = useState('');
-  const [modified, setModified] = useState('');
+  const [original, setOriginal] = useState("");
+  const [modified, setModified] = useState("");
   const [diff, setDiff] = useState<{
     unified_diff: string;
     stats: {
@@ -12,23 +12,27 @@ export function DiffTool() {
       changes: number;
     };
   } | null>(null);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleDiff = async () => {
     setLoading(true);
-    setError('');
+    setError("");
     setDiff(null);
     try {
       const result = await api.diffText(original, modified, 3);
       if (result.success) {
         setDiff({
           unified_diff: result.unified_diff as string,
-          stats: result.stats as { additions: number; deletions: number; changes: number },
+          stats: result.stats as {
+            additions: number;
+            deletions: number;
+            changes: number;
+          },
         });
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to generate diff');
+      setError(err instanceof Error ? err.message : "Failed to generate diff");
     } finally {
       setLoading(false);
     }
@@ -39,7 +43,7 @@ export function DiffTool() {
       try {
         await navigator.clipboard.writeText(diff.unified_diff);
       } catch (err) {
-        console.error('Failed to copy:', err);
+        console.error("Failed to copy:", err);
       }
     }
   };
@@ -47,15 +51,15 @@ export function DiffTool() {
   const renderDiff = () => {
     if (!diff) return null;
 
-    const lines = diff.unified_diff.split('\n');
+    const lines = diff.unified_diff.split("\n");
     return lines.map((line, index) => {
-      let className = 'diff-line';
-      if (line.startsWith('+') && !line.startsWith('+++')) {
-        className += ' diff-addition';
-      } else if (line.startsWith('-') && !line.startsWith('---')) {
-        className += ' diff-deletion';
-      } else if (line.startsWith('@@')) {
-        className += ' diff-header';
+      let className = "diff-line";
+      if (line.startsWith("+") && !line.startsWith("+++")) {
+        className += " diff-addition";
+      } else if (line.startsWith("-") && !line.startsWith("---")) {
+        className += " diff-deletion";
+      } else if (line.startsWith("@@")) {
+        className += " diff-header";
       }
       return (
         <div key={index} className={className}>
@@ -69,7 +73,9 @@ export function DiffTool() {
     <div className="tool-container">
       <div className="tool-header">
         <h2 className="tool-title">Text Diff</h2>
-        <p className="tool-description">Compare two texts and see the differences</p>
+        <p className="tool-description">
+          Compare two texts and see the differences
+        </p>
       </div>
 
       <div className="tool-content">
@@ -103,26 +109,24 @@ export function DiffTool() {
             onClick={handleDiff}
             disabled={loading || !original || !modified}
           >
-            {loading ? 'Comparing...' : 'Compare'}
+            {loading ? "Comparing..." : "Compare"}
           </button>
-          <button
-            className="btn ghost"
-            onClick={handleCopy}
-            disabled={!diff}
-          >
+          <button className="btn ghost" onClick={handleCopy} disabled={!diff}>
             Copy Diff
           </button>
         </div>
 
-        {error && (
-          <div className="tool-error">{error}</div>
-        )}
+        {error && <div className="tool-error">{error}</div>}
 
         {diff && (
           <div className="tool-output-section">
             <div className="diff-stats">
-              <span className="stat-item additions">+{diff.stats.additions} additions</span>
-              <span className="stat-item deletions">-{diff.stats.deletions} deletions</span>
+              <span className="stat-item additions">
+                +{diff.stats.additions} additions
+              </span>
+              <span className="stat-item deletions">
+                -{diff.stats.deletions} deletions
+              </span>
             </div>
 
             <label className="tool-label">Unified Diff</label>

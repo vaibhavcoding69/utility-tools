@@ -1,8 +1,8 @@
-import { useState } from 'react'
-import api from '../../../lib/api'
+import { useState } from "react";
+import api from "../../../lib/api";
 
 export function JwtDecoder() {
-  const [token, setToken] = useState('');
+  const [token, setToken] = useState("");
   const [decoded, setDecoded] = useState<{
     header: Record<string, any>;
     payload: Record<string, any>;
@@ -10,12 +10,12 @@ export function JwtDecoder() {
     expired?: boolean;
     exp_date?: string;
   } | null>(null);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleDecode = async () => {
     setLoading(true);
-    setError('');
+    setError("");
     setDecoded(null);
     try {
       const result = await api.decodeJwt(token);
@@ -29,7 +29,7 @@ export function JwtDecoder() {
         });
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to decode JWT');
+      setError(err instanceof Error ? err.message : "Failed to decode JWT");
     } finally {
       setLoading(false);
     }
@@ -39,7 +39,7 @@ export function JwtDecoder() {
     try {
       await navigator.clipboard.writeText(text);
     } catch (err) {
-      console.error('Failed to copy:', err);
+      console.error("Failed to copy:", err);
     }
   };
 
@@ -68,27 +68,35 @@ export function JwtDecoder() {
             onClick={handleDecode}
             disabled={loading || !token}
           >
-            {loading ? 'Decoding...' : 'Decode'}
+            {loading ? "Decoding..." : "Decode"}
           </button>
         </div>
 
-        {error && (
-          <div className="tool-error">{error}</div>
-        )}
+        {error && <div className="tool-error">{error}</div>}
 
         {decoded && (
           <div className="tool-output-section">
             {decoded.expired !== undefined && (
-              <div className={`jwt-status ${decoded.expired ? 'expired' : 'valid'}`}>
-                {decoded.expired ? '⚠️ Token Expired' : '✅ Token Valid'}
-                {decoded.exp_date && <span className="exp-date">Expires: {decoded.exp_date}</span>}
+              <div
+                className={`jwt-status ${decoded.expired ? "expired" : "valid"}`}
+              >
+                {decoded.expired ? "⚠️ Token Expired" : "✅ Token Valid"}
+                {decoded.exp_date && (
+                  <span className="exp-date">Expires: {decoded.exp_date}</span>
+                )}
               </div>
             )}
 
             <div className="jwt-section">
               <div className="jwt-section-header">
                 <label className="tool-label">Header</label>
-                <button className="btn-icon" onClick={() => handleCopy(JSON.stringify(decoded.header, null, 2))} title="Copy">
+                <button
+                  className="btn-icon"
+                  onClick={() =>
+                    handleCopy(JSON.stringify(decoded.header, null, 2))
+                  }
+                  title="Copy"
+                >
                   📋
                 </button>
               </div>
@@ -100,7 +108,13 @@ export function JwtDecoder() {
             <div className="jwt-section">
               <div className="jwt-section-header">
                 <label className="tool-label">Payload</label>
-                <button className="btn-icon" onClick={() => handleCopy(JSON.stringify(decoded.payload, null, 2))} title="Copy">
+                <button
+                  className="btn-icon"
+                  onClick={() =>
+                    handleCopy(JSON.stringify(decoded.payload, null, 2))
+                  }
+                  title="Copy"
+                >
                   📋
                 </button>
               </div>

@@ -3,18 +3,23 @@ from pydantic import BaseModel
 import base64
 from io import BytesIO
 
+
 class QRPayload(BaseModel):
     data: str
+
 
 class ImageBase64Payload(BaseModel):
     data: str  # base64 string
     quality: int | None = 75
 
+
 class ColorPalettePayload(BaseModel):
     data: str  # base64 string
     colors: int = 5
 
+
 router = APIRouter()
+
 
 @router.post("/qr/generate")
 async def qr_generate(payload: QRPayload):
@@ -27,6 +32,7 @@ async def qr_generate(payload: QRPayload):
     img.save(buf, format="PNG")
     b64 = base64.b64encode(buf.getvalue()).decode("utf-8")
     return {"success": True, "image": f"data:image/png;base64,{b64}"}
+
 
 @router.post("/qr/read")
 async def qr_read(payload: ImageBase64Payload):
@@ -41,11 +47,12 @@ async def qr_read(payload: ImageBase64Payload):
             import zbarlight
         except ImportError:
             raise HTTPException(status_code=500, detail="zbarlight not installed")
-        codes = zbarlight.scan_codes(['qrcode'], img)
-        decoded = codes[0].decode('utf-8') if codes else None
+        codes = zbarlight.scan_codes(["qrcode"], img)
+        decoded = codes[0].decode("utf-8") if codes else None
         return {"success": True, "data": decoded}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
+
 
 @router.post("/image/compress")
 async def image_compress(payload: ImageBase64Payload):
@@ -63,6 +70,7 @@ async def image_compress(payload: ImageBase64Payload):
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
+
 @router.post("/image/to-base64")
 async def image_to_base64(payload: ImageBase64Payload):
     try:
@@ -70,6 +78,7 @@ async def image_to_base64(payload: ImageBase64Payload):
         return {"success": True, "image": payload.data}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
+
 
 @router.post("/color/palette")
 async def color_palette(payload: ColorPalettePayload):
@@ -79,7 +88,7 @@ async def color_palette(payload: ColorPalettePayload):
         raise HTTPException(status_code=500, detail="Pillow not installed")
     try:
         raw = base64.b64decode(payload.data.split(",")[-1])
-        img = Image.open(BytesIO(raw)).convert('RGB')
+        img = Image.open(BytesIO(raw)).convert("RGB")
         small = img.resize((64, 64))
         colors = small.getcolors(64 * 64)
         colors = sorted(colors, key=lambda c: c[0], reverse=True)

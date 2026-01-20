@@ -1,19 +1,29 @@
-import { useState } from 'react'
-import api from '../../../lib/api'
+import { useState } from "react";
+import api from "../../../lib/api";
 
-const ALGORITHMS = ['md5', 'sha1', 'sha256', 'sha384', 'sha512', 'blake2b', 'blake2s'];
+const ALGORITHMS = [
+  "md5",
+  "sha1",
+  "sha256",
+  "sha384",
+  "sha512",
+  "blake2b",
+  "blake2s",
+];
 
 export function HashGenerator() {
-  const [input, setInput] = useState('');
-  const [algorithm, setAlgorithm] = useState('sha256');
-  const [output, setOutput] = useState('');
-  const [allHashes, setAllHashes] = useState<Record<string, string> | null>(null);
-  const [error, setError] = useState('');
+  const [input, setInput] = useState("");
+  const [algorithm, setAlgorithm] = useState("sha256");
+  const [output, setOutput] = useState("");
+  const [allHashes, setAllHashes] = useState<Record<string, string> | null>(
+    null,
+  );
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleHash = async () => {
     setLoading(true);
-    setError('');
+    setError("");
     setAllHashes(null);
     try {
       const result = await api.generateHash(input, algorithm);
@@ -21,7 +31,7 @@ export function HashGenerator() {
         setOutput(result.hash as string);
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to generate hash');
+      setError(err instanceof Error ? err.message : "Failed to generate hash");
     } finally {
       setLoading(false);
     }
@@ -29,15 +39,17 @@ export function HashGenerator() {
 
   const handleHashAll = async () => {
     setLoading(true);
-    setError('');
-    setOutput('');
+    setError("");
+    setOutput("");
     try {
       const result = await api.generateAllHashes(input);
       if (result.success) {
         setAllHashes(result.hashes as Record<string, string>);
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to generate hashes');
+      setError(
+        err instanceof Error ? err.message : "Failed to generate hashes",
+      );
     } finally {
       setLoading(false);
     }
@@ -47,7 +59,7 @@ export function HashGenerator() {
     try {
       await navigator.clipboard.writeText(text);
     } catch (err) {
-      console.error('Failed to copy:', err);
+      console.error("Failed to copy:", err);
     }
   };
 
@@ -55,7 +67,9 @@ export function HashGenerator() {
     <div className="tool-container">
       <div className="tool-header">
         <h2 className="tool-title">Hash Generator</h2>
-        <p className="tool-description">Generate cryptographic hashes using various algorithms</p>
+        <p className="tool-description">
+          Generate cryptographic hashes using various algorithms
+        </p>
       </div>
 
       <div className="tool-content">
@@ -79,7 +93,9 @@ export function HashGenerator() {
               onChange={(e) => setAlgorithm(e.target.value)}
             >
               {ALGORITHMS.map((alg) => (
-                <option key={alg} value={alg}>{alg.toUpperCase()}</option>
+                <option key={alg} value={alg}>
+                  {alg.toUpperCase()}
+                </option>
               ))}
             </select>
           </div>
@@ -91,7 +107,7 @@ export function HashGenerator() {
             onClick={handleHash}
             disabled={loading || !input}
           >
-            {loading ? 'Hashing...' : 'Generate Hash'}
+            {loading ? "Hashing..." : "Generate Hash"}
           </button>
           <button
             className="btn ghost"
@@ -109,13 +125,13 @@ export function HashGenerator() {
           </button>
         </div>
 
-        {error && (
-          <div className="tool-error">{error}</div>
-        )}
+        {error && <div className="tool-error">{error}</div>}
 
         {output && (
           <div className="tool-output-section">
-            <label className="tool-label">Hash ({algorithm.toUpperCase()})</label>
+            <label className="tool-label">
+              Hash ({algorithm.toUpperCase()})
+            </label>
             <div className="tool-output-mono">
               <code>{output}</code>
             </div>
@@ -131,7 +147,11 @@ export function HashGenerator() {
                   <div className="hash-algorithm">{alg.toUpperCase()}</div>
                   <div className="hash-value">
                     <code>{hash}</code>
-                    <button className="btn-icon" onClick={() => handleCopy(hash)} title="Copy">
+                    <button
+                      className="btn-icon"
+                      onClick={() => handleCopy(hash)}
+                      title="Copy"
+                    >
                       📋
                     </button>
                   </div>
