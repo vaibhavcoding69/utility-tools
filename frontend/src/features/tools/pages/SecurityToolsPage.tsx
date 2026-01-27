@@ -1,4 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
+import { useMemo, useState } from "react";
 
 const tools = [
   {
@@ -22,10 +23,97 @@ const tools = [
     icon: "bi-stopwatch",
     tags: ["2FA", "Time", "Auth"],
   },
+  {
+    id: "jwt",
+    name: "JWT Decoder",
+    description: "Decode and inspect JSON Web Tokens",
+    icon: "bi-shield-lock",
+    tags: ["Auth", "Tokens"],
+  },
+  {
+    id: "uuid",
+    name: "UUID Generator",
+    description: "Generate unique identifiers",
+    icon: "bi-fingerprint",
+    tags: ["IDs", "Uniqueness"],
+  },
+  {
+    id: "random-string",
+    name: "Random String",
+    description: "Generate random strings",
+    icon: "bi-shuffle",
+    tags: ["Random", "ID", "Token"],
+  },
+  {
+    id: "base64",
+    name: "Base64",
+    description: "Encode and decode Base64 strings",
+    icon: "bi-clipboard-data",
+    tags: ["Encoding", "Payloads"],
+  },
+  {
+    id: "url",
+    name: "URL Encoder",
+    description: "Encode and decode URL components",
+    icon: "bi-link-45deg",
+    tags: ["Encoding", "URLs"],
+  },
+  {
+    id: "regex",
+    name: "Regex Tester",
+    description: "Test and debug regular expressions",
+    icon: "bi-search",
+    tags: ["Patterns", "Flags"],
+  },
+  {
+    id: "html-entities",
+    name: "HTML Entities",
+    description: "Encode and decode HTML entities",
+    icon: "bi-code-slash",
+    tags: ["HTML", "Entities", "Escape"],
+  },
+  {
+    id: "number-base",
+    name: "Number Base Converter",
+    description: "Convert between binary, decimal, hex",
+    icon: "bi-123",
+    tags: ["Binary", "Hex", "Decimal"],
+  },
+  {
+    id: "base-converter",
+    name: "Base Converter",
+    description: "Convert numbers between different bases",
+    icon: "bi-123",
+    tags: ["Binary", "Hex", "Decimal"],
+  },
+  {
+    id: "xml-json",
+    name: "XML ↔ JSON",
+    description: "Transform XML data to/from JSON",
+    icon: "bi-file-earmark-code",
+    tags: ["XML", "JSON", "Convert"],
+  },
+  {
+    id: "yaml-json",
+    name: "YAML ↔ JSON",
+    description: "Convert YAML to JSON and back",
+    icon: "bi-shuffle",
+    tags: ["YAML", "JSON", "Convert"],
+  },
 ];
 
 export default function SecurityToolsPage() {
   const navigate = useNavigate();
+  const [query, setQuery] = useState("");
+
+  const filtered = useMemo(() => {
+    const q = query.toLowerCase();
+    if (!q) return tools;
+    return tools.filter((t) =>
+      t.name.toLowerCase().includes(q) ||
+      t.tags.some((tag) => tag.toLowerCase().includes(q))
+    );
+  }, [query]);
 
   return (
     <div className="tools-page-wrapper">
@@ -39,8 +127,18 @@ export default function SecurityToolsPage() {
         
       </div>
 
+      <div className="tools-page-header-controls">
+        <input
+          className="tool-input"
+          type="search"
+          placeholder="Search tools..."
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+        />
+      </div>
+
       <div className="tools-grid tools-grid-balanced">
-        {tools.map((tool) => (
+        {filtered.map((tool) => (
           <button
             key={tool.id}
             className="tool-card wide"

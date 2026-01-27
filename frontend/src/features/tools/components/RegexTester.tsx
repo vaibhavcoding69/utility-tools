@@ -137,8 +137,8 @@ export function RegexTester() {
               className={`regex-status ${result.matches ? "match" : "no-match"}`}
             >
               {result.matches
-                ? `✅ ${result.match_count} match(es) found`
-                : "❌ No matches"}
+                ? <><i className="bi bi-check-circle" /> {result.match_count} match(es) found</>
+                : <><i className="bi bi-x-circle" /> No matches</>}
             </div>
 
             {result.matches &&

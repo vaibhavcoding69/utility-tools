@@ -106,7 +106,7 @@ export function TotpGenerator() {
                 onClick={() => handleCopy(result.current_code)}
                 title="Copy code"
               >
-                📋
+                <i className="bi bi-clipboard" />
               </button>
             </div>
 
@@ -120,7 +120,7 @@ export function TotpGenerator() {
                     onClick={() => handleCopy(result.secret)}
                     title="Copy"
                   >
-                    📋
+                    <i className="bi bi-clipboard" />
                   </button>
                 </div>
               </div>
@@ -134,14 +134,14 @@ export function TotpGenerator() {
                     onClick={() => handleCopy(result.provisioning_uri)}
                     title="Copy"
                   >
-                    📋
+                    <i className="bi bi-clipboard" />
                   </button>
                 </div>
               </div>
             </div>
 
             <p className="totp-note">
-              💡 Use the secret or provisioning URI to set up in your
+              <i className="bi bi-lightbulb" /> Use the secret or provisioning URI to set up in your
               authenticator app
             </p>
           </div>

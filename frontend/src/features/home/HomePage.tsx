@@ -1,81 +1,107 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Hero } from "./Hero";
-import { Zap, Shield, Sparkles, Search, ArrowUpRight } from "lucide-react";
+import api from "../../lib/api";
+import { 
+  Search, 
+  ArrowUpRight,
+  Code2,
+  Lock,
+  Terminal,
+  Check
+} from "lucide-react";
+import Lottie from 'lottie-react';
+import accuracyAnimation from '../../assets/icons8-accuracy.json'; // Downloaded Lottie animation
 
-const features = [
+// Premium feature showcase data
+const premiumFeatures = [
   {
-    icon: Zap,
-    title: "Lightning Fast",
-    description:
-      "Sub-50ms response times. Pages load instantly so you stay in flow and ship faster.",
-    gradient: "linear-gradient(135deg, #ffffff 0%, #d9d9d9 100%)",
+    badge: "Developer Experience",
+    title: "Designed for Focus",
+    description: "Keyboard shortcuts. Instant results. Copy with one click. We got out of your way so you can stay in flow.",
+    icon: () => <Lottie animationData={accuracyAnimation} style={{width: 120, height: 120}} />,
+    features: [
+      "Keyboard-first navigation",
+      "One-click copy to clipboard",
+      "Shareable result URLs",
+      "Dark mode by default"
+    ]
   },
   {
-    icon: Shield,
-    title: "Privacy First",
-    description:
-      "Your data never leaves our servers. No third-party tracking, no analytics spyware.",
-    gradient: "linear-gradient(135deg, #e5e5e5 0%, #bfbfbf 100%)",
+    badge: "API Access",
+    title: "API First",
+    description: "Use our tools in your own scripts. Simple API access for everything you see here.",
+    icon: () => <Code2 size={48} strokeWidth={1.5} />,
+    features: [
+      "RESTful JSON endpoints",
+      "OpenAPI 3.0 documentation",
+      "Generous rate limits",
+      "Webhook support planned"
+    ]
   },
   {
-    icon: Sparkles,
-    title: "Production Ready",
-    description:
-      "Typed endpoints, validation, and helpful errors. Built for CI/CD pipelines and automation.",
-    gradient: "linear-gradient(135deg, #ffffff 0%, #cfcfcf 100%)",
-  },
+    badge: "Privacy First",
+    title: "No Ads, No Tracking",
+    description: "We don't spy on you. We don't sell your data. We just built tools that work locally in your browser.",
+    icon: () => <Lock size={48} strokeWidth={1.5} />,
+    features: [
+      "Zero analytics",
+      "No third-party trackers",
+      "Client-side processing",
+      "Open source code"
+    ]
+  }
 ];
 
-const tools = [
-  {
-    category: "Developer",
-    items: [
-      "JSON Formatter",
-      "Base64 Encoder",
-      "UUID Generator",
-      "JWT Decoder",
-      "Regex Tester",
-      "URL Encoder",
-    ],
-    href: "/tools/developer",
-  },
-  {
-    category: "Security",
-    items: [
-      "Password Generator",
-      "Hash Generator",
-      "TOTP Generator",
-      "HMAC Generator",
-    ],
-    href: "/tools/security",
-  },
-  {
-    category: "Data",
-    items: [
-      "CSV to JSON",
-      "JSON to CSV",
-      "SQL Formatter",
-      "Fake Data Generator",
-      "Base Converter",
-    ],
-    href: "/tools/data",
-  },
-];
+// const tools = [
+//   {
+//     category: "Developer",
+//     items: [
+//       "JSON Formatter",
+//       "Base64 Encoder",
+//       "UUID Generator",
+//       "JWT Decoder",
+//       "Regex Tester",
+//       "URL Encoder",
+//     ],
+//     href: "/tools/developer",
+//   },
+//   {
+//     category: "Security",
+//     items: [
+//       "Password Generator",
+//       "Hash Generator",
+//       "TOTP Generator",
+//       "HMAC Generator",
+//     ],
+//     href: "/tools/security",
+//   },
+//   {
+//     category: "Data",
+//     items: [
+//       "CSV to JSON",
+//       "JSON to CSV",
+//       "SQL Formatter",
+//       "Fake Data Generator",
+//       "Base Converter",
+//     ],
+//     href: "/tools/data",
+//   },
+// ];
 
-const categoryFilters = [
-  {
-    label: "Developer",
-    caption: "Encoding, payloads, diffing",
-    href: "/tools/developer",
-  },
-  {
-    label: "Security",
-    caption: "Passwords, hashes, TOTP",
-    href: "/tools/security",
-  },
-  { label: "Data", caption: "CSV/JSON, SQL, fake data", href: "/tools/data" },
-];
+// const categoryFilters = [
+//   {
+//     label: "Developer",
+//     caption: "Encoding, payloads, diffing",
+//     href: "/tools/developer",
+//   },
+//   {
+//     label: "Security",
+//     caption: "Passwords, hashes, TOTP",
+//     href: "/tools/security",
+//   },
+//   { label: "Data", caption: "CSV/JSON, SQL, fake data", href: "/tools/data" },
+// ];
 
 const toolIndex = [
   {
@@ -187,6 +213,39 @@ const toolIndex = [
 
 const quickActions = toolIndex.slice(0, 6);
 
+const toolIdByHref: Record<string, string> = {
+  "/tools/developer/json": "json",
+  "/tools/developer/base64": "base64",
+  "/tools/developer/url": "url",
+  "/tools/developer/uuid": "uuid",
+  "/tools/developer/regex": "regex",
+  "/tools/developer/jwt": "jwt",
+  "/tools/developer/diff": "diff",
+  "/tools/security/password": "password",
+  "/tools/security/hash": "hash",
+  "/tools/security/totp": "totp",
+  "/tools/data/csv-to-json": "csv-to-json",
+  "/tools/data/json-to-csv": "json-to-csv",
+  "/tools/data/sql": "sql",
+  "/tools/data/fake-data": "fake-data",
+  "/tools/data/base-converter": "base-converter",
+};
+
+const sortByUsage = (items: typeof toolIndex, usage: Record<string, number>) => {
+  return [...items].sort((a, b) => {
+    const aKey = toolIdByHref[a.href];
+    const bKey = toolIdByHref[b.href];
+    const aCount = aKey ? usage[aKey] || 0 : 0;
+    const bCount = bKey ? usage[bKey] || 0 : 0;
+
+    if (bCount !== aCount) {
+      return bCount - aCount;
+    }
+
+    return a.name.localeCompare(b.name);
+  });
+};
+
 // Simple scroll-triggered reveal animations
 function useRevealOnScroll() {
   useEffect(() => {
@@ -212,6 +271,29 @@ function useRevealOnScroll() {
 
 function UtilityDock() {
   const [query, setQuery] = useState("");
+  const [usage, setUsage] = useState<Record<string, number>>({});
+  useEffect(() => {
+    let active = true;
+    api
+      .toolUsage(10)
+      .then((response) => {
+        if (!active || !response?.success) return;
+        const map: Record<string, number> = {};
+        (response.tools as { id: string; count: number }[]).forEach((tool) => {
+          map[tool.id] = tool.count;
+        });
+        setUsage(map);
+      })
+      .catch(() => {
+        if (!active) return;
+        setUsage({});
+      });
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
   const normalized = query.trim().toLowerCase();
   const results = normalized
     ? toolIndex.filter((tool) =>
@@ -223,6 +305,7 @@ function UtilityDock() {
     : [];
 
   const visibleResults = results.slice(0, 5);
+  const sortedQuickActions = sortByUsage(quickActions, usage);
 
   return (
     <section className="command-dock" aria-label="Tool navigation">
@@ -234,9 +317,6 @@ function UtilityDock() {
           value={query}
           onChange={(event) => setQuery(event.target.value)}
         />
-        <Link to="/tools/developer" className="command-search-link">
-          Browse catalog
-        </Link>
       </div>
       {normalized && (
         <div className="command-results" role="listbox">
@@ -259,24 +339,8 @@ function UtilityDock() {
           )}
         </div>
       )}
-      <div
-        className="command-pills"
-        role="navigation"
-        aria-label="Filter categories"
-      >
-        {categoryFilters.map((category) => (
-          <Link
-            key={category.label}
-            className="command-pill"
-            to={category.href}
-          >
-            <strong>{category.label}</strong>
-            <span>{category.caption}</span>
-          </Link>
-        ))}
-      </div>
       <div className="quick-actions-grid">
-        {quickActions.map((action) => (
+        {sortedQuickActions.map((action) => (
           <Link
             key={action.name}
             to={action.href}
@@ -295,96 +359,6 @@ function UtilityDock() {
   );
 }
 
-function FeaturesSection() {
-  return (
-    <section className="section" id="features">
-      <div className="section-header">
-        <div className="section-badge">Why Utility Tools</div>
-        <h2 className="section-title">Built for developers who ship</h2>
-        <p className="section-description">
-          Every feature designed to eliminate friction and keep you focused on
-          what matters.
-        </p>
-      </div>
-      <div className="features-grid">
-        {features.map((feature, index) => {
-          const Icon = feature.icon;
-          return (
-            <article
-              key={feature.title}
-              className="feature-card reveal"
-              style={
-                {
-                  "--card-gradient": feature.gradient,
-                  transitionDelay: `${index * 80}ms`,
-                  animationDelay: `${index * 150}ms`,
-                } as React.CSSProperties
-              }
-            >
-              <div className="feature-card-glow" />
-              <div className="feature-card-content">
-                <div className="feature-icon-wrapper">
-                  <Icon className="feature-icon" size={24} strokeWidth={2} />
-                </div>
-                <h3 className="feature-title">{feature.title}</h3>
-                <p className="feature-description">{feature.description}</p>
-                <div className="feature-link">
-                  Learn more <span className="feature-arrow">→</span>
-                </div>
-              </div>
-            </article>
-          );
-        })}
-      </div>
-    </section>
-  );
-}
-
-function ToolsSection() {
-  return (
-    <section className="section">
-      <div className="section-header">
-        <div className="section-badge">Full Stack Development</div>
-        <h2 className="section-title">40+ tools at your fingertips</h2>
-        <p className="section-description">
-          From encoding to encryption, everything you need in one place.
-        </p>
-      </div>
-      <div className="features-grid">
-        {tools.map((group) => (
-          <article key={group.category} className="feature-card reveal">
-            <h3 className="feature-title">{group.category}</h3>
-            <ul
-              style={{ margin: "16px 0 24px", padding: 0, listStyle: "none" }}
-            >
-              {group.items.map((item) => (
-                <li
-                  key={item}
-                  style={{
-                    padding: "8px 0",
-                    color: "var(--text-secondary)",
-                    fontSize: "14px",
-                    borderBottom: "1px solid var(--border)",
-                  }}
-                >
-                  {item}
-                </li>
-              ))}
-            </ul>
-            <Link
-              className="btn secondary"
-              to={group.href}
-              style={{ width: "100%" }}
-            >
-              Open {group.category} Tools →
-            </Link>
-          </article>
-        ))}
-      </div>
-    </section>
-  );
-}
-
 function StatsSection() {
   const stats = [
     {
@@ -394,30 +368,66 @@ function StatsSection() {
     },
     { label: "Response Time", value: "<50", unit: "milliseconds" },
     { label: "Cost Savings", value: "100%", unit: "free forever" },
-    { label: "Availability", value: "99.98%", unit: "uptime SLA" },
+    { label: "Availability", value: "99.98%", unit: "uptime" },
   ];
 
   return (
     <section className="section">
       <div className="section-header">
         <div className="section-badge">Proven Results</div>
-        <h2 className="section-title">Ship faster, save time</h2>
+        <h2 className="section-title">Built for speed</h2>
         <p className="section-description">
-          Measurable improvements for teams that care about velocity.
+          We know you hate waiting. That's why everything here is instant.
         </p>
       </div>
-      <div className="stats-grid">
-        {stats.map((stat) => (
+      <div className="animated-stats">
+        {stats.map((stat, index) => (
           <div
             key={stat.label}
-            className="stats-card reveal"
-            style={{ transitionDelay: `${stats.indexOf(stat) * 90}ms` }}
+            className="animated-stat reveal"
+            style={{ transitionDelay: `${index * 90}ms` }}
           >
-            <div className="stats-card-label">{stat.label}</div>
-            <div className="stats-card-value">{stat.value}</div>
-            <div className="stats-card-unit">{stat.unit}</div>
+            <div className="animated-stat-value">{stat.value}</div>
+            <div className="animated-stat-label">{stat.label}</div>
+            <div className="animated-stat-sublabel">{stat.unit}</div>
           </div>
         ))}
+      </div>
+    </section>
+  );
+}
+
+function PremiumFeaturesSection() {
+  return (
+    <section className="section">
+      <div className="premium-features">
+        {premiumFeatures.map((feature) => {
+          return (
+            <div key={feature.title} className="premium-feature reveal">
+              <div className="premium-feature-content">
+                <div className="premium-feature-badge">
+                  <span className="premium-feature-badge-dot" />
+                  {feature.badge}
+                </div>
+                <h2 className="premium-feature-title">{feature.title}</h2>
+                <p className="premium-feature-description">{feature.description}</p>
+                <ul className="premium-feature-list">
+                  {feature.features.map((item) => (
+                    <li key={item} className="premium-feature-list-item">
+                      <span className="premium-feature-list-icon">
+                        <Check size={12} />
+                      </span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="premium-feature-visual">
+                {feature.icon()}
+              </div>
+            </div>
+          );
+        })}
       </div>
     </section>
   );
@@ -426,13 +436,13 @@ function StatsSection() {
 function CTASection() {
   return (
     <section className="cta-section">
-      <h2 className="cta-title">Ready to streamline your workflow?</h2>
+      <h2 className="cta-title">Start using it now</h2>
       <p className="cta-description">
-        Start using the tools instantly. No signup required.
+        No signup. No credit card. Just tools.
       </p>
-      <div style={{ display: "flex", gap: "16px", justifyContent: "center" }}>
-        <Link className="btn primary" to="/tools/developer">
-          Explore Tools →
+      <div style={{ display: "flex", gap: "16px", justifyContent: "center", flexWrap: "wrap" }}>
+        <Link className="btn primary" to="/tools">
+          Explore →
         </Link>
         <a
           className="btn ghost"
@@ -458,9 +468,9 @@ export default function HomePage() {
       <div className="reveal">
         <UtilityDock />
       </div>
-      <FeaturesSection />
-      <ToolsSection />
+      {/* <FeaturesSection /> */}
       <StatsSection />
+      <PremiumFeaturesSection />
       <CTASection />
     </>
   );

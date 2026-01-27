@@ -1,13 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
+import { useMemo, useState } from "react";
 
-type ToolType =
-  | "csv-to-json"
-  | "json-to-csv"
-  | "sql"
-  | "fake-data"
-  | "base-converter";
-
-const tools: { id: ToolType; name: string; description: string; tags: string[]; icon: string }[] = [
+const tools = [
   {
     id: "csv-to-json",
     name: "CSV to JSON",
@@ -23,11 +17,25 @@ const tools: { id: ToolType; name: string; description: string; tags: string[]; 
     icon: "bi-filetype-json",
   },
   {
+    id: "json-yaml",
+    name: "JSON to YAML",
+    description: "Convert JSON to YAML",
+    tags: ["JSON", "YAML", "Convert"],
+    icon: "bi-shuffle",
+  },
+  {
     id: "sql",
     name: "SQL Formatter",
     description: "Format and beautify SQL queries",
     tags: ["SQL", "Format", "DDL/DML"],
     icon: "bi-database",
+  },
+  {
+    id: "sql-minify",
+    name: "SQL Minifier",
+    description: "Minify SQL queries by removing whitespace",
+    tags: ["SQL", "Minify", "Compact"],
+    icon: "bi-file-earmark-code",
   },
   {
     id: "fake-data",
@@ -37,16 +45,75 @@ const tools: { id: ToolType; name: string; description: string; tags: string[]; 
     icon: "bi-stars",
   },
   {
-    id: "base-converter",
-    name: "Base Converter",
-    description: "Convert numbers between different bases",
-    tags: ["Binary", "Hex", "Decimal"],
-    icon: "bi-123",
+    id: "hex-rgb",
+    name: "HEX ↔ RGB",
+    description: "Convert color codes between formats",
+    tags: ["Color", "HEX", "RGB"],
+    icon: "bi-palette",
+  },
+  {
+    id: "timestamp",
+    name: "Timestamp Converter",
+    description: "Convert Unix timestamps",
+    tags: ["Time", "Date", "Unix"],
+    icon: "bi-clock-history",
+  },
+  {
+    id: "lorem",
+    name: "Lorem Ipsum Generator",
+    description: "Generate placeholder text",
+    tags: ["Lorem", "Text", "Placeholder"],
+    icon: "bi-card-text",
+  },
+  {
+    id: "color-picker",
+    name: "Color Picker",
+    description: "Pick and convert color formats",
+    tags: ["Color", "Pick", "Palette"],
+    icon: "bi-eyedropper",
+  },
+  {
+    id: "case-converter",
+    name: "Case Converter",
+    description: "Convert text case styles",
+    tags: ["Case", "Text", "camelCase"],
+    icon: "bi-type",
+  },
+  {
+    id: "speedtest",
+    name: "Internet Speed Test",
+    description: "Measure download, upload, ping",
+    tags: ["Network", "Speed", "Ping"],
+    icon: "bi-speedometer2",
+  },
+  {
+    id: "diff",
+    name: "Text Diff",
+    description: "Compare two texts and see differences",
+    tags: ["Compare", "Changes", "Merge"],
+    icon: "bi-arrow-left-right",
+  },
+  {
+    id: "text-stats",
+    name: "Text Statistics",
+    description: "Word count, char count, reading time",
+    tags: ["Words", "Characters", "Stats"],
+    icon: "bi-bar-chart-line",
   },
 ];
 
 export default function DataToolsPage() {
   const navigate = useNavigate();
+  const [query, setQuery] = useState("");
+
+  const filtered = useMemo(() => {
+    const q = query.toLowerCase();
+    if (!q) return tools;
+    return tools.filter((t) =>
+      t.name.toLowerCase().includes(q) ||
+      t.tags.some((tag) => tag.toLowerCase().includes(q))
+    );
+  }, [query]);
 
   return (
     <div className="tools-page-wrapper">
@@ -59,8 +126,18 @@ export default function DataToolsPage() {
         <p className="muted">Transform, convert, and generate data in various formats.</p>
       </div>
 
+      <div className="tools-page-header-controls">
+        <input
+          className="tool-input"
+          type="search"
+          placeholder="Search tools..."
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+        />
+      </div>
+
       <div className="tools-grid tools-grid-balanced">
-        {tools.map((tool) => (
+        {filtered.map((tool) => (
           <button
             key={tool.id}
             className="tool-card wide"

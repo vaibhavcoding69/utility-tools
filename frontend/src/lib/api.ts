@@ -48,6 +48,14 @@ class ApiClient {
   }
 
   // ============================================================================
+  // Stats
+  // ============================================================================
+
+  async toolUsage(limit: number = 6) {
+    return this.request<ApiResponse>(`/stats/tools?limit=${limit}`);
+  }
+
+  // ============================================================================
   // Developer Tools
   // ============================================================================
 
@@ -301,6 +309,13 @@ class ApiClient {
     });
   }
 
+  async minifySql(data: string) {
+    return this.request<ApiResponse>("/data/sql/minify", {
+      method: "POST",
+      body: JSON.stringify({ query: data }),
+    });
+  }
+
   async generateFakeData(
     dataType: string,
     count: number = 10,
@@ -312,6 +327,54 @@ class ApiClient {
     });
   }
 
+  async envToNetlify(envText: string, siteName?: string) {
+    return this.request<ApiResponse>("/developer/env/netlify", {
+      method: "POST",
+      body: JSON.stringify({ data: envText, site_name: siteName }),
+    });
+  }
+
+  async harSummary(jsonString: string, maxEntries: number = 50) {
+    return this.request<ApiResponse>("/developer/har/summary", {
+      method: "POST",
+      body: JSON.stringify({ data: jsonString, max_entries: maxEntries }),
+    });
+  }
+
+  async inlineCss(html: string, baseUrl?: string) {
+    return this.request<ApiResponse>("/developer/css/inline", {
+      method: "POST",
+      body: JSON.stringify({ html, base_url: baseUrl }),
+    });
+  }
+
+  async resizeImage(
+    data: string,
+    opts: { width?: number; height?: number; format?: string; quality?: number } = {},
+  ) {
+    return this.request<ApiResponse>("/developer/image/resize", {
+      method: "POST",
+      body: JSON.stringify({ data, ...opts }),
+    });
+  }
+
+  async runSpeedtest() {
+    return this.request<ApiResponse>("/data/speedtest");
+  }
+
+  async randomString(options: {
+    length?: number;
+    uppercase?: boolean;
+    lowercase?: boolean;
+    digits?: boolean;
+    symbols?: boolean;
+  } = {}) {
+    return this.request<ApiResponse>("/data/random/string", {
+      method: "POST",
+      body: JSON.stringify(options),
+    });
+  }
+
   async convertBase(value: string, fromBase: number, toBase: number) {
     return this.request<ApiResponse>("/data/base/convert", {
       method: "POST",
@@ -319,45 +382,6 @@ class ApiClient {
     });
   }
 
-  // ============================================================================
-  // Productivity Tools
-  // ============================================================================
-
-  async wordCount(text: string) {
-    return this.request<ApiResponse>("/productivity/text/word-count", {
-      method: "POST",
-      body: JSON.stringify({ text }),
-    });
-  }
-
-  async convertCase(text: string, targetCase: string = "upper") {
-    return this.request<ApiResponse>("/productivity/text/case-convert", {
-      method: "POST",
-      body: JSON.stringify({ text, target_case: targetCase }),
-    });
-  }
-
-  async renderMarkdown(text: string) {
-    return this.request<ApiResponse>("/productivity/markdown/render", {
-      method: "POST",
-      body: JSON.stringify({ text }),
-    });
-  }
-
-  // ============================================================================
-  // Media Tools
-  // ============================================================================
-
-  async generateQrCode(data: string, size: number = 200) {
-    return this.request<ApiResponse>("/media/qr/generate", {
-      method: "POST",
-      body: JSON.stringify({ data, size }),
-    });
-  }
-
-  async extractColorPalette(colors: number = 5) {
-    return this.request<ApiResponse>(`/media/color/palette?count=${colors}`);
-  }
 }
 
 // Export singleton instance

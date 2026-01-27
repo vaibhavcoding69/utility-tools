@@ -2,6 +2,8 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional, List, Dict, Any
+from pathlib import Path
+from asyncio import Lock
 import json
 import base64
 import hashlib
@@ -21,7 +23,80 @@ import sqlparse
 from faker import Faker
 
 app = FastAPI(title="z1x Utility Tools API", version="1.0.0")
-REQUEST_COUNT = 125000
+
+USAGE_FILE = Path(__file__).resolve().parent / "usage_stats.json"
+USAGE_LOCK = Lock()
+REQUEST_COUNT = 0
+TOOL_USAGE: Dict[str, int] = {}
+
+TOOL_PATH_MAP: Dict[str, str] = {
+    "/api/developer/json/format": "json",
+    "/api/developer/json/minify": "json",
+    "/api/developer/base64/encode": "base64",
+    "/api/developer/base64/decode": "base64",
+    "/api/developer/url/encode": "url",
+    "/api/developer/url/decode": "url",
+    "/api/developer/regex/test": "regex",
+    "/api/developer/uuid/generate": "uuid",
+    "/api/developer/diff": "diff",
+    "/api/developer/jwt/decode": "jwt",
+    "/api/security/hash/generate": "hash",
+    "/api/security/hash/all": "hash",
+    "/api/security/password/generate": "password",
+    "/api/security/password/strength": "password",
+    "/api/security/otp/generate": "totp",
+    "/api/data/csv-to-json": "csv-to-json",
+    "/api/data/json-to-csv": "json-to-csv",
+    "/api/data/sql/format": "sql",
+    "/api/data/fake/generate": "fake-data",
+    "/api/data/base/convert": "base-converter",
+    "/api/data/text/word-count": "text-stats",
+    "/api/data/text/case-convert": "case-converter",
+}
+
+
+def _load_usage() -> None:
+    global REQUEST_COUNT, TOOL_USAGE
+    if not USAGE_FILE.exists():
+        REQUEST_COUNT = 0
+        TOOL_USAGE = {}
+        return
+    try:
+        payload = json.loads(USAGE_FILE.read_text(encoding="utf-8"))
+        REQUEST_COUNT = int(payload.get("total", 0))
+        TOOL_USAGE = {
+            key: int(value)
+            for key, value in (payload.get("tools", {}) or {}).items()
+            if isinstance(key, str)
+        }
+    except Exception:
+        REQUEST_COUNT = 0
+        TOOL_USAGE = {}
+
+
+def _save_usage() -> None:
+    payload = {"total": REQUEST_COUNT, "tools": TOOL_USAGE}
+    USAGE_FILE.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+
+
+_load_usage()
+
+
+@app.middleware("http")
+async def track_requests(request, call_next):
+    global REQUEST_COUNT
+    response = await call_next(request)
+
+    path = request.url.path
+    if path.startswith("/api/"):
+        tool_key = TOOL_PATH_MAP.get(path)
+        async with USAGE_LOCK:
+            REQUEST_COUNT += 1
+            if tool_key:
+                TOOL_USAGE[tool_key] = TOOL_USAGE.get(tool_key, 0) + 1
+                _save_usage()
+
+    return response
 
 # Configure CORS
 app.add_middleware(
@@ -137,8 +212,19 @@ async def health():
 async def stats_requests():
     """Return a simple rolling request count for the hero metrics."""
     global REQUEST_COUNT
-    REQUEST_COUNT += 7
     return {"success": True, "count": REQUEST_COUNT}
+
+
+@app.get("/api/stats/tools")
+async def stats_tools(limit: int = 6):
+    """Return most-used tools for the home command dock."""
+    safe_limit = max(1, min(limit, 20))
+    sorted_tools = sorted(TOOL_USAGE.items(), key=lambda item: item[1], reverse=True)
+    top_tools = [
+        {"id": tool_id, "count": count}
+        for tool_id, count in sorted_tools[:safe_limit]
+    ]
+    return {"success": True, "tools": top_tools}
 
 
 # ==================== Developer Tools ====================

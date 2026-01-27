@@ -1,4 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
+import { useMemo, useState } from "react";
 
 const tools = [
   {
@@ -9,74 +10,11 @@ const tools = [
     tags: ["JSON", "Lint", "Validate"],
   },
   {
-    id: "base64",
-    name: "Base64",
-    description: "Encode and decode Base64 strings",
-    icon: "bi-clipboard-data",
-    tags: ["Encoding", "Payloads"],
-  },
-  {
-    id: "url",
-    name: "URL Encoder",
-    description: "Encode and decode URL components",
-    icon: "bi-link-45deg",
-    tags: ["Encoding", "URLs"],
-  },
-  {
-    id: "uuid",
-    name: "UUID Generator",
-    description: "Generate unique identifiers (v1, v4)",
-    icon: "bi-fingerprint",
-    tags: ["IDs", "Uniqueness"],
-  },
-  {
-    id: "regex",
-    name: "Regex Tester",
-    description: "Test and debug regular expressions",
-    icon: "bi-search",
-    tags: ["Patterns", "Flags"],
-  },
-  {
-    id: "jwt",
-    name: "JWT Decoder",
-    description: "Decode and inspect JSON Web Tokens",
-    icon: "bi-shield-lock",
-    tags: ["Auth", "Tokens"],
-  },
-  {
     id: "diff",
     name: "Text Diff",
     description: "Compare two texts and see differences",
     icon: "bi-arrow-left-right",
     tags: ["Compare", "Changes"],
-  },
-  {
-    id: "yaml-json",
-    name: "YAML ↔ JSON",
-    description: "Convert between YAML and JSON formats",
-    icon: "bi-shuffle",
-    tags: ["YAML", "JSON", "Convert"],
-  },
-  {
-    id: "timestamp",
-    name: "Timestamp Converter",
-    description: "Convert Unix timestamps to dates",
-    icon: "bi-clock-history",
-    tags: ["Time", "Date", "Unix"],
-  },
-  {
-    id: "query-params",
-    name: "Query Params to JSON",
-    description: "Parse URL query strings to JSON",
-    icon: "bi-question-circle",
-    tags: ["Query", "JSON", "URL"],
-  },
-  {
-    id: "hex-rgb",
-    name: "HEX ↔ RGB",
-    description: "Convert color codes between formats",
-    icon: "bi-palette",
-    tags: ["Color", "HEX", "RGB"],
   },
   {
     id: "image-base64",
@@ -93,11 +31,11 @@ const tools = [
     tags: ["Base64", "Image"],
   },
   {
-    id: "number-base",
-    name: "Number Base Converter",
-    description: "Convert between binary, decimal, hex",
-    icon: "bi-123",
-    tags: ["Binary", "Hex", "Decimal"],
+    id: "image-resize",
+    name: "Image Resizer / WebP",
+    description: "Resize images or convert to WebP/PNG/JPEG",
+    icon: "bi-aspect-ratio",
+    tags: ["Image", "Resize", "WebP"],
   },
   {
     id: "css-units",
@@ -107,11 +45,11 @@ const tools = [
     tags: ["CSS", "Units", "px", "rem"],
   },
   {
-    id: "xml-json",
-    name: "XML ↔ JSON",
-    description: "Transform XML data to/from JSON",
-    icon: "bi-file-earmark-code",
-    tags: ["XML", "JSON", "Convert"],
+    id: "css-inline",
+    name: "CSS Inliner",
+    description: "Inline CSS for HTML email",
+    icon: "bi-envelope-open",
+    tags: ["Email", "Inline", "CSS"],
   },
   {
     id: "svg-viewer",
@@ -121,18 +59,11 @@ const tools = [
     tags: ["SVG", "Preview", "Vector"],
   },
   {
-    id: "lorem",
-    name: "Lorem Ipsum Generator",
-    description: "Generate placeholder text",
-    icon: "bi-card-text",
-    tags: ["Lorem", "Text", "Placeholder"],
-  },
-  {
-    id: "case-converter",
-    name: "Case Converter",
-    description: "Convert text case styles",
-    icon: "bi-type",
-    tags: ["Case", "Text", "camelCase"],
+    id: "har-viewer",
+    name: "HAR Viewer",
+    description: "Summarize HAR files quickly",
+    icon: "bi-journal-code",
+    tags: ["HAR", "Network", "Debug"],
   },
   {
     id: "qr-generator",
@@ -149,30 +80,40 @@ const tools = [
     tags: ["Markdown", "Preview", "MD"],
   },
   {
-    id: "color-picker",
-    name: "Color Picker",
-    description: "Pick and convert color formats",
-    icon: "bi-eyedropper",
-    tags: ["Color", "Pick", "Palette"],
-  },
-  {
-    id: "html-entities",
-    name: "HTML Entities",
-    description: "Encode and decode HTML entities",
-    icon: "bi-code-slash",
-    tags: ["HTML", "Entities", "Escape"],
-  },
-  {
     id: "cron-parser",
     name: "Cron Parser",
     description: "Parse and explain cron expressions",
     icon: "bi-alarm",
     tags: ["Cron", "Schedule", "Parse"],
   },
+  {
+    id: "query-params",
+    name: "Query Params to JSON",
+    description: "Parse URL query strings to JSON",
+    icon: "bi-question-circle",
+    tags: ["Query", "JSON", "URL"],
+  },
+  {
+    id: "env-netlify",
+    name: ".env → netlify.toml",
+    description: "Convert env vars to netlify.toml",
+    icon: "bi-gear",
+    tags: ["Netlify", "Env", "Config"],
+  },
 ];
 
 export default function DeveloperToolsPage() {
   const navigate = useNavigate();
+  const [query, setQuery] = useState("");
+
+  const filtered = useMemo(() => {
+    const q = query.toLowerCase();
+    if (!q) return tools;
+    return tools.filter((t) =>
+      t.name.toLowerCase().includes(q) ||
+      t.tags.some((tag) => tag.toLowerCase().includes(q))
+    );
+  }, [query]);
 
   return (
     <div className="tools-page-wrapper">
@@ -188,8 +129,18 @@ export default function DeveloperToolsPage() {
         </p>
       </div>
 
+      <div className="tools-page-header-controls">
+        <input
+          className="tool-input"
+          type="search"
+          placeholder="Search tools..."
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+        />
+      </div>
+
       <div className="tools-grid tools-grid-balanced">
-        {tools.map((tool) => (
+        {filtered.map((tool) => (
           <button
             key={tool.id}
             className="tool-card wide"

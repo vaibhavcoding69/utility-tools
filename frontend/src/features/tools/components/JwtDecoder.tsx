@@ -97,7 +97,7 @@ export function JwtDecoder() {
                   }
                   title="Copy"
                 >
-                  📋
+                  <i className="bi bi-clipboard" />
                 </button>
               </div>
               <pre className="tool-output">
@@ -115,7 +115,7 @@ export function JwtDecoder() {
                   }
                   title="Copy"
                 >
-                  📋
+                  <i className="bi bi-clipboard" />
                 </button>
               </div>
               <pre className="tool-output">

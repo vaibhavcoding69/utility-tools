@@ -5,6 +5,8 @@ import csv
 import io
 import random
 from faker import Faker
+import re
+import secrets
 
 
 class CsvPayload(BaseModel):
@@ -21,16 +23,35 @@ class SqlPayload(BaseModel):
     data: str = None  # Alternative field name from frontend
 
 
+class SqlMinifyPayload(BaseModel):
+    query: str
+
+
 class BaseConvertPayload(BaseModel):
     value: str
     from_base: int
     to_base: int
 
 
+class SpeedTestResult(BaseModel):
+    download_mbps: float
+    upload_mbps: float
+    ping_ms: float
+    server: str | None = None
+
+
 class FakeDataPayload(BaseModel):
     data_type: str = "person"
     count: int = 10
     locale: str = "en_US"
+
+
+class RandomStringPayload(BaseModel):
+    length: int = 16
+    uppercase: bool = True
+    lowercase: bool = True
+    digits: bool = True
+    symbols: bool = False
 
 
 router = APIRouter()
@@ -137,6 +158,18 @@ async def sql_format(payload: SqlPayload):
         formatted = formatted.strip()
 
         return {"success": True, "formatted": formatted}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@router.post("/sql/minify")
+async def sql_minify(payload: SqlMinifyPayload):
+    try:
+        # remove comments and extra whitespace
+        q = re.sub(r"/\*.*?\*/", "", payload.query, flags=re.S)
+        q = re.sub(r"--.*", "", q)
+        q = " ".join(q.split())
+        return {"success": True, "minified": q.strip()}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
@@ -268,3 +301,42 @@ async def convert_base(payload: BaseConvertPayload):
         return {"success": True, "value": out, "result": out}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
+
+
+@router.get("/speedtest")
+async def speedtest_run():
+    try:
+        import speedtest
+    except ImportError:
+        raise HTTPException(status_code=500, detail="speedtest-cli not installed")
+
+    st = speedtest.Speedtest()
+    st.get_best_server()
+    download = st.download() / 1_000_000
+    upload = st.upload() / 1_000_000
+    ping = st.results.ping
+    server = st.results.server.get("sponsor") if st.results.server else None
+    return {
+        "success": True,
+        "download_mbps": round(download, 2),
+        "upload_mbps": round(upload, 2),
+        "ping_ms": round(ping, 2),
+        "server": server,
+    }
+
+
+@router.post("/random/string")
+async def random_string(payload: RandomStringPayload):
+    charset = ""
+    if payload.lowercase:
+        charset += "abcdefghijklmnopqrstuvwxyz"
+    if payload.uppercase:
+        charset += "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    if payload.digits:
+        charset += "0123456789"
+    if payload.symbols:
+        charset += "!@#$%^&*()-_=+[]{};:,.<>/?"
+    if not charset:
+        raise HTTPException(status_code=400, detail="At least one charset must be enabled")
+    value = "".join(secrets.choice(charset) for _ in range(payload.length))
+    return {"success": True, "value": value}

@@ -5,28 +5,28 @@ const suites = [
     id: "developer",
     title: "Developer Tools",
     description: "JSON formatting, encoding, UUIDs, regex, and more in one panel.",
-    icon: "{ }",
+    icon: "bi-code-slash",
     href: "/tools/developer",
     tags: ["JSON", "Base64", "UUID", "Regex"],
-    count: 24,
+    count: 14,
   },
   {
     id: "security",
     title: "Security Tools",
     description: "Passwords, hashing, and TOTP generators for secure workflows.",
-    icon: "🔐",
+    icon: "bi-shield-lock",
     href: "/tools/security",
     tags: ["Passwords", "Hashes", "2FA"],
-    count: 3,
+    count: 13,
   },
   {
     id: "data",
     title: "Data Tools",
     description: "CSV/JSON conversion, SQL formatting, fake data, and base conversions.",
-    icon: "📊",
+    icon: "bi-bar-chart-line",
     href: "/tools/data",
     tags: ["CSV", "JSON", "SQL", "Mock"],
-    count: 5,
+    count: 13,
   },
 ];
 
@@ -48,7 +48,7 @@ export default function ToolsHubPage() {
         {suites.map((suite) => (
           <Link key={suite.id} to={suite.href} className="tool-card wide">
             <div className="tool-card-icon subtle" aria-hidden>
-              {suite.icon}
+              <i className={`bi ${suite.icon}`} />
             </div>
             <div className="tool-card-content">
               <div className="tool-card-title-row">

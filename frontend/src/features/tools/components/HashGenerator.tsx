@@ -152,7 +152,7 @@ export function HashGenerator() {
                       onClick={() => handleCopy(hash)}
                       title="Copy"
                     >
-                      📋
+                      <i className="bi bi-clipboard" />
                     </button>
                   </div>
                 </div>

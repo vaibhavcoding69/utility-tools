@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ["./index.html", "./src/**/*.{ts,tsx}"],
+  darkMode: ['selector', '[data-theme="dark"]'],
   theme: {
     extend: {
       fontFamily: {
@@ -9,19 +10,19 @@ export default {
       },
       colors: {
         surface: {
-          DEFAULT: "#ffffff",
-          100: "#fafafa",
-          900: "#0a0a0a",
-          800: "#141414",
+          DEFAULT: "var(--bg-primary)",
+          100: "var(--bg-secondary)",
+          900: "var(--bg-tertiary)",
+          800: "var(--bg-elevated)",
         },
         ink: {
-          DEFAULT: "#171717",
-          muted: "#737373",
-          light: "#fafafa",
+          DEFAULT: "var(--text-primary)",
+          muted: "var(--text-muted)",
+          light: "var(--text-secondary)",
         },
         border: {
-          DEFAULT: "#e5e5e5",
-          dark: "#262626",
+          DEFAULT: "var(--border-primary)",
+          dark: "var(--border-secondary)",
         },
       },
       boxShadow: {

@@ -104,7 +104,7 @@ export function UuidGenerator() {
                     onClick={() => handleCopy(uuid)}
                     title="Copy"
                   >
-                    📋
+                    <i className="bi bi-clipboard" />
                   </button>
                 </div>
               ))}

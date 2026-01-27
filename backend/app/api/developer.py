@@ -14,6 +14,7 @@ import re
 import hashlib
 import html
 import urllib.parse
+import io
 from datetime import datetime, timedelta
 from difflib import unified_diff, HtmlDiff
 
@@ -163,6 +164,37 @@ class NumberBasePayload(BaseModel):
     value: str = Field(..., description="Number value as string")
     from_base: int = Field(..., description="Source base (2-36)")
     to_base: int = Field(..., description="Target base (2-36)")
+
+
+class EnvPayload(BaseModel):
+    """Payload for .env to netlify.toml conversion"""
+
+    data: str = Field(..., description="Contents of .env file")
+    site_name: Optional[str] = Field(None, description="Netlify site name")
+
+
+class HarPayload(BaseModel):
+    """Payload for HAR summary"""
+
+    data: str = Field(..., description="HAR file content as JSON string")
+    max_entries: int = Field(50, description="Limit number of entries returned")
+
+
+class CssInlinePayload(BaseModel):
+    """Payload for CSS inlining"""
+
+    html: str = Field(..., description="HTML content to inline CSS")
+    base_url: Optional[str] = Field(None, description="Base URL for resolving links")
+
+
+class ImageResizePayload(BaseModel):
+    """Payload for image resize/conversion"""
+
+    data: str = Field(..., description="Base64 image data URI or raw base64")
+    width: Optional[int] = Field(None, ge=1)
+    height: Optional[int] = Field(None, ge=1)
+    format: Optional[str] = Field("jpeg", description="jpeg/png/webp")
+    quality: Optional[int] = Field(80, ge=1, le=100)
 
 
 # ============================================================================
@@ -1028,6 +1060,170 @@ async def base_convert(payload: NumberBasePayload):
         raise HTTPException(
             status_code=400, detail=f"Invalid number for base {payload.from_base}"
         )
+
+
+# =========================================================================
+# .env to netlify.toml
+# =========================================================================
+
+
+@router.post(
+    "/env/netlify",
+    summary="Convert .env to netlify.toml",
+    description="Convert .env contents into a netlify.toml template",
+)
+async def env_to_netlify(payload: EnvPayload):
+    lines = payload.data.splitlines()
+    env_vars = {}
+    for line in lines:
+        line = line.strip()
+        if not line or line.startswith("#"):
+            continue
+        if "=" not in line:
+            continue
+        key, value = line.split("=", 1)
+        env_vars[key.strip()] = value.strip()
+
+    redirects_block = (
+        "[[redirects]]\n"
+        "  from = \"/api/*\"\n"
+        "  to = \"https://example.com/api/:splat\"\n"
+        "  status = 200\n"
+    )
+    env_block = "[build.environment]\n" + "\n".join(
+        f"  {k} = \"{v}\"" for k, v in env_vars.items()
+    )
+    site_block = (
+        "[build]\n  command = \"npm run build\"\n  publish = \"dist\"\n"
+        + (f"  base = \"{payload.site_name}\"\n" if payload.site_name else "")
+    )
+
+    return {
+        "success": True,
+        "toml": "\n\n".join([site_block, env_block, redirects_block]),
+    }
+
+
+# =========================================================================
+# HAR Summary
+# =========================================================================
+
+
+@router.post(
+    "/har/summary",
+    summary="Summarize HAR file",
+    description="Summarize HAR network entries",
+)
+async def har_summary(payload: HarPayload):
+    try:
+        obj = json.loads(payload.data)
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Invalid HAR JSON: {e}")
+
+    log = obj.get("log", {})
+    entries = log.get("entries", [])
+    pages = log.get("pages", [])
+
+    summary = {
+        "pages": [
+            {
+                "id": p.get("id"),
+                "title": p.get("title"),
+                "startedDateTime": p.get("startedDateTime"),
+            }
+            for p in pages
+        ],
+        "count": len(entries),
+        "entries": [],
+    }
+
+    for entry in entries[: payload.max_entries]:
+        req = entry.get("request", {})
+        res = entry.get("response", {})
+        tim = entry.get("timings", {})
+        summary["entries"].append(
+            {
+                "method": req.get("method"),
+                "url": req.get("url"),
+                "status": res.get("status"),
+                "statusText": res.get("statusText"),
+                "mimeType": res.get("content", {}).get("mimeType"),
+                "time": entry.get("time"),
+                "timings": {
+                    k: tim.get(k)
+                    for k in ["dns", "connect", "ssl", "send", "wait", "receive"]
+                },
+                "size": {
+                    "body": res.get("bodySize"),
+                    "headers": res.get("headersSize"),
+                },
+            }
+        )
+
+    return {"success": True, "summary": summary}
+
+
+# =========================================================================
+# CSS Inline
+# =========================================================================
+
+
+@router.post(
+    "/css/inline",
+    summary="Inline CSS for email",
+    description="Inline CSS into HTML markup",
+)
+async def css_inline(payload: CssInlinePayload):
+    try:
+        from premailer import transform
+    except ImportError:
+        raise HTTPException(status_code=500, detail="premailer not installed")
+
+    html_inlined = transform(payload.html, base_url=payload.base_url)
+    return {"success": True, "html": html_inlined}
+
+
+# =========================================================================
+# Image Resize / WebP
+# =========================================================================
+
+
+@router.post(
+    "/image/resize",
+    summary="Resize or convert image (supports webp)",
+    description="Resize and/or convert base64 images",
+)
+async def image_resize(payload: ImageResizePayload):
+    try:
+        from PIL import Image
+    except ImportError:
+        raise HTTPException(status_code=500, detail="Pillow not installed")
+
+    try:
+        raw_data = payload.data.split(",")[-1]
+        img_bytes = base64.b64decode(raw_data)
+        img = Image.open(io.BytesIO(img_bytes))
+
+        target_w = payload.width or img.width
+        target_h = payload.height or img.height
+        img = img.resize((target_w, target_h))
+
+        fmt = (payload.format or "jpeg").upper()
+        fmt = "WEBP" if fmt.lower() == "webp" else fmt
+
+        out = io.BytesIO()
+        save_kwargs = {"format": fmt}
+        if fmt in ("JPEG", "WEBP") and payload.quality:
+            save_kwargs["quality"] = payload.quality
+        img.save(out, **save_kwargs)
+
+        result = (
+            f"data:image/{fmt.lower()};base64,"
+            + base64.b64encode(out.getvalue()).decode("utf-8")
+        )
+        return {"success": True, "image": result}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
 
 
 # ============================================================================
