@@ -568,6 +568,29 @@
   background: rgba(255, 255, 255, 0.7);
 }
 
+/* Lottie icon invert for theme switching
+   For icons with WHITE strokes (lock, developer):
+   - Default (dark mode): no invert (white on black = visible)
+   - Light mode: invert (black on white = visible) */
+.lottie-icon-invert {
+  filter: invert(0);
+}
+
+[data-theme="light"] .lottie-icon-invert {
+  filter: invert(1);
+}
+
+/* For icons with BLACK strokes (accuracy):
+   - Default (dark mode): invert to white (so visible on black)
+   - Light mode: no invert (black on white = visible) */
+.lottie-icon-invert-dark {
+  filter: invert(1);
+}
+
+[data-theme="light"] .lottie-icon-invert-dark {
+  filter: invert(0);
+}
+
 /* ==========================================================================
    NOISE & TEXTURE OVERLAYS
    ========================================================================== */

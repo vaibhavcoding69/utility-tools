@@ -5,13 +5,12 @@ import api from "../../lib/api";
 import { 
   Search, 
   ArrowUpRight,
-  Code2,
-  Lock,
-  Terminal,
   Check
 } from "lucide-react";
 import Lottie from 'lottie-react';
 import accuracyAnimation from '../../assets/icons8-accuracy.json'; // Downloaded Lottie animation
+import lockAnimation from '../../assets/icons8-lock.json'; // Lock icon animation
+import developerAnimation from '../../assets/icons8-developer.json'; // Developer icon animation
 
 // Premium feature showcase data
 const premiumFeatures = [
@@ -19,7 +18,7 @@ const premiumFeatures = [
     badge: "Developer Experience",
     title: "Designed for Focus",
     description: "Keyboard shortcuts. Instant results. Copy with one click. We got out of your way so you can stay in flow.",
-    icon: () => <Lottie animationData={accuracyAnimation} style={{width: 120, height: 120}} />,
+    icon: () => <Lottie animationData={accuracyAnimation} style={{width: 120, height: 120}} className="lottie-icon-invert-dark" />,
     features: [
       "Keyboard-first navigation",
       "One-click copy to clipboard",
@@ -31,7 +30,7 @@ const premiumFeatures = [
     badge: "API Access",
     title: "API First",
     description: "Use our tools in your own scripts. Simple API access for everything you see here.",
-    icon: () => <Code2 size={48} strokeWidth={1.5} />,
+    icon: () => <Lottie animationData={developerAnimation} style={{width: 120, height: 120}} className="lottie-icon-invert" />,
     features: [
       "RESTful JSON endpoints",
       "OpenAPI 3.0 documentation",
@@ -43,7 +42,7 @@ const premiumFeatures = [
     badge: "Privacy First",
     title: "No Ads, No Tracking",
     description: "We don't spy on you. We don't sell your data. We just built tools that work locally in your browser.",
-    icon: () => <Lock size={48} strokeWidth={1.5} />,
+    icon: () => <Lottie animationData={lockAnimation} style={{width: 120, height: 120}} className="lottie-icon-invert" />,
     features: [
       "Zero analytics",
       "No third-party trackers",

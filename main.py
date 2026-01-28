@@ -1,4 +1,5 @@
 import os
+import platform
 import subprocess
 import sys
 
@@ -32,15 +33,18 @@ def run_frontend():
         sys.stderr.write("frontend directory not found.\n")
         sys.exit(1)
 
+    # Determine npm command based on OS
+    npm_cmd = "npm.cmd" if platform.system() == "Windows" else "npm"
+
     # Check if npm is available
     try:
-        subprocess.run(["npm", "--version"], check=True, capture_output=True)
+        subprocess.run([npm_cmd, "--version"], check=True, capture_output=True)
     except (subprocess.CalledProcessError, FileNotFoundError):
         sys.stderr.write("npm not found. Please install Node.js and npm to run the frontend.\n")
         sys.stderr.write("Backend will run without frontend.\n")
         return None
 
-    cmd = ["npm", "run", "dev", "--", "--host", "0.0.0.0", "--port", "5173"]
+    cmd = [npm_cmd, "run", "dev", "--", "--host", "0.0.0.0", "--port", "5173"]
     return subprocess.Popen(cmd, cwd=frontend_dir)
 
 
