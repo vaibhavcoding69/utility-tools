@@ -32,6 +32,14 @@ def run_frontend():
         sys.stderr.write("frontend directory not found.\n")
         sys.exit(1)
 
+    # Check if npm is available
+    try:
+        subprocess.run(["npm", "--version"], check=True, capture_output=True)
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        sys.stderr.write("npm not found. Please install Node.js and npm to run the frontend.\n")
+        sys.stderr.write("Backend will run without frontend.\n")
+        return None
+
     cmd = ["npm", "run", "dev", "--", "--host", "0.0.0.0", "--port", "5173"]
     return subprocess.Popen(cmd, cwd=frontend_dir)
 
@@ -40,8 +48,12 @@ if __name__ == "__main__":
     backend_proc = run_backend()
     frontend_proc = run_frontend()
     try:
-        # Wait on the frontend; backend is reload-enabled
-        frontend_proc.wait()
+        # Wait on the frontend if it started; backend is reload-enabled
+        if frontend_proc:
+            frontend_proc.wait()
+        else:
+            # If no frontend, wait on backend
+            backend_proc.wait()
     except KeyboardInterrupt:
         pass
     finally:
