@@ -2,29 +2,31 @@ import { useState } from "react";
 import api from "../../../lib/api";
 
 const ALGORITHMS = [
-  "md5",
-  "sha1",
-  "sha256",
-  "sha384",
-  "sha512",
-  "blake2b",
-  "blake2s",
+  { id: "md5", name: "MD5", description: "128-bit (legacy)" },
+  { id: "sha1", name: "SHA-1", description: "160-bit (legacy)" },
+  { id: "sha256", name: "SHA-256", description: "256-bit (recommended)" },
+  { id: "sha384", name: "SHA-384", description: "384-bit" },
+  { id: "sha512", name: "SHA-512", description: "512-bit (strongest)" },
+  { id: "blake2b", name: "BLAKE2b", description: "Fast & secure" },
+  { id: "blake2s", name: "BLAKE2s", description: "Optimized for 32-bit" },
 ];
 
 export function HashGenerator() {
   const [input, setInput] = useState("");
   const [algorithm, setAlgorithm] = useState("sha256");
   const [output, setOutput] = useState("");
-  const [allHashes, setAllHashes] = useState<Record<string, string> | null>(
-    null,
-  );
+  const [allHashes, setAllHashes] = useState<Record<string, string> | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [copiedHash, setCopiedHash] = useState<string | null>(null);
+  const [mode, setMode] = useState<"single" | "all">("single");
 
   const handleHash = async () => {
+    if (!input.trim()) return;
     setLoading(true);
     setError("");
     setAllHashes(null);
+    setOutput("");
     try {
       const result = await api.generateHash(input, algorithm);
       if (result.success) {
@@ -38,6 +40,7 @@ export function HashGenerator() {
   };
 
   const handleHashAll = async () => {
+    if (!input.trim()) return;
     setLoading(true);
     setError("");
     setOutput("");
@@ -47,113 +50,200 @@ export function HashGenerator() {
         setAllHashes(result.hashes as Record<string, string>);
       }
     } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "Failed to generate hashes",
-      );
+      setError(err instanceof Error ? err.message : "Failed to generate hashes");
     } finally {
       setLoading(false);
     }
   };
 
-  const handleCopy = async (text: string) => {
+  const handleProcess = () => {
+    if (mode === "single") {
+      handleHash();
+    } else {
+      handleHashAll();
+    }
+  };
+
+  const handleCopy = async (text: string, id?: string) => {
     try {
       await navigator.clipboard.writeText(text);
+      setCopiedHash(id || "main");
+      setTimeout(() => setCopiedHash(null), 2000);
     } catch (err) {
       console.error("Failed to copy:", err);
     }
   };
 
+  const handleClear = () => {
+    setInput("");
+    setOutput("");
+    setAllHashes(null);
+    setError("");
+  };
+
   return (
     <div className="tool-container">
       <div className="tool-header">
-        <h2 className="tool-title">Hash Generator</h2>
+        <h2 className="tool-title">
+          <span className="tool-title-icon">
+            <i className="bi bi-fingerprint" />
+          </span>
+          Hash Generator
+        </h2>
         <p className="tool-description">
-          Generate cryptographic hashes using various algorithms
+          Generate cryptographic hashes using industry-standard algorithms like SHA-256, SHA-512, and BLAKE2.
         </p>
       </div>
 
       <div className="tool-content">
+        {/* Mode Toggle */}
+        <div className="tool-tabs">
+          <button
+            className={`tool-tab ${mode === "single" ? "active" : ""}`}
+            onClick={() => setMode("single")}
+          >
+            <i className="bi bi-hash" style={{ marginRight: "6px" }} />
+            Single Algorithm
+          </button>
+          <button
+            className={`tool-tab ${mode === "all" ? "active" : ""}`}
+            onClick={() => setMode("all")}
+          >
+            <i className="bi bi-collection" style={{ marginRight: "6px" }} />
+            All Algorithms
+          </button>
+        </div>
+
+        {/* Input Section */}
         <div className="tool-input-section">
-          <label className="tool-label">Input Text</label>
+          <div className="tool-section-header">
+            <label className="tool-label">
+              <i className="bi bi-input-cursor-text" />
+              Input Text
+            </label>
+            <span className="input-length">{input.length} characters</span>
+          </div>
           <textarea
             className="tool-textarea"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Enter text to hash"
+            placeholder="Enter text to generate hash..."
             rows={6}
+            spellCheck={false}
           />
         </div>
 
-        <div className="tool-options">
-          <div className="tool-option">
-            <label className="tool-label">Algorithm</label>
-            <select
-              className="tool-select"
-              value={algorithm}
-              onChange={(e) => setAlgorithm(e.target.value)}
-            >
+        {/* Algorithm Selection (only for single mode) */}
+        {mode === "single" && (
+          <div className="tool-options-panel">
+            <div className="tool-section-header">
+              <label className="tool-label">
+                <i className="bi bi-gear" />
+                Algorithm
+              </label>
+            </div>
+            <div className="algorithm-grid">
               {ALGORITHMS.map((alg) => (
-                <option key={alg} value={alg}>
-                  {alg.toUpperCase()}
-                </option>
+                <button
+                  key={alg.id}
+                  className={`algorithm-option ${algorithm === alg.id ? "selected" : ""}`}
+                  onClick={() => setAlgorithm(alg.id)}
+                >
+                  <span className="algorithm-name">{alg.name}</span>
+                  <span className="algorithm-desc">{alg.description}</span>
+                </button>
               ))}
-            </select>
-          </div>
-        </div>
-
-        <div className="tool-actions">
-          <button
-            className="btn primary"
-            onClick={handleHash}
-            disabled={loading || !input}
-          >
-            {loading ? "Hashing..." : "Generate Hash"}
-          </button>
-          <button
-            className="btn ghost"
-            onClick={handleHashAll}
-            disabled={loading || !input}
-          >
-            All Algorithms
-          </button>
-          <button
-            className="btn ghost"
-            onClick={() => handleCopy(output)}
-            disabled={!output}
-          >
-            Copy
-          </button>
-        </div>
-
-        {error && <div className="tool-error">{error}</div>}
-
-        {output && (
-          <div className="tool-output-section">
-            <label className="tool-label">
-              Hash ({algorithm.toUpperCase()})
-            </label>
-            <div className="tool-output-mono">
-              <code>{output}</code>
             </div>
           </div>
         )}
 
+        {/* Action Buttons */}
+        <div className="tool-actions">
+          <button
+            className="btn primary"
+            onClick={handleProcess}
+            disabled={loading || !input.trim()}
+          >
+            {loading ? (
+              <>
+                <i className="bi bi-arrow-repeat" style={{ animation: "spin 1s linear infinite" }} />
+                Generating...
+              </>
+            ) : (
+              <>
+                <i className="bi bi-hash" />
+                {mode === "single" ? `Generate ${algorithm.toUpperCase()}` : "Generate All Hashes"}
+              </>
+            )}
+          </button>
+          {output && (
+            <button
+              className="btn secondary"
+              onClick={() => handleCopy(output)}
+            >
+              <i className={copiedHash === "main" ? "bi bi-check-lg" : "bi bi-clipboard"} />
+              {copiedHash === "main" ? "Copied!" : "Copy Hash"}
+            </button>
+          )}
+          <button
+            className="btn ghost"
+            onClick={handleClear}
+            disabled={!input && !output && !allHashes}
+          >
+            <i className="bi bi-x-lg" />
+            Clear
+          </button>
+        </div>
+
+        {/* Error Display */}
+        {error && <div className="tool-error">{error}</div>}
+
+        {/* Single Hash Output */}
+        {output && mode === "single" && (
+          <div className="tool-output-section">
+            <div className="tool-section-header">
+              <label className="tool-label">
+                <i className="bi bi-check-circle" />
+                {algorithm.toUpperCase()} Hash
+              </label>
+              <button
+                className="btn-icon"
+                onClick={() => handleCopy(output)}
+                title="Copy to clipboard"
+              >
+                <i className={copiedHash === "main" ? "bi bi-check-lg" : "bi bi-clipboard"} />
+              </button>
+            </div>
+            <div className="hash-output-display">
+              <code className="hash-value-code">{output}</code>
+            </div>
+          </div>
+        )}
+
+        {/* All Hashes Output */}
         {allHashes && (
           <div className="tool-output-section">
-            <label className="tool-label">All Hashes</label>
+            <div className="tool-section-header">
+              <label className="tool-label">
+                <i className="bi bi-list-check" />
+                Generated Hashes
+              </label>
+            </div>
             <div className="hash-results">
               {Object.entries(allHashes).map(([alg, hash]) => (
                 <div key={alg} className="hash-result-item">
-                  <div className="hash-algorithm">{alg.toUpperCase()}</div>
-                  <div className="hash-value">
-                    <code>{hash}</code>
+                  <div className="hash-result-header">
+                    <span className="hash-algorithm">{alg.toUpperCase()}</span>
                     <button
                       className="btn-icon"
-                      onClick={() => handleCopy(hash)}
-                      title="Copy"
+                      onClick={() => handleCopy(hash, alg)}
+                      title="Copy hash"
                     >
-                      <i className="bi bi-clipboard" />
+                      <i className={copiedHash === alg ? "bi bi-check-lg" : "bi bi-clipboard"} />
                     </button>
+                  </div>
+                  <div className="hash-result-value">
+                    <code>{hash}</code>
                   </div>
                 </div>
               ))}

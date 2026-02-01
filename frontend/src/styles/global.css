@@ -38,6 +38,7 @@
   --border-subtle: rgba(255, 255, 255, 0.05);
 
   --accent: var(--white);
+  --accent-hover: var(--gray-200);
   --accent-muted: var(--gray-300);
   --accent-subtle: rgba(255, 255, 255, 0.12);
 
@@ -165,6 +166,7 @@
   --border-subtle: rgba(0, 0, 0, 0.06);
 
   --accent: #111827;
+  --accent-hover: #1f2937;
   --accent-muted: #374151;
   --accent-subtle: rgba(0, 0, 0, 0.08);
 
@@ -2398,10 +2400,16 @@ blockquote {
   padding: var(--space-3) var(--space-5);
   font-size: var(--text-sm);
   font-weight: 500;
-  border: 1px solid transparent;
+  background: var(--bg-glass-subtle);
+  color: var(--text-primary);
+  border: 1px solid var(--border-primary);
   border-radius: var(--radius-md);
   cursor: pointer;
   transition: all var(--duration-normal) var(--ease-out);
+}
+.btn:hover {
+  background: var(--bg-glass-hover);
+  border-color: var(--border-hover);
 }
 .btn:disabled {
   opacity: 0.5;
@@ -2414,6 +2422,7 @@ blockquote {
   box-shadow: var(--shadow-sm);
 }
 .btn.primary:hover {
+  background: var(--accent-hover);
   transform: translateY(-1px);
   box-shadow: var(--shadow-md);
 }
@@ -3504,6 +3513,14 @@ blockquote {
   text-align: left;
   width: 100%;
   min-width: 0;
+}
+/* Ensure button element gets proper styles (override global button reset) */
+button.tool-card {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-primary);
+}
+button.tool-card:hover {
+  border-color: var(--border-hover);
 }
 .tool-card.wide {
   align-items: stretch;
@@ -7287,13 +7304,14 @@ blockquote {
 }
 
 .tool-actions .btn.primary {
-  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  background: var(--accent);
+  box-shadow: var(--shadow-md);
 }
 
 .tool-actions .btn.primary:hover {
+  background: var(--accent-hover);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+  box-shadow: var(--shadow-lg);
 }
 
 /* Enhanced Error Display */

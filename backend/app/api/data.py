@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 import json
 import csv
 import io
@@ -7,6 +7,7 @@ import random
 from faker import Faker
 import re
 import secrets
+from typing import Optional
 
 
 class CsvPayload(BaseModel):
@@ -48,8 +49,8 @@ class FakeDataPayload(BaseModel):
 
 class RandomStringPayload(BaseModel):
     length: int = 16
-    uppercase: bool = True
     lowercase: bool = True
+    uppercase: bool = True
     digits: bool = True
     symbols: bool = False
 

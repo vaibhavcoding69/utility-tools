@@ -13,7 +13,14 @@ export default function HarViewerTool() {
     setError("");
     try {
       const res = await api.harSummary(input, maxEntries);
-      if (res.success) setOutput(res.summary);
+      if (res.success) {
+        setOutput({
+          entries: res.entries,
+          totalEntries: res.total_entries,
+          totalSize: res.total_size,
+          totalTime: res.total_time,
+        });
+      }
     } catch (e: any) {
       setError(e.message || "Failed to parse HAR");
     } finally {

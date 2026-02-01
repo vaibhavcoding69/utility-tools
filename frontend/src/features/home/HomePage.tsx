@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Hero } from "./Hero";
 import api from "../../lib/api";
+import { toolIndex, searchTools, getQuickActions} from "../../config/tools";
 import { 
   Search, 
   ArrowUpRight,
@@ -102,115 +103,115 @@ const premiumFeatures = [
 //   { label: "Data", caption: "CSV/JSON, SQL, fake data", href: "/tools/data" },
 // ];
 
-const toolIndex = [
-  {
-    name: "JSON Formatter",
-    description: "Format & validate JSON payloads",
-    href: "/tools/developer/json",
-    category: "Developer",
-    keywords: ["json", "format", "validate"],
-  },
-  {
-    name: "Base64 Encoder",
-    description: "Encode/decode Base64 strings",
-    href: "/tools/developer/base64",
-    category: "Developer",
-    keywords: ["base64", "encode", "decode"],
-  },
-  {
-    name: "URL Encoder",
-    description: "Escape URLs safely",
-    href: "/tools/developer/url",
-    category: "Developer",
-    keywords: ["url", "encode", "decode"],
-  },
-  {
-    name: "UUID Generator",
-    description: "Generate UUID v1 & v4",
-    href: "/tools/developer/uuid",
-    category: "Developer",
-    keywords: ["uuid", "id", "unique"],
-  },
-  {
-    name: "Regex Tester",
-    description: "Run expressions with flags",
-    href: "/tools/developer/regex",
-    category: "Developer",
-    keywords: ["regex", "pattern", "test"],
-  },
-  {
-    name: "JWT Decoder",
-    description: "Inspect token payloads",
-    href: "/tools/developer/jwt",
-    category: "Developer",
-    keywords: ["jwt", "token"],
-  },
-  {
-    name: "Text Diff",
-    description: "Compare two inputs",
-    href: "/tools/developer/diff",
-    category: "Developer",
-    keywords: ["diff", "compare"],
-  },
-  {
-    name: "Password Generator",
-    description: "Create secure passwords",
-    href: "/tools/security/password",
-    category: "Security",
-    keywords: ["password", "generator"],
-  },
-  {
-    name: "Hash Generator",
-    description: "SHA, MD5, and more",
-    href: "/tools/security/hash",
-    category: "Security",
-    keywords: ["hash", "sha", "md5"],
-  },
-  {
-    name: "TOTP Generator",
-    description: "2FA compatible codes",
-    href: "/tools/security/totp",
-    category: "Security",
-    keywords: ["totp", "2fa"],
-  },
-  {
-    name: "CSV to JSON",
-    description: "Convert CSV quickly",
-    href: "/tools/data/csv-to-json",
-    category: "Data",
-    keywords: ["csv", "json"],
-  },
-  {
-    name: "JSON to CSV",
-    description: "Flatten arrays to CSV",
-    href: "/tools/data/json-to-csv",
-    category: "Data",
-    keywords: ["json", "csv"],
-  },
-  {
-    name: "SQL Formatter",
-    description: "Beautify SQL queries",
-    href: "/tools/data/sql",
-    category: "Data",
-    keywords: ["sql", "format"],
-  },
-  {
-    name: "Fake Data",
-    description: "Generate personas & more",
-    href: "/tools/data/fake-data",
-    category: "Data",
-    keywords: ["fake", "data", "mock"],
-  },
-  {
-    name: "Base Converter",
-    description: "Convert between bases",
-    href: "/tools/data/base-converter",
-    category: "Data",
-    keywords: ["base", "convert"],
-  },
-];
+// const toolIndex = [
+//   {
+//     name: "JSON Formatter",
+//     description: "Format & validate JSON payloads",
+//     href: "/tools/developer/json",
+//     category: "Developer",
+//     keywords: ["json", "format", "validate"],
+//   },
+//   {
+//     name: "Base64 Encoder",
+//     description: "Encode/decode Base64 strings",
+//     href: "/tools/developer/base64",
+//     category: "Developer",
+//     keywords: ["base64", "encode", "decode"],
+//   },
+//   {
+//     name: "URL Encoder",
+//     description: "Escape URLs safely",
+//     href: "/tools/developer/url",
+//     category: "Developer",
+//     keywords: ["url", "encode", "decode"],
+//   },
+//   {
+//     name: "UUID Generator",
+//     description: "Generate UUID v1 & v4",
+//     href: "/tools/developer/uuid",
+//     category: "Developer",
+//     keywords: ["uuid", "id", "unique"],
+//   },
+//   {
+//     name: "Regex Tester",
+//     description: "Run expressions with flags",
+//     href: "/tools/developer/regex",
+//     category: "Developer",
+//     keywords: ["regex", "pattern", "test"],
+//   },
+//   {
+//     name: "JWT Decoder",
+//     description: "Inspect token payloads",
+//     href: "/tools/developer/jwt",
+//     category: "Developer",
+//     keywords: ["jwt", "token"],
+//   },
+//   {
+//     name: "Text Diff",
+//     description: "Compare two inputs",
+//     href: "/tools/developer/diff",
+//     category: "Developer",
+//     keywords: ["diff", "compare"],
+//   },
+//   {
+//     name: "Password Generator",
+//     description: "Create secure passwords",
+//     href: "/tools/security/password",
+//     category: "Security",
+//     keywords: ["password", "generator"],
+//   },
+//   {
+//     name: "Hash Generator",
+//     description: "SHA, MD5, and more",
+//     href: "/tools/security/hash",
+//     category: "Security",
+//     keywords: ["hash", "sha", "md5"],
+//   },
+//   {
+//     name: "TOTP Generator",
+//     description: "2FA compatible codes",
+//     href: "/tools/security/totp",
+//     category: "Security",
+//     keywords: ["totp", "2fa"],
+//   },
+//   {
+//     name: "CSV to JSON",
+//     description: "Convert CSV quickly",
+//     href: "/tools/data/csv-to-json",
+//     category: "Data",
+//     keywords: ["csv", "json"],
+//   },
+//   {
+//     name: "JSON to CSV",
+//     description: "Flatten arrays to CSV",
+//     href: "/tools/data/json-to-csv",
+//     category: "Data",
+//     keywords: ["json", "csv"],
+//   },
+//   {
+//     name: "SQL Formatter",
+//     description: "Beautify SQL queries",
+//     href: "/tools/data/sql",
+//     category: "Data",
+//     keywords: ["sql", "format"],
+//   },
+//   {
+//     name: "Fake Data",
+//     description: "Generate personas & more",
+//     href: "/tools/data/fake-data",
+//     category: "Data",
+//     keywords: ["fake", "data", "mock"],
+//   },
+//   {
+//     name: "Base Converter",
+//     description: "Convert between bases",
+//     href: "/tools/data/base-converter",
+//     category: "Data",
+//     keywords: ["base", "convert"],
+//   },
+// ];
 
-const quickActions = toolIndex.slice(0, 6);
+const quickActions = getQuickActions();
 
 const toolIdByHref: Record<string, string> = {
   "/tools/developer/json": "json",
@@ -294,14 +295,7 @@ function UtilityDock() {
   }, []);
 
   const normalized = query.trim().toLowerCase();
-  const results = normalized
-    ? toolIndex.filter((tool) =>
-        [tool.name, tool.description, tool.category, ...tool.keywords]
-          .join(" ")
-          .toLowerCase()
-          .includes(normalized),
-      )
-    : [];
+  const results = normalized ? searchTools(query) : [];
 
   const visibleResults = results.slice(0, 5);
   const sortedQuickActions = sortByUsage(quickActions, usage);

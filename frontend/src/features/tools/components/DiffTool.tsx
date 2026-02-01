@@ -14,13 +14,15 @@ export function DiffTool() {
   } | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const [contextLines, setContextLines] = useState(3);
 
   const handleDiff = async () => {
     setLoading(true);
     setError("");
     setDiff(null);
     try {
-      const result = await api.diffText(original, modified, 3);
+      const result = await api.diffText(original, modified, contextLines);
       if (result.success) {
         setDiff({
           unified_diff: result.unified_diff as string,
@@ -42,10 +44,26 @@ export function DiffTool() {
     if (diff) {
       try {
         await navigator.clipboard.writeText(diff.unified_diff);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
       } catch (err) {
         console.error("Failed to copy:", err);
       }
     }
+  };
+
+  const handleSwap = () => {
+    const temp = original;
+    setOriginal(modified);
+    setModified(temp);
+    setDiff(null);
+  };
+
+  const handleClear = () => {
+    setOriginal("");
+    setModified("");
+    setDiff(null);
+    setError("");
   };
 
   const renderDiff = () => {
@@ -54,87 +72,239 @@ export function DiffTool() {
     const lines = diff.unified_diff.split("\n");
     return lines.map((line, index) => {
       let className = "diff-line";
+      let icon = "";
       if (line.startsWith("+") && !line.startsWith("+++")) {
         className += " diff-addition";
+        icon = "bi-plus";
       } else if (line.startsWith("-") && !line.startsWith("---")) {
         className += " diff-deletion";
+        icon = "bi-dash";
       } else if (line.startsWith("@@")) {
         className += " diff-header";
+        icon = "bi-three-dots";
       }
       return (
         <div key={index} className={className}>
-          {line}
+          {icon && <i className={`bi ${icon} diff-line-icon`} />}
+          <span className="diff-line-number">{index + 1}</span>
+          <span className="diff-line-content">{line}</span>
         </div>
       );
     });
   };
 
+  const totalLines = {
+    original: original.split("\n").filter(l => l.length > 0).length,
+    modified: modified.split("\n").filter(l => l.length > 0).length,
+  };
+
   return (
     <div className="tool-container">
       <div className="tool-header">
-        <h2 className="tool-title">Text Diff</h2>
+        <h2 className="tool-title">
+          <span className="tool-title-icon">
+            <i className="bi bi-file-diff" />
+          </span>
+          Text Diff Checker
+        </h2>
         <p className="tool-description">
-          Compare two texts and see the differences
+          Compare two texts side by side and see exactly what changed with additions, deletions, and modifications highlighted.
         </p>
       </div>
 
       <div className="tool-content">
-        <div className="diff-inputs">
-          <div className="tool-input-section">
-            <label className="tool-label">Original</label>
+        {/* Diff Inputs Grid */}
+        <div className="diff-inputs-grid">
+          <div className="diff-input-panel">
+            <div className="diff-panel-header">
+              <div className="diff-panel-title">
+                <i className="bi bi-file-earmark-text" />
+                <span>Original Text</span>
+              </div>
+              <div className="diff-panel-stats">
+                <span className="line-count">{totalLines.original} lines</span>
+                <span className="char-count">{original.length} chars</span>
+              </div>
+            </div>
             <textarea
-              className="tool-textarea"
+              className="tool-textarea diff-textarea"
               value={original}
               onChange={(e) => setOriginal(e.target.value)}
-              placeholder="Enter original text"
-              rows={8}
+              placeholder="Paste or type the original text here..."
+              spellCheck={false}
             />
           </div>
 
-          <div className="tool-input-section">
-            <label className="tool-label">Modified</label>
+          {/* Swap Button */}
+          <div className="diff-swap-button-container">
+            <button
+              className="diff-swap-button"
+              onClick={handleSwap}
+              title="Swap original and modified"
+              disabled={!original && !modified}
+            >
+              <i className="bi bi-arrow-left-right" />
+            </button>
+          </div>
+
+          <div className="diff-input-panel">
+            <div className="diff-panel-header">
+              <div className="diff-panel-title">
+                <i className="bi bi-file-earmark-diff" />
+                <span>Modified Text</span>
+              </div>
+              <div className="diff-panel-stats">
+                <span className="line-count">{totalLines.modified} lines</span>
+                <span className="char-count">{modified.length} chars</span>
+              </div>
+            </div>
             <textarea
-              className="tool-textarea"
+              className="tool-textarea diff-textarea"
               value={modified}
               onChange={(e) => setModified(e.target.value)}
-              placeholder="Enter modified text"
-              rows={8}
+              placeholder="Paste or type the modified text here..."
+              spellCheck={false}
             />
           </div>
         </div>
 
+        {/* Options */}
+        <div className="diff-options">
+          <div className="diff-option">
+            <label className="diff-option-label">
+              <i className="bi bi-list-nested" />
+              Context Lines
+            </label>
+            <div className="context-selector">
+              {[1, 3, 5, 10].map(num => (
+                <button
+                  key={num}
+                  className={`context-btn ${contextLines === num ? "active" : ""}`}
+                  onClick={() => setContextLines(num)}
+                >
+                  {num}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Action Buttons */}
         <div className="tool-actions">
           <button
             className="btn primary"
             onClick={handleDiff}
             disabled={loading || !original || !modified}
           >
-            {loading ? "Comparing..." : "Compare"}
+            {loading ? (
+              <>
+                <i className="bi bi-hourglass-split" style={{ marginRight: "6px" }} />
+                Comparing...
+              </>
+            ) : (
+              <>
+                <i className="bi bi-file-diff" style={{ marginRight: "6px" }} />
+                Compare Texts
+              </>
+            )}
           </button>
-          <button className="btn ghost" onClick={handleCopy} disabled={!diff}>
-            Copy Diff
+          <button 
+            className="btn secondary" 
+            onClick={handleCopy} 
+            disabled={!diff}
+          >
+            <i className={copied ? "bi bi-check-lg" : "bi bi-clipboard"} style={{ marginRight: "6px" }} />
+            {copied ? "Copied!" : "Copy Diff"}
+          </button>
+          <button 
+            className="btn ghost" 
+            onClick={handleClear}
+            disabled={!original && !modified && !diff}
+          >
+            <i className="bi bi-x-lg" style={{ marginRight: "6px" }} />
+            Clear All
           </button>
         </div>
 
-        {error && <div className="tool-error">{error}</div>}
+        {/* Error Message */}
+        {error && (
+          <div className="tool-error">
+            <i className="bi bi-exclamation-triangle" style={{ marginRight: "8px" }} />
+            {error}
+          </div>
+        )}
 
+        {/* Diff Results */}
         {diff && (
           <div className="tool-output-section">
-            <div className="diff-stats">
-              <span className="stat-item additions">
-                +{diff.stats.additions} additions
-              </span>
-              <span className="stat-item deletions">
-                -{diff.stats.deletions} deletions
-              </span>
+            <div className="tool-section-header">
+              <label className="tool-label">
+                <i className="bi bi-code-square" />
+                Unified Diff Output
+              </label>
             </div>
 
-            <label className="tool-label">Unified Diff</label>
-            <div className="diff-output">
-              <pre>{renderDiff()}</pre>
+            {/* Stats Cards */}
+            <div className="diff-stats-grid">
+              <div className="diff-stat-card additions">
+                <div className="diff-stat-icon">
+                  <i className="bi bi-plus-circle" />
+                </div>
+                <div className="diff-stat-content">
+                  <span className="diff-stat-value">+{diff.stats.additions}</span>
+                  <span className="diff-stat-label">Additions</span>
+                </div>
+              </div>
+              <div className="diff-stat-card deletions">
+                <div className="diff-stat-icon">
+                  <i className="bi bi-dash-circle" />
+                </div>
+                <div className="diff-stat-content">
+                  <span className="diff-stat-value">-{diff.stats.deletions}</span>
+                  <span className="diff-stat-label">Deletions</span>
+                </div>
+              </div>
+              <div className="diff-stat-card changes">
+                <div className="diff-stat-icon">
+                  <i className="bi bi-arrow-left-right" />
+                </div>
+                <div className="diff-stat-content">
+                  <span className="diff-stat-value">{diff.stats.changes}</span>
+                  <span className="diff-stat-label">Changes</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Diff Output */}
+            <div className="diff-output-container">
+              <div className="diff-output">
+                {renderDiff()}
+              </div>
             </div>
           </div>
         )}
+
+        {/* Empty State */}
+        {!diff && !error && (!original || !modified) && (
+          <div className="tool-empty-state">
+            <div className="empty-state-icon">
+              <i className="bi bi-file-diff" />
+            </div>
+            <h3>Ready to Compare</h3>
+            <p>Enter text in both panels above and click "Compare Texts" to see the differences</p>
+          </div>
+        )}
+
+        {/* Info Card */}
+        <div className="tool-info-card">
+          <div className="info-card-header">
+            <i className="bi bi-info-circle" />
+            <span>About Text Diff</span>
+          </div>
+          <div className="info-card-content">
+            <p>This tool uses unified diff format, the same format used by Git and other version control systems. Lines starting with <code>+</code> are additions, lines with <code>-</code> are deletions.</p>
+          </div>
+        </div>
       </div>
     </div>
   );

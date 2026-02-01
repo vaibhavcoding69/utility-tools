@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import api from "../../../lib/api";
 
 export function PasswordGenerator() {
@@ -10,9 +10,16 @@ export function PasswordGenerator() {
   const [includeNumbers, setIncludeNumbers] = useState(true);
   const [includeSymbols, setIncludeSymbols] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  // Generate on mount
+  useEffect(() => {
+    handleGenerate();
+  }, []);
 
   const handleGenerate = async () => {
     setLoading(true);
+    setCopied(false);
     try {
       const result = await api.generatePassword({
         length,
@@ -23,7 +30,6 @@ export function PasswordGenerator() {
       });
       if (result.success) {
         setPassword(result.password);
-        // Check strength
         checkStrength(result.password);
       }
     } catch (err) {
@@ -45,120 +51,105 @@ export function PasswordGenerator() {
   };
 
   const handleCopy = async () => {
+    if (!password) return;
     try {
       await navigator.clipboard.writeText(password);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
     } catch (err) {
       console.error("Failed to copy:", err);
     }
   };
 
+  const getStrengthColor = (str: string) => {
+    switch (str?.toLowerCase()) {
+      case "very_strong":
+      case "strong":
+        return "var(--color-success)";
+      case "medium":
+        return "var(--color-warning)";
+      case "weak":
+      case "very_weak":
+        return "var(--color-error)";
+      default:
+        return "var(--color-text-muted)";
+    }
+  };
+
+  const getStrengthPercent = () => {
+    if (!strength) return 0;
+    return (strength.score / strength.max_score) * 100;
+  };
+
   return (
     <div className="tool-container">
       <div className="tool-header">
-        <h2 className="tool-title">Password Generator</h2>
-        <p className="tool-description">Generate secure random passwords</p>
+        <h2 className="tool-title">
+          <span className="tool-title-icon">
+            <i className="bi bi-key" />
+          </span>
+          Password Generator
+        </h2>
+        <p className="tool-description">
+          Generate cryptographically secure random passwords with customizable options.
+        </p>
       </div>
 
       <div className="tool-content">
-        <div className="tool-options">
-          <div className="tool-option">
-            <label className="tool-label">Length: {length}</label>
-            <input
-              type="range"
-              min={8}
-              max={64}
-              value={length}
-              onChange={(e) => setLength(Number(e.target.value))}
-              className="tool-slider"
-            />
-          </div>
-
-          <div className="tool-option">
-            <label className="tool-checkbox-label">
-              <input
-                type="checkbox"
-                checked={includeUppercase}
-                onChange={(e) => setIncludeUppercase(e.target.checked)}
-              />
-              Include Uppercase (A-Z)
-            </label>
-          </div>
-
-          <div className="tool-option">
-            <label className="tool-checkbox-label">
-              <input
-                type="checkbox"
-                checked={includeLowercase}
-                onChange={(e) => setIncludeLowercase(e.target.checked)}
-              />
-              Include Lowercase (a-z)
-            </label>
-          </div>
-
-          <div className="tool-option">
-            <label className="tool-checkbox-label">
-              <input
-                type="checkbox"
-                checked={includeNumbers}
-                onChange={(e) => setIncludeNumbers(e.target.checked)}
-              />
-              Include Numbers (0-9)
-            </label>
-          </div>
-
-          <div className="tool-option">
-            <label className="tool-checkbox-label">
-              <input
-                type="checkbox"
-                checked={includeSymbols}
-                onChange={(e) => setIncludeSymbols(e.target.checked)}
-              />
-              Include Symbols (!@#$...)
-            </label>
-          </div>
-        </div>
-
-        <div className="tool-actions">
-          <button
-            className="btn primary"
-            onClick={handleGenerate}
-            disabled={loading}
-          >
-            {loading ? "Generating..." : "Generate Password"}
-          </button>
-          <button
-            className="btn ghost"
-            onClick={handleCopy}
-            disabled={!password}
-          >
-            Copy
-          </button>
-        </div>
-
+        {/* Password Output - Show First */}
         {password && (
-          <div className="tool-output-section">
-            <label className="tool-label">Generated Password</label>
-            <div className="password-output">
+          <div className="password-display">
+            <div className="password-output-wrapper">
               <code className="password-text">{password}</code>
+              <div className="password-actions">
+                <button
+                  className="btn-icon"
+                  onClick={handleCopy}
+                  title="Copy password"
+                >
+                  <i className={copied ? "bi bi-check-lg" : "bi bi-clipboard"} />
+                </button>
+                <button
+                  className="btn-icon"
+                  onClick={handleGenerate}
+                  disabled={loading}
+                  title="Regenerate"
+                >
+                  <i className="bi bi-arrow-clockwise" style={loading ? { animation: "spin 1s linear infinite" } : {}} />
+                </button>
+              </div>
             </div>
-
+            
+            {/* Strength Meter */}
             {strength && (
-              <div className="password-strength">
-                <div className="strength-header">
-                  <span className="tool-label">Strength:</span>
-                  <span
-                    className={`strength-badge strength-${strength.strength}`}
+              <div className="password-strength-section">
+                <div className="strength-meter">
+                  <div 
+                    className="strength-meter-fill"
+                    style={{ 
+                      width: `${getStrengthPercent()}%`,
+                      backgroundColor: getStrengthColor(strength.strength)
+                    }}
+                  />
+                </div>
+                <div className="strength-info">
+                  <span 
+                    className="strength-label"
+                    style={{ color: getStrengthColor(strength.strength) }}
                   >
-                    {strength.strength}
+                    {strength.strength?.replace("_", " ")}
                   </span>
                   <span className="strength-score">
-                    {strength.score}/{strength.max_score}
+                    {strength.score}/{strength.max_score} points
                   </span>
                 </div>
                 {strength.feedback && strength.feedback.length > 0 && (
                   <ul className="strength-feedback">
                     {strength.feedback.map((item: string, index: number) => (
-                      <li key={index}>{item}</li>
+                      <li key={index}>
+                        <i className="bi bi-info-circle" />
+                        {item}
+                      </li>
                     ))}
                   </ul>
                 )}
@@ -166,6 +157,119 @@ export function PasswordGenerator() {
             )}
           </div>
         )}
+
+        {/* Options Panel */}
+        <div className="tool-options-panel">
+          <div className="tool-section-header">
+            <label className="tool-label">
+              <i className="bi bi-sliders" />
+              Password Options
+            </label>
+          </div>
+
+          {/* Length Slider */}
+          <div className="tool-option-row">
+            <label className="tool-label">
+              <i className="bi bi-rulers" />
+              Length
+            </label>
+            <div className="slider-wrapper">
+              <input
+                type="range"
+                min={8}
+                max={64}
+                value={length}
+                onChange={(e) => setLength(Number(e.target.value))}
+                className="tool-slider"
+              />
+              <span className="slider-value">{length}</span>
+            </div>
+          </div>
+
+          {/* Character Options */}
+          <div className="checkbox-grid">
+            <label className="tool-checkbox-label">
+              <input
+                type="checkbox"
+                checked={includeUppercase}
+                onChange={(e) => setIncludeUppercase(e.target.checked)}
+              />
+              <span className="checkbox-custom" />
+              <span className="checkbox-text">
+                <span className="checkbox-title">Uppercase</span>
+                <span className="checkbox-hint">A-Z</span>
+              </span>
+            </label>
+
+            <label className="tool-checkbox-label">
+              <input
+                type="checkbox"
+                checked={includeLowercase}
+                onChange={(e) => setIncludeLowercase(e.target.checked)}
+              />
+              <span className="checkbox-custom" />
+              <span className="checkbox-text">
+                <span className="checkbox-title">Lowercase</span>
+                <span className="checkbox-hint">a-z</span>
+              </span>
+            </label>
+
+            <label className="tool-checkbox-label">
+              <input
+                type="checkbox"
+                checked={includeNumbers}
+                onChange={(e) => setIncludeNumbers(e.target.checked)}
+              />
+              <span className="checkbox-custom" />
+              <span className="checkbox-text">
+                <span className="checkbox-title">Numbers</span>
+                <span className="checkbox-hint">0-9</span>
+              </span>
+            </label>
+
+            <label className="tool-checkbox-label">
+              <input
+                type="checkbox"
+                checked={includeSymbols}
+                onChange={(e) => setIncludeSymbols(e.target.checked)}
+              />
+              <span className="checkbox-custom" />
+              <span className="checkbox-text">
+                <span className="checkbox-title">Symbols</span>
+                <span className="checkbox-hint">!@#$%^&*</span>
+              </span>
+            </label>
+          </div>
+        </div>
+
+        {/* Actions */}
+        <div className="tool-actions">
+          <button
+            className="btn primary"
+            onClick={handleGenerate}
+            disabled={loading}
+          >
+            {loading ? (
+              <>
+                <i className="bi bi-arrow-repeat" style={{ animation: "spin 1s linear infinite" }} />
+                Generating...
+              </>
+            ) : (
+              <>
+                <i className="bi bi-shuffle" />
+                Generate New Password
+              </>
+            )}
+          </button>
+          <button
+            className="btn secondary"
+            onClick={handleCopy}
+            disabled={!password}
+          >
+            <i className={copied ? "bi bi-check-lg" : "bi bi-clipboard"} />
+            {copied ? "Copied!" : "Copy Password"}
+          </button>
+        </div>
       </div>
     </div>
   );

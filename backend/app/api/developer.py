@@ -17,6 +17,9 @@ import urllib.parse
 import io
 from datetime import datetime, timedelta
 from difflib import unified_diff, HtmlDiff
+import os
+from pathlib import Path
+import yt_dlp
 
 # ============================================================================
 # Pydantic Models
@@ -98,6 +101,38 @@ class HttpPingPayload(BaseModel):
     url: str = Field(..., description="URL to ping")
     method: Optional[str] = Field("GET", description="HTTP method")
     timeout: Optional[float] = Field(10.0, description="Request timeout in seconds")
+
+
+class YouTubeToMp3Request(BaseModel):
+    """Request to convert YouTube video to MP3"""
+    url: str = Field(..., description="YouTube video URL")
+
+
+class YouTubeToMp4Request(BaseModel):
+    """Request to convert YouTube video to MP4"""
+    url: str = Field(..., description="YouTube video URL")
+    quality: Optional[str] = Field("high", description="Video quality: high, medium, or low")
+
+
+class ConversionResponse(BaseModel):
+    """Response from conversion endpoint"""
+    success: bool
+    message: str
+    downloadUrl: Optional[str] = None
+    title: Optional[str] = None
+    duration: Optional[str] = None
+    thumbnail: Optional[str] = None
+    fileSize: Optional[str] = None
+
+
+class VideoInfoResponse(BaseModel):
+    """Video information response"""
+    success: bool
+    title: Optional[str] = None
+    duration: Optional[str] = None
+    thumbnail: Optional[str] = None
+    fileSize: Optional[str] = None
+    format: Optional[str] = None
 
 
 class GitCommandPayload(BaseModel):
@@ -1405,3 +1440,165 @@ def build_cron_summary(explanations):
     for field, explanation in explanations.items():
         parts.append(explanation)
     return ", ".join(parts)
+
+# ============================================================================
+# YouTube Converter Endpoints
+# ============================================================================
+
+def _validate_youtube_url(url: str) -> bool:
+    """Validate YouTube URL"""
+    return bool(re.match(r"^(https?://)?(www\.)?(youtube|youtu|youtube-nocookie|youtube\.com|youtu\.be)/.+", url))
+
+
+def _get_video_info(url: str) -> dict:
+    """Extract video info from YouTube URL"""
+    try:
+        with yt_dlp.YoutubeDL({'quiet': True, 'no_warnings': True}) as ydl:
+            info = ydl.extract_info(url, download=False)
+            duration_seconds = info.get('duration', 0)
+            minutes, seconds = duration_seconds // 60, duration_seconds % 60
+            return {
+                'title': info.get('title', 'Unknown'),
+                'duration': f"{minutes}:{seconds:02d}",
+                'thumbnail': info.get('thumbnail', ''),
+            }
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Failed to fetch video info: {str(e)}")
+
+
+def _format_file_size(bytes_size: int) -> str:
+    """Format bytes to human readable size"""
+    for unit in ['B', 'KB', 'MB', 'GB']:
+        if bytes_size < 1024:
+            return f"{bytes_size:.1f}{unit}"
+        bytes_size /= 1024
+    return f"{bytes_size:.1f}TB"
+
+
+@router.post("/youtube/youtube-to-mp3", response_model=ConversionResponse)
+async def youtube_to_mp3(request: YouTubeToMp3Request):
+    """Convert YouTube video to MP3"""
+    if not _validate_youtube_url(request.url):
+        raise HTTPException(status_code=400, detail="Invalid YouTube URL")
+    
+    try:
+        video_info = _get_video_info(request.url)
+        output_dir = "downloads/mp3"
+        Path(output_dir).mkdir(parents=True, exist_ok=True)
+        
+        ydl_opts = {
+            'format': 'bestaudio/best',
+            'postprocessors': [{
+                'key': 'FFmpegExtractAudio',
+                'preferredcodec': 'mp3',
+                'preferredquality': '192',
+            }],
+            'outtmpl': os.path.join(output_dir, '%(title)s.%(ext)s'),
+            'quiet': True,
+            'no_warnings': True,
+        }
+        
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            info = ydl.extract_info(request.url, download=True)
+            filename = ydl.prepare_filename(info)
+            mp3_filename = filename.replace('.webm', '.mp3').replace('.m4a', '.mp3')
+            file_size_str = _format_file_size(os.path.getsize(mp3_filename)) if os.path.exists(mp3_filename) else "Unknown"
+            download_link = f"/api/download/mp3/{os.path.basename(mp3_filename)}"
+        
+        return ConversionResponse(
+            success=True,
+            message="Successfully converted to MP3",
+            downloadUrl=download_link,
+            title=video_info['title'],
+            duration=video_info['duration'],
+            thumbnail=video_info['thumbnail'],
+            fileSize=file_size_str,
+        )
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Conversion failed: {str(e)}")
+
+
+@router.post("/youtube/youtube-to-mp4", response_model=ConversionResponse)
+async def youtube_to_mp4(request: YouTubeToMp4Request):
+    """Convert YouTube video to MP4"""
+    if not _validate_youtube_url(request.url):
+        raise HTTPException(status_code=400, detail="Invalid YouTube URL")
+    
+    quality_mapping = {
+        'high': 'bestvideo[height<=1080]+bestaudio/best[height<=1080]',
+        'medium': 'bestvideo[height<=720]+bestaudio/best[height<=720]',
+        'low': 'bestvideo[height<=480]+bestaudio/best[height<=480]',
+    }
+    format_string = quality_mapping.get(request.quality or 'high', quality_mapping['high'])
+    
+    try:
+        video_info = _get_video_info(request.url)
+        output_dir = "downloads/mp4"
+        Path(output_dir).mkdir(parents=True, exist_ok=True)
+        
+        ydl_opts = {
+            'format': format_string,
+            'postprocessors': [{
+                'key': 'FFmpegVideoConvertor',
+                'preferedformat': 'mp4',
+            }],
+            'outtmpl': os.path.join(output_dir, '%(title)s.%(ext)s'),
+            'quiet': True,
+            'no_warnings': True,
+        }
+        
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            info = ydl.extract_info(request.url, download=True)
+            filename = ydl.prepare_filename(info)
+            file_size_str = _format_file_size(os.path.getsize(filename)) if os.path.exists(filename) else "Unknown"
+            download_link = f"/api/download/mp4/{os.path.basename(filename)}"
+        
+        return ConversionResponse(
+            success=True,
+            message="Successfully converted to MP4",
+            downloadUrl=download_link,
+            title=video_info['title'],
+            duration=video_info['duration'],
+            thumbnail=video_info['thumbnail'],
+            fileSize=file_size_str,
+        )
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Conversion failed: {str(e)}")
+
+
+@router.get("/youtube/youtube-info", response_model=VideoInfoResponse)
+async def get_youtube_info(url: str):
+    """Get YouTube video info"""
+    if not _validate_youtube_url(url):
+        raise HTTPException(status_code=400, detail="Invalid YouTube URL")
+    
+    try:
+        video_info = _get_video_info(url)
+        return VideoInfoResponse(
+            success=True,
+            title=video_info['title'],
+            duration=video_info['duration'],
+            thumbnail=video_info['thumbnail'],
+            format="Available in MP3 and MP4",
+        )
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to get video info: {str(e)}")
+
+
+@router.get("/youtube/validate-youtube-url")
+async def validate_url(url: str):
+    """Validate YouTube URL"""
+    is_valid = _validate_youtube_url(url)
+    if is_valid:
+        try:
+            video_info = _get_video_info(url)
+            return {"valid": True, "title": video_info['title'], "duration": video_info['duration']}
+        except:
+            return {"valid": False, "error": "Could not fetch video information"}
+    return {"valid": False, "error": "Invalid YouTube URL format"}

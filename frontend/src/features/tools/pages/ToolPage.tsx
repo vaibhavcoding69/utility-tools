@@ -39,10 +39,11 @@ import CssInlineTool from "../components/CssInlineTool";
 import EnvNetlifyTool from "../components/EnvNetlifyTool";
 import HarViewerTool from "../components/HarViewerTool";
 import RandomStringTool from "../components/RandomStringTool";
-import SpeedtestTool from "../components/SpeedtestTool";
 import SqlMinifyTool from "../components/SqlMinifyTool";
 import JsonYamlTool from "../components/JsonYamlTool";
 import ImageResizeTool from "../components/ImageResizeTool";
+import { YtMp3Tool } from "../components/YtMp3Tool";
+import { YtMp4Tool } from "../components/YtMp4Tool";
 
 type ToolConfig = {
   id: string;
@@ -137,10 +138,16 @@ const developerTools: ToolConfig[] = [
     component: MarkdownTool,
   },
   {
-    id: "speedtest",
-    name: "Internet Speed Test",
-    description: "Measure connectivity",
-    component: SpeedtestTool,
+    id: "ytmp3",
+    name: "YouTube to MP3",
+    description: "Convert YouTube videos to MP3",
+    component: YtMp3Tool,
+  },
+  {
+    id: "ytmp4",
+    name: "YouTube to MP4",
+    description: "Convert YouTube videos to MP4",
+    component: YtMp4Tool,
   },
 ];
 

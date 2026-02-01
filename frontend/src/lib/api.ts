@@ -175,23 +175,16 @@ class ApiClient {
       count?: number;
     } = {},
   ) {
-    const params = new URLSearchParams();
-    if (options.length) params.append("length", String(options.length));
-    if (options.include_uppercase !== undefined)
-      params.append("include_uppercase", String(options.include_uppercase));
-    if (options.include_lowercase !== undefined)
-      params.append("include_lowercase", String(options.include_lowercase));
-    if (options.include_numbers !== undefined)
-      params.append("include_numbers", String(options.include_numbers));
-    if (options.include_symbols !== undefined)
-      params.append("include_symbols", String(options.include_symbols));
-    if (options.exclude_ambiguous !== undefined)
-      params.append("exclude_ambiguous", String(options.exclude_ambiguous));
-    if (options.count) params.append("count", String(options.count));
-
-    return this.request<ApiResponse>(
-      `/security/password/generate?${params.toString()}`,
-    );
+    return this.request<ApiResponse>("/security/password/generate", {
+      method: "POST",
+      body: JSON.stringify({
+        length: options.length ?? 16,
+        include_uppercase: options.include_uppercase ?? true,
+        include_lowercase: options.include_lowercase ?? true,
+        include_numbers: options.include_numbers ?? true,
+        include_symbols: options.include_symbols ?? true,
+      }),
+    });
   }
 
   async checkPasswordStrength(password: string) {
@@ -312,7 +305,7 @@ class ApiClient {
   async minifySql(data: string) {
     return this.request<ApiResponse>("/data/sql/minify", {
       method: "POST",
-      body: JSON.stringify({ query: data }),
+      body: JSON.stringify({ data }),
     });
   }
 
@@ -380,6 +373,42 @@ class ApiClient {
       method: "POST",
       body: JSON.stringify({ value, from_base: fromBase, to_base: toBase }),
     });
+  }
+
+  // ============================================================================
+  // YouTube Converter
+  // ============================================================================
+
+  async convertYtToMp3(url: string) {
+    return this.request<ApiResponse>("/developer/youtube/youtube-to-mp3", {
+      method: "POST",
+      body: JSON.stringify({ url }),
+    });
+  }
+
+  async convertYtToMp4(url: string, quality: string = "high") {
+    return this.request<ApiResponse>("/developer/youtube/youtube-to-mp4", {
+      method: "POST",
+      body: JSON.stringify({ url, quality }),
+    });
+  }
+
+  async getYouTubeInfo(url: string) {
+    return this.request<ApiResponse>(
+      `/developer/youtube/youtube-info?url=${encodeURIComponent(url)}`,
+      {
+        method: "GET",
+      },
+    );
+  }
+
+  async validateYouTubeUrl(url: string) {
+    return this.request<ApiResponse>(
+      `/developer/youtube/validate-youtube-url?url=${encodeURIComponent(url)}`,
+      {
+        method: "GET",
+      },
+    );
   }
 
 }

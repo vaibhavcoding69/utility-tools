@@ -1,5 +1,4 @@
 import { useState } from "react";
-import api from "../../../lib/api";
 
 export default function ImageResizeTool() {
   const [data, setData] = useState("");
@@ -15,13 +14,31 @@ export default function ImageResizeTool() {
     setLoading(true);
     setError("");
     try {
-      const res = await api.resizeImage(data, {
-        width,
-        height,
-        format,
-        quality,
+      // Client-side image processing using Canvas
+      const img = new Image();
+      img.crossOrigin = "anonymous";
+      
+      await new Promise<void>((resolve, reject) => {
+        img.onload = () => resolve();
+        img.onerror = () => reject(new Error("Failed to load image"));
+        img.src = data;
       });
-      if (res.success) setOutput(res.image as string);
+
+      const targetWidth = width || img.naturalWidth;
+      const targetHeight = height || img.naturalHeight;
+
+      const canvas = document.createElement("canvas");
+      canvas.width = targetWidth;
+      canvas.height = targetHeight;
+
+      const ctx = canvas.getContext("2d");
+      if (!ctx) throw new Error("Canvas context not available");
+
+      ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
+
+      const mimeType = format === "webp" ? "image/webp" : format === "png" ? "image/png" : "image/jpeg";
+      const result = canvas.toDataURL(mimeType, quality / 100);
+      setOutput(result);
     } catch (e: any) {
       setError(e.message || "Conversion failed");
     } finally {

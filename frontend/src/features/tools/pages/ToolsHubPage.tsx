@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { getToolCountByCategory } from "../../../config/tools";
 
 const suites = [
   {
@@ -8,7 +9,7 @@ const suites = [
     icon: "bi-code-slash",
     href: "/tools/developer",
     tags: ["JSON", "Base64", "UUID", "Regex"],
-    count: 14,
+    count: getToolCountByCategory("Developer"),
   },
   {
     id: "security",
@@ -17,7 +18,7 @@ const suites = [
     icon: "bi-shield-lock",
     href: "/tools/security",
     tags: ["Passwords", "Hashes", "2FA"],
-    count: 13,
+    count: getToolCountByCategory("Security"),
   },
   {
     id: "data",
@@ -26,7 +27,7 @@ const suites = [
     icon: "bi-bar-chart-line",
     href: "/tools/data",
     tags: ["CSV", "JSON", "SQL", "Mock"],
-    count: 13,
+    count: getToolCountByCategory("Data"),
   },
 ];
 

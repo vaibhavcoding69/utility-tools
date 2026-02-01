@@ -80,13 +80,6 @@ const tools = [
     icon: "bi-type",
   },
   {
-    id: "speedtest",
-    name: "Internet Speed Test",
-    description: "Measure download, upload, ping",
-    tags: ["Network", "Speed", "Ping"],
-    icon: "bi-speedometer2",
-  },
-  {
     id: "diff",
     name: "Text Diff",
     description: "Compare two texts and see differences",

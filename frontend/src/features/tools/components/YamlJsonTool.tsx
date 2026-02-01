@@ -22,13 +22,13 @@ export default function YamlJsonTool() {
       const res = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ input }),
+        body: JSON.stringify({ data: input }),
       });
-      const data = await res.json();
-      if (data.error) {
-        setError(data.error);
+      const result = await res.json();
+      if (!result.success) {
+        setError(result.error || result.detail || "Conversion failed");
       } else {
-        setOutput(data.output);
+        setOutput(mode === "yaml-to-json" ? result.json : result.yaml);
       }
     } catch {
       setError("Conversion failed");

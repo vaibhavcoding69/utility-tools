@@ -1,19 +1,56 @@
 import { useState } from "react";
-import api from "../../../lib/api";
 
 export default function CssInlineTool() {
   const [html, setHtml] = useState("");
-  const [baseUrl, setBaseUrl] = useState("");
   const [output, setOutput] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const inline = async () => {
+  const inline = () => {
     setLoading(true);
     setError("");
     try {
-      const res = await api.inlineCss(html, baseUrl || undefined);
-      if (res.success) setOutput(res.html as string);
+      // Parse the HTML and extract styles
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, "text/html");
+      
+      // Get all style tags
+      const styleTags = doc.querySelectorAll("style");
+      const cssRules: { selector: string; styles: string }[] = [];
+      
+      styleTags.forEach((styleTag) => {
+        const cssText = styleTag.textContent || "";
+        // Simple CSS rule parser
+        const ruleRegex = /([^{]+)\{([^}]+)\}/g;
+        let match;
+        while ((match = ruleRegex.exec(cssText)) !== null) {
+          const selector = match[1].trim();
+          const styles = match[2].trim();
+          cssRules.push({ selector, styles });
+        }
+      });
+      
+      // Apply styles inline
+      cssRules.forEach(({ selector, styles }) => {
+        try {
+          const elements = doc.querySelectorAll(selector);
+          elements.forEach((el) => {
+            const htmlEl = el as HTMLElement;
+            const existingStyle = htmlEl.getAttribute("style") || "";
+            htmlEl.setAttribute("style", existingStyle + (existingStyle ? "; " : "") + styles);
+          });
+        } catch {
+          // Ignore invalid selectors
+        }
+      });
+      
+      // Remove style tags
+      styleTags.forEach((tag) => tag.remove());
+      
+      // Get the result
+      const serializer = new XMLSerializer();
+      const result = serializer.serializeToString(doc);
+      setOutput(result);
     } catch (e: any) {
       setError(e.message || "Failed to inline");
     } finally {
@@ -37,17 +74,6 @@ export default function CssInlineTool() {
             onChange={(e) => setHtml(e.target.value)}
             placeholder="<html><head><style>...</style></head><body>...</body></html>"
           />
-        </div>
-        <div className="tool-options">
-          <div className="tool-option">
-            <label className="tool-label">Base URL (optional)</label>
-            <input
-              className="tool-input"
-              value={baseUrl}
-              onChange={(e) => setBaseUrl(e.target.value)}
-              placeholder="https://example.com"
-            />
-          </div>
         </div>
         <div className="tool-actions">
           <button className="btn primary" onClick={inline} disabled={!html || loading}>
