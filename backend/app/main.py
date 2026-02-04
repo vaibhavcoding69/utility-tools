@@ -4,7 +4,7 @@ from starlette.middleware.base import BaseHTTPMiddleware
 
 from app.api.router import api_router
 
-app = FastAPI(title="z1x Utility Tools API", version="1.0.0")
+app = FastAPI(title="Utility Tools API", version="1.0.0")
 
 # Request counter
 request_count = 0
@@ -34,7 +34,7 @@ app.include_router(api_router, prefix="/api/v1")
 
 @app.get("/")
 async def root():
-    return {"name": "z1x Utility Tools API", "version": "1.0.0", "status": "active"}
+    return {"name": "Utility Tools API", "version": "1.0.0", "status": "active"}
 
 
 @app.get("/api/v1/stats/requests")

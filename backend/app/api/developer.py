@@ -1,7 +1,8 @@
 """
-Developer Tools API
-Comprehensive endpoints for developer utilities including JSON/YAML manipulation,
-encoding/decoding, regex testing, UUID generation, JWT inspection, and more.
+Developer tools API routes.
+
+This module provides comprehensive developer utilities including JSON/YAML manipulation,
+encoding/decoding operations, regex testing, UUID generation, and more.
 """
 
 from fastapi import APIRouter, HTTPException, Query
@@ -19,16 +20,12 @@ from datetime import datetime, timedelta
 from difflib import unified_diff, HtmlDiff
 import os
 from pathlib import Path
-import yt_dlp
 
-# ============================================================================
 # Pydantic Models
-# ============================================================================
 
 
 class JsonPayload(BaseModel):
-    """Payload for JSON operations"""
-
+    """Request model for JSON operations."""
     data: str = Field(..., description="JSON string to process")
     indent: Optional[int] = Field(2, description="Indentation level for formatting")
     sort_keys: Optional[bool] = Field(
@@ -37,14 +34,12 @@ class JsonPayload(BaseModel):
 
 
 class YamlPayload(BaseModel):
-    """Payload for YAML operations"""
-
+    """Request model for YAML operations."""
     data: str = Field(..., description="YAML or JSON string")
 
 
 class TextPayload(BaseModel):
-    """Generic text payload"""
-
+    """Generic text payload model."""
     data: str = Field(..., description="Text data to process")
 
 
@@ -101,17 +96,6 @@ class HttpPingPayload(BaseModel):
     url: str = Field(..., description="URL to ping")
     method: Optional[str] = Field("GET", description="HTTP method")
     timeout: Optional[float] = Field(10.0, description="Request timeout in seconds")
-
-
-class YouTubeToMp3Request(BaseModel):
-    """Request to convert YouTube video to MP3"""
-    url: str = Field(..., description="YouTube video URL")
-
-
-class YouTubeToMp4Request(BaseModel):
-    """Request to convert YouTube video to MP4"""
-    url: str = Field(..., description="YouTube video URL")
-    quality: Optional[str] = Field("high", description="Video quality: high, medium, or low")
 
 
 class ConversionResponse(BaseModel):
@@ -232,16 +216,15 @@ class ImageResizePayload(BaseModel):
     quality: Optional[int] = Field(80, ge=1, le=100)
 
 
-# ============================================================================
-# Router
-# ============================================================================
+    format: Optional[str] = Field("jpeg", description="jpeg/png/webp")
+    quality: Optional[int] = Field(80, ge=1, le=100)
 
+
+# Router setup
 router = APIRouter()
 
 
-# ============================================================================
-# JSON Endpoints
-# ============================================================================
+# JSON processing endpoints
 
 
 @router.post(
@@ -345,9 +328,13 @@ async def query_json(
         raise HTTPException(status_code=400, detail=str(e))
 
 
-# ============================================================================
-# YAML Endpoints
-# ============================================================================
+        result = navigate_json_path(obj, path)
+        return {"success": True, "result": result, "path": path}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+# YAML processing endpoints
 
 
 @router.post(
@@ -389,9 +376,7 @@ async def json_to_yaml(payload: JsonPayload):
         raise HTTPException(status_code=400, detail=str(e))
 
 
-# ============================================================================
-# Encoding/Decoding Endpoints
-# ============================================================================
+# Encoding and decoding endpoints
 
 
 @router.post(
@@ -484,9 +469,409 @@ async def html_decode(payload: HtmlPayload):
     return {"success": True, "decoded": decoded}
 
 
-# ============================================================================
-# Regex Endpoints
-# ============================================================================
+    encoded = html.escape(payload.data)
+    return {"success": True, "encoded": encoded}
+
+
+@router.post("/html/decode", summary="HTML Decode", description="Decode HTML entities")
+async def html_decode(payload: HtmlPayload):
+    """Decode HTML entities back to characters."""
+    decoded = html.unescape(payload.data)
+    return {"success": True, "decoded": decoded}
+
+
+# Universal encoding/decoding endpoints
+
+class EncoderPayload(BaseModel):
+    """Payload for universal encoding/decoding"""
+    data: str = Field(..., description="Data to encode/decode")
+    encoding: str = Field(..., description="Encoding type")
+    mode: str = Field("encode", description="Mode: encode or decode")
+    options: Optional[dict] = Field(None, description="Additional options (shift, key, separator)")
+
+
+# Lookup tables
+MORSE_CODE = {
+    "A": ".-", "B": "-...", "C": "-.-.", "D": "-..", "E": ".", "F": "..-.",
+    "G": "--.", "H": "....", "I": "..", "J": ".---", "K": "-.-", "L": ".-..",
+    "M": "--", "N": "-.", "O": "---", "P": ".--.", "Q": "--.-", "R": ".-.",
+    "S": "...", "T": "-", "U": "..-", "V": "...-", "W": ".--", "X": "-..-",
+    "Y": "-.--", "Z": "--..", "0": "-----", "1": ".----", "2": "..---",
+    "3": "...--", "4": "....-", "5": ".....", "6": "-....", "7": "--...",
+    "8": "---..", "9": "----.", " ": "/"
+}
+MORSE_REVERSE = {v: k for k, v in MORSE_CODE.items()}
+
+NATO_ALPHABET = {
+    "A": "Alpha", "B": "Bravo", "C": "Charlie", "D": "Delta", "E": "Echo",
+    "F": "Foxtrot", "G": "Golf", "H": "Hotel", "I": "India", "J": "Juliet",
+    "K": "Kilo", "L": "Lima", "M": "Mike", "N": "November", "O": "Oscar",
+    "P": "Papa", "Q": "Quebec", "R": "Romeo", "S": "Sierra", "T": "Tango",
+    "U": "Uniform", "V": "Victor", "W": "Whiskey", "X": "X-ray", "Y": "Yankee",
+    "Z": "Zulu", "0": "Zero", "1": "One", "2": "Two", "3": "Three", "4": "Four",
+    "5": "Five", "6": "Six", "7": "Seven", "8": "Eight", "9": "Niner", " ": "[space]"
+}
+NATO_REVERSE = {v.lower(): k for k, v in NATO_ALPHABET.items()}
+
+BACON_CIPHER = {
+    "A": "AAAAA", "B": "AAAAB", "C": "AAABA", "D": "AAABB", "E": "AABAA",
+    "F": "AABAB", "G": "AABBA", "H": "AABBB", "I": "ABAAA", "J": "ABAAB",
+    "K": "ABABA", "L": "ABABB", "M": "ABBAA", "N": "ABBAB", "O": "ABBBA",
+    "P": "ABBBB", "Q": "BAAAA", "R": "BAAAB", "S": "BAABA", "T": "BAABB",
+    "U": "BABAA", "V": "BABAB", "W": "BABBA", "X": "BABBB", "Y": "BBAAA", "Z": "BBAAB"
+}
+BACON_REVERSE = {v: k for k, v in BACON_CIPHER.items()}
+
+BASE32_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567"
+
+
+def base32_encode(data: str) -> str:
+    """Base32 encode a string."""
+    data_bytes = data.encode("utf-8")
+    bits = "".join(f"{b:08b}" for b in data_bytes)
+    while len(bits) % 5:
+        bits += "0"
+    result = "".join(BASE32_ALPHABET[int(bits[i:i+5], 2)] for i in range(0, len(bits), 5))
+    while len(result) % 8:
+        result += "="
+    return result
+
+
+def base32_decode(data: str) -> str:
+    """Base32 decode a string."""
+    cleaned = data.rstrip("=").upper()
+    bits = "".join(f"{BASE32_ALPHABET.index(c):05b}" for c in cleaned if c in BASE32_ALPHABET)
+    byte_list = [int(bits[i:i+8], 2) for i in range(0, len(bits) - len(bits) % 8, 8)]
+    return bytes(byte_list).decode("utf-8")
+
+
+def vigenere_encode(text: str, key: str) -> str:
+    """Vigenère cipher encode."""
+    if not key:
+        return text
+    key_upper = "".join(c for c in key.upper() if c.isalpha())
+    if not key_upper:
+        return text
+    result = []
+    key_idx = 0
+    for char in text:
+        if char.isalpha():
+            base = ord("A") if char.isupper() else ord("a")
+            char_code = ord(char.upper()) - ord("A")
+            key_code = ord(key_upper[key_idx % len(key_upper)]) - ord("A")
+            encoded = (char_code + key_code) % 26
+            result.append(chr(encoded + base))
+            key_idx += 1
+        else:
+            result.append(char)
+    return "".join(result)
+
+
+def vigenere_decode(text: str, key: str) -> str:
+    """Vigenère cipher decode."""
+    if not key:
+        return text
+    key_upper = "".join(c for c in key.upper() if c.isalpha())
+    if not key_upper:
+        return text
+    result = []
+    key_idx = 0
+    for char in text:
+        if char.isalpha():
+            base = ord("A") if char.isupper() else ord("a")
+            char_code = ord(char.upper()) - ord("A")
+            key_code = ord(key_upper[key_idx % len(key_upper)]) - ord("A")
+            decoded = (char_code - key_code + 26) % 26
+            result.append(chr(decoded + base))
+            key_idx += 1
+        else:
+            result.append(char)
+    return "".join(result)
+
+
+def universal_encode(data: str, encoding: str, options: dict = None) -> str:
+    """Universal encoder supporting 33+ formats."""
+    options = options or {}
+    shift = options.get("shift", 3)
+    key = options.get("key", "KEY")
+    separator = options.get("separator", " ")
+    
+    if encoding == "base64":
+        return base64.b64encode(data.encode("utf-8")).decode("utf-8")
+    elif encoding == "base64url":
+        return base64.urlsafe_b64encode(data.encode("utf-8")).decode("utf-8").rstrip("=")
+    elif encoding == "base32":
+        return base32_encode(data)
+    elif encoding == "base16":
+        return data.encode("utf-8").hex().upper()
+    elif encoding == "url":
+        return urllib.parse.quote(data)
+    elif encoding == "url-component":
+        return urllib.parse.quote(data, safe="")
+    elif encoding == "html":
+        return html.escape(data)
+    elif encoding == "html-full":
+        return "".join(f"&#{ord(c)};" for c in data)
+    elif encoding == "hex":
+        return separator.join(f"{ord(c):02x}" for c in data)
+    elif encoding == "hex-0x":
+        return separator.join(f"0x{ord(c):02x}" for c in data)
+    elif encoding == "binary":
+        return separator.join(f"{ord(c):08b}" for c in data)
+    elif encoding == "octal":
+        return separator.join(f"{ord(c):03o}" for c in data)
+    elif encoding in ("decimal", "ascii"):
+        return separator.join(str(ord(c)) for c in data)
+    elif encoding == "unicode":
+        return separator.join(f"U+{ord(c):04X}" for c in data)
+    elif encoding == "unicode-escape":
+        return "".join(f"\\u{ord(c):04x}" for c in data)
+    elif encoding == "utf8":
+        return separator.join(f"{b:02x}" for b in data.encode("utf-8"))
+    elif encoding == "utf16":
+        return separator.join(f"{ord(c):04X}" for c in data)
+    elif encoding == "a1z26":
+        return "-".join(
+            str(ord(c.upper()) - 64) if c.isalpha() else ("0" if c == " " else c)
+            for c in data
+        )
+    elif encoding == "nato":
+        return " ".join(NATO_ALPHABET.get(c.upper(), c) for c in data)
+    elif encoding == "morse":
+        return " ".join(MORSE_CODE.get(c.upper(), c) for c in data)
+    elif encoding == "reverse":
+        return data[::-1]
+    elif encoding == "rot13":
+        return "".join(
+            chr((ord(c) - (65 if c.isupper() else 97) + 13) % 26 + (65 if c.isupper() else 97))
+            if c.isalpha() else c for c in data
+        )
+    elif encoding == "rot5":
+        return "".join(
+            chr((ord(c) - 48 + 5) % 10 + 48) if c.isdigit() else c for c in data
+        )
+    elif encoding == "rot47":
+        return "".join(
+            chr((ord(c) - 33 + 47) % 94 + 33) if 33 <= ord(c) <= 126 else c for c in data
+        )
+    elif encoding == "caesar":
+        return "".join(
+            chr((ord(c) - (65 if c.isupper() else 97) + shift) % 26 + (65 if c.isupper() else 97))
+            if c.isalpha() else c for c in data
+        )
+    elif encoding == "atbash":
+        return "".join(
+            chr((65 if c.isupper() else 97) + 25 - (ord(c) - (65 if c.isupper() else 97)))
+            if c.isalpha() else c for c in data
+        )
+    elif encoding == "vigenere":
+        return vigenere_encode(data, key)
+    elif encoding == "bacon":
+        return " ".join(BACON_CIPHER.get(c.upper(), c) for c in data if c.isalpha() or c == " ")
+    elif encoding == "md5-hash":
+        return hashlib.md5(data.encode()).hexdigest()
+    elif encoding == "sha1-hash":
+        return hashlib.sha1(data.encode()).hexdigest()
+    elif encoding == "sha256-hash":
+        return hashlib.sha256(data.encode()).hexdigest()
+    else:
+        raise ValueError(f"Unknown encoding: {encoding}")
+
+
+def universal_decode(data: str, encoding: str, options: dict = None) -> str:
+    """Universal decoder supporting reversible formats."""
+    options = options or {}
+    shift = options.get("shift", 3)
+    key = options.get("key", "KEY")
+    
+    if encoding == "base64":
+        return base64.b64decode(data).decode("utf-8")
+    elif encoding == "base64url":
+        padded = data + "=" * (4 - len(data) % 4) if len(data) % 4 else data
+        return base64.urlsafe_b64decode(padded).decode("utf-8")
+    elif encoding == "base32":
+        return base32_decode(data)
+    elif encoding == "base16":
+        return bytes.fromhex(data).decode("utf-8")
+    elif encoding == "url":
+        return urllib.parse.unquote(data)
+    elif encoding == "url-component":
+        return urllib.parse.unquote(data)
+    elif encoding in ("html", "html-full"):
+        return html.unescape(data)
+    elif encoding == "hex":
+        parts = data.strip().split()
+        return "".join(chr(int(p, 16)) for p in parts if p)
+    elif encoding == "hex-0x":
+        parts = data.strip().split()
+        return "".join(chr(int(p.replace("0x", ""), 16)) for p in parts if p)
+    elif encoding == "binary":
+        parts = data.strip().split()
+        return "".join(chr(int(p, 2)) for p in parts if p)
+    elif encoding == "octal":
+        parts = data.strip().split()
+        return "".join(chr(int(p, 8)) for p in parts if p)
+    elif encoding in ("decimal", "ascii"):
+        parts = data.strip().split()
+        return "".join(chr(int(p)) for p in parts if p)
+    elif encoding == "unicode":
+        parts = data.strip().split()
+        return "".join(chr(int(p.replace("U+", ""), 16)) for p in parts if p)
+    elif encoding == "unicode-escape":
+        import codecs
+        return codecs.decode(data, "unicode_escape")
+    elif encoding == "utf8":
+        parts = data.strip().split()
+        return bytes(int(p, 16) for p in parts if p).decode("utf-8")
+    elif encoding == "utf16":
+        parts = data.strip().split()
+        return "".join(chr(int(p, 16)) for p in parts if p)
+    elif encoding == "a1z26":
+        parts = data.split("-")
+        return "".join(
+            chr(int(p) + 64) if p.isdigit() and 1 <= int(p) <= 26 else (" " if p == "0" else p)
+            for p in parts
+        )
+    elif encoding == "nato":
+        words = data.strip().split()
+        return "".join(NATO_REVERSE.get(w.lower(), w) if w.lower() != "[space]" else " " for w in words)
+    elif encoding == "morse":
+        codes = data.strip().split()
+        return "".join(MORSE_REVERSE.get(c, c) if c != "/" else " " for c in codes)
+    elif encoding == "reverse":
+        return data[::-1]
+    elif encoding == "rot13":
+        return universal_encode(data, "rot13")
+    elif encoding == "rot5":
+        return universal_encode(data, "rot5")
+    elif encoding == "rot47":
+        return universal_encode(data, "rot47")
+    elif encoding == "caesar":
+        return universal_encode(data, "caesar", {"shift": -shift})
+    elif encoding == "atbash":
+        return universal_encode(data, "atbash")
+    elif encoding == "vigenere":
+        return vigenere_decode(data, key)
+    elif encoding == "bacon":
+        codes = data.strip().split()
+        return "".join(BACON_REVERSE.get(c, c) for c in codes)
+    elif encoding in ("md5-hash", "sha1-hash", "sha256-hash"):
+        raise ValueError("Hash functions cannot be decoded")
+    else:
+        raise ValueError(f"Unknown encoding: {encoding}")
+
+
+@router.post(
+    "/encode",
+    summary="Universal Encode",
+    description="Encode data using various formats (base64, hex, binary, morse, etc.)"
+)
+async def universal_encode_endpoint(payload: EncoderPayload):
+    """Encode data using one of 33+ supported encoding formats."""
+    try:
+        result = universal_encode(payload.data, payload.encoding, payload.options)
+        return {
+            "success": True,
+            "result": result,
+            "encoding": payload.encoding,
+            "mode": "encode",
+            "input_length": len(payload.data),
+            "output_length": len(result)
+        }
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@router.post(
+    "/decode",
+    summary="Universal Decode", 
+    description="Decode data from various formats (base64, hex, binary, morse, etc.)"
+)
+async def universal_decode_endpoint(payload: EncoderPayload):
+    """Decode data from one of 33+ supported encoding formats."""
+    try:
+        result = universal_decode(payload.data, payload.encoding, payload.options)
+        return {
+            "success": True,
+            "result": result,
+            "encoding": payload.encoding,
+            "mode": "decode",
+            "input_length": len(payload.data),
+            "output_length": len(result)
+        }
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@router.post(
+    "/encode-decode",
+    summary="Encode/Decode",
+    description="Universal encode or decode endpoint"
+)
+async def encode_decode_endpoint(payload: EncoderPayload):
+    """Encode or decode data based on mode parameter."""
+    try:
+        if payload.mode == "encode":
+            result = universal_encode(payload.data, payload.encoding, payload.options)
+        else:
+            result = universal_decode(payload.data, payload.encoding, payload.options)
+        return {
+            "success": True,
+            "result": result,
+            "encoding": payload.encoding,
+            "mode": payload.mode,
+            "input_length": len(payload.data),
+            "output_length": len(result)
+        }
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@router.get(
+    "/encodings",
+    summary="List Encodings",
+    description="Get list of all supported encoding formats"
+)
+async def list_encodings():
+    """Return list of all supported encoding formats with metadata."""
+    encodings = [
+        {"id": "base64", "name": "Base64", "category": "web", "canDecode": True},
+        {"id": "base64url", "name": "Base64 URL", "category": "web", "canDecode": True},
+        {"id": "base32", "name": "Base32", "category": "web", "canDecode": True},
+        {"id": "base16", "name": "Base16", "category": "web", "canDecode": True},
+        {"id": "url", "name": "URL Encode", "category": "web", "canDecode": True},
+        {"id": "url-component", "name": "URL Component", "category": "web", "canDecode": True},
+        {"id": "html", "name": "HTML Entities", "category": "web", "canDecode": True},
+        {"id": "html-full", "name": "HTML Full", "category": "web", "canDecode": True},
+        {"id": "hex", "name": "Hexadecimal", "category": "numeric", "canDecode": True},
+        {"id": "hex-0x", "name": "Hex (0x prefix)", "category": "numeric", "canDecode": True},
+        {"id": "binary", "name": "Binary", "category": "numeric", "canDecode": True},
+        {"id": "octal", "name": "Octal", "category": "numeric", "canDecode": True},
+        {"id": "decimal", "name": "Decimal", "category": "numeric", "canDecode": True},
+        {"id": "ascii", "name": "ASCII Codes", "category": "numeric", "canDecode": True},
+        {"id": "unicode", "name": "Unicode", "category": "text", "canDecode": True},
+        {"id": "unicode-escape", "name": "Unicode Escape", "category": "text", "canDecode": True},
+        {"id": "utf8", "name": "UTF-8 Bytes", "category": "text", "canDecode": True},
+        {"id": "utf16", "name": "UTF-16", "category": "text", "canDecode": True},
+        {"id": "a1z26", "name": "A1Z26", "category": "text", "canDecode": True},
+        {"id": "nato", "name": "NATO Phonetic", "category": "text", "canDecode": True},
+        {"id": "morse", "name": "Morse Code", "category": "text", "canDecode": True},
+        {"id": "reverse", "name": "Reverse", "category": "text", "canDecode": True},
+        {"id": "rot13", "name": "ROT13", "category": "cipher", "canDecode": True},
+        {"id": "rot5", "name": "ROT5", "category": "cipher", "canDecode": True},
+        {"id": "rot47", "name": "ROT47", "category": "cipher", "canDecode": True},
+        {"id": "caesar", "name": "Caesar Cipher", "category": "cipher", "canDecode": True},
+        {"id": "atbash", "name": "Atbash", "category": "cipher", "canDecode": True},
+        {"id": "vigenere", "name": "Vigenère", "category": "cipher", "canDecode": True},
+        {"id": "bacon", "name": "Bacon Cipher", "category": "cipher", "canDecode": True},
+        {"id": "md5-hash", "name": "MD5", "category": "hash", "canDecode": False},
+        {"id": "sha1-hash", "name": "SHA-1", "category": "hash", "canDecode": False},
+        {"id": "sha256-hash", "name": "SHA-256", "category": "hash", "canDecode": False},
+    ]
+    return {"success": True, "encodings": encodings, "count": len(encodings)}
+
+
+# Regex processing endpoints
 
 
 @router.post(
@@ -582,9 +967,7 @@ async def regex_replace(payload: RegexPayload):
         raise HTTPException(status_code=400, detail=str(e))
 
 
-# ============================================================================
-# UUID Endpoints
-# ============================================================================
+# UUID generation endpoints
 
 
 @router.get(
@@ -647,9 +1030,7 @@ async def uuid_validate(payload: TextPayload):
         return {"success": True, "valid": False, "error": "Invalid UUID format"}
 
 
-# ============================================================================
-# Diff Endpoints
-# ============================================================================
+# Text diff endpoints
 
 
 @router.post(
@@ -712,9 +1093,7 @@ async def html_diff(payload: TextPair):
     return {"success": True, "html": html_table}
 
 
-# ============================================================================
-# JWT Endpoints
-# ============================================================================
+# JWT processing endpoints
 
 
 @router.post(
@@ -771,9 +1150,7 @@ async def jwt_decode(payload: JWTPayload):
         raise HTTPException(status_code=400, detail=str(e))
 
 
-# ============================================================================
-# Cron Endpoints
-# ============================================================================
+# Cron expression endpoints
 
 
 @router.post(
@@ -843,9 +1220,9 @@ async def cron_explain(payload: CronPayload):
     }
 
 
-# ============================================================================
+# 
 # HTTP Endpoints
-# ============================================================================
+# 
 
 
 @router.post(
@@ -885,9 +1262,7 @@ async def http_ping(payload: HttpPingPayload):
         raise HTTPException(status_code=400, detail=str(e))
 
 
-# ============================================================================
-# Git Command Generator
-# ============================================================================
+# Git command generation endpoints
 
 
 @router.post(
@@ -943,9 +1318,7 @@ async def git_generate(payload: GitCommandPayload):
     }
 
 
-# ============================================================================
-# Timestamp Endpoints
-# ============================================================================
+# Timestamp conversion endpoints
 
 
 @router.post(
@@ -1015,9 +1388,9 @@ async def timestamp_now():
     }
 
 
-# ============================================================================
+# 
 # Slug Generator
-# ============================================================================
+# 
 
 
 @router.post(
@@ -1051,9 +1424,9 @@ async def slug_generate(payload: SlugPayload):
     }
 
 
-# ============================================================================
+# 
 # Number Base Conversion
-# ============================================================================
+# 
 
 
 @router.post(
@@ -1261,9 +1634,9 @@ async def image_resize(payload: ImageResizePayload):
         raise HTTPException(status_code=400, detail=str(e))
 
 
-# ============================================================================
+# 
 # Lorem Ipsum Generator
-# ============================================================================
+# 
 
 
 @router.post(
@@ -1360,9 +1733,9 @@ async def lorem_generate(payload: LoremIpsumPayload):
     }
 
 
-# ============================================================================
+# 
 # Helper Functions
-# ============================================================================
+# 
 
 
 def count_keys(obj, count=0):
@@ -1440,165 +1813,3 @@ def build_cron_summary(explanations):
     for field, explanation in explanations.items():
         parts.append(explanation)
     return ", ".join(parts)
-
-# ============================================================================
-# YouTube Converter Endpoints
-# ============================================================================
-
-def _validate_youtube_url(url: str) -> bool:
-    """Validate YouTube URL"""
-    return bool(re.match(r"^(https?://)?(www\.)?(youtube|youtu|youtube-nocookie|youtube\.com|youtu\.be)/.+", url))
-
-
-def _get_video_info(url: str) -> dict:
-    """Extract video info from YouTube URL"""
-    try:
-        with yt_dlp.YoutubeDL({'quiet': True, 'no_warnings': True}) as ydl:
-            info = ydl.extract_info(url, download=False)
-            duration_seconds = info.get('duration', 0)
-            minutes, seconds = duration_seconds // 60, duration_seconds % 60
-            return {
-                'title': info.get('title', 'Unknown'),
-                'duration': f"{minutes}:{seconds:02d}",
-                'thumbnail': info.get('thumbnail', ''),
-            }
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=f"Failed to fetch video info: {str(e)}")
-
-
-def _format_file_size(bytes_size: int) -> str:
-    """Format bytes to human readable size"""
-    for unit in ['B', 'KB', 'MB', 'GB']:
-        if bytes_size < 1024:
-            return f"{bytes_size:.1f}{unit}"
-        bytes_size /= 1024
-    return f"{bytes_size:.1f}TB"
-
-
-@router.post("/youtube/youtube-to-mp3", response_model=ConversionResponse)
-async def youtube_to_mp3(request: YouTubeToMp3Request):
-    """Convert YouTube video to MP3"""
-    if not _validate_youtube_url(request.url):
-        raise HTTPException(status_code=400, detail="Invalid YouTube URL")
-    
-    try:
-        video_info = _get_video_info(request.url)
-        output_dir = "downloads/mp3"
-        Path(output_dir).mkdir(parents=True, exist_ok=True)
-        
-        ydl_opts = {
-            'format': 'bestaudio/best',
-            'postprocessors': [{
-                'key': 'FFmpegExtractAudio',
-                'preferredcodec': 'mp3',
-                'preferredquality': '192',
-            }],
-            'outtmpl': os.path.join(output_dir, '%(title)s.%(ext)s'),
-            'quiet': True,
-            'no_warnings': True,
-        }
-        
-        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-            info = ydl.extract_info(request.url, download=True)
-            filename = ydl.prepare_filename(info)
-            mp3_filename = filename.replace('.webm', '.mp3').replace('.m4a', '.mp3')
-            file_size_str = _format_file_size(os.path.getsize(mp3_filename)) if os.path.exists(mp3_filename) else "Unknown"
-            download_link = f"/api/download/mp3/{os.path.basename(mp3_filename)}"
-        
-        return ConversionResponse(
-            success=True,
-            message="Successfully converted to MP3",
-            downloadUrl=download_link,
-            title=video_info['title'],
-            duration=video_info['duration'],
-            thumbnail=video_info['thumbnail'],
-            fileSize=file_size_str,
-        )
-    except HTTPException:
-        raise
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Conversion failed: {str(e)}")
-
-
-@router.post("/youtube/youtube-to-mp4", response_model=ConversionResponse)
-async def youtube_to_mp4(request: YouTubeToMp4Request):
-    """Convert YouTube video to MP4"""
-    if not _validate_youtube_url(request.url):
-        raise HTTPException(status_code=400, detail="Invalid YouTube URL")
-    
-    quality_mapping = {
-        'high': 'bestvideo[height<=1080]+bestaudio/best[height<=1080]',
-        'medium': 'bestvideo[height<=720]+bestaudio/best[height<=720]',
-        'low': 'bestvideo[height<=480]+bestaudio/best[height<=480]',
-    }
-    format_string = quality_mapping.get(request.quality or 'high', quality_mapping['high'])
-    
-    try:
-        video_info = _get_video_info(request.url)
-        output_dir = "downloads/mp4"
-        Path(output_dir).mkdir(parents=True, exist_ok=True)
-        
-        ydl_opts = {
-            'format': format_string,
-            'postprocessors': [{
-                'key': 'FFmpegVideoConvertor',
-                'preferedformat': 'mp4',
-            }],
-            'outtmpl': os.path.join(output_dir, '%(title)s.%(ext)s'),
-            'quiet': True,
-            'no_warnings': True,
-        }
-        
-        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-            info = ydl.extract_info(request.url, download=True)
-            filename = ydl.prepare_filename(info)
-            file_size_str = _format_file_size(os.path.getsize(filename)) if os.path.exists(filename) else "Unknown"
-            download_link = f"/api/download/mp4/{os.path.basename(filename)}"
-        
-        return ConversionResponse(
-            success=True,
-            message="Successfully converted to MP4",
-            downloadUrl=download_link,
-            title=video_info['title'],
-            duration=video_info['duration'],
-            thumbnail=video_info['thumbnail'],
-            fileSize=file_size_str,
-        )
-    except HTTPException:
-        raise
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Conversion failed: {str(e)}")
-
-
-@router.get("/youtube/youtube-info", response_model=VideoInfoResponse)
-async def get_youtube_info(url: str):
-    """Get YouTube video info"""
-    if not _validate_youtube_url(url):
-        raise HTTPException(status_code=400, detail="Invalid YouTube URL")
-    
-    try:
-        video_info = _get_video_info(url)
-        return VideoInfoResponse(
-            success=True,
-            title=video_info['title'],
-            duration=video_info['duration'],
-            thumbnail=video_info['thumbnail'],
-            format="Available in MP3 and MP4",
-        )
-    except HTTPException:
-        raise
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to get video info: {str(e)}")
-
-
-@router.get("/youtube/validate-youtube-url")
-async def validate_url(url: str):
-    """Validate YouTube URL"""
-    is_valid = _validate_youtube_url(url)
-    if is_valid:
-        try:
-            video_info = _get_video_info(url)
-            return {"valid": True, "title": video_info['title'], "duration": video_info['duration']}
-        except:
-            return {"valid": False, "error": "Could not fetch video information"}
-    return {"valid": False, "error": "Invalid YouTube URL format"}

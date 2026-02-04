@@ -300,42 +300,60 @@
 }
 
 .tool-checkbox-label input[type="checkbox"] {
-  appearance: none;
+  /* Visually hide native checkbox but keep it accessible */
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Custom checkbox control */
+.checkbox-custom {
   width: 20px;
   height: 20px;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background: var(--bg-primary);
   border: 2px solid var(--border-primary);
   border-radius: var(--radius-sm);
-  cursor: pointer;
   transition: all var(--duration-fast) var(--ease-out);
-  position: relative;
-  flex-shrink: 0;
+  color: transparent; /* hide any icon text by default */
 }
 
-.tool-checkbox-label input[type="checkbox"]:hover {
+.tool-checkbox-label input[type="checkbox"]:hover + .checkbox-custom {
   border-color: var(--border-hover);
 }
 
-.tool-checkbox-label input[type="checkbox"]:checked {
+.tool-checkbox-label input[type="checkbox"]:focus + .checkbox-custom {
+  box-shadow: 0 0 0 3px var(--accent-subtle);
+}
+
+.tool-checkbox-label input[type="checkbox"]:checked + .checkbox-custom {
   background: var(--accent);
   border-color: var(--accent);
+  color: var(--text-inverse);
 }
 
-.tool-checkbox-label input[type="checkbox"]:checked::after {
-  content: "";
-  position: absolute;
-  left: 6px;
-  top: 2px;
-  width: 5px;
-  height: 10px;
-  border: solid var(--text-inverse);
-  border-width: 0 2px 2px 0;
-  transform: rotate(45deg);
+.checkbox-text {
+  display: flex;
+  flex-direction: column;
 }
 
-.tool-checkbox-label input[type="checkbox"]:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px var(--accent-subtle);
+.checkbox-title {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.checkbox-hint {
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
 }
 
 /* --------------------------------------------------------------------------
@@ -969,8 +987,8 @@
   align-items: center;
   gap: var(--space-4);
   padding: var(--space-4);
-  background: var(--tool-input-bg);
-  border: 1px solid var(--tool-input-border);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
   border-radius: var(--radius-lg);
 }
 
@@ -1730,8 +1748,8 @@
 }
 
 .case-result-card {
-  background: var(--tool-input-bg);
-  border: 1px solid var(--tool-input-border);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
   border-radius: var(--radius-lg);
   padding: var(--space-4);
   cursor: pointer;
@@ -1740,14 +1758,14 @@
 
 .case-result-card:hover {
   border-color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 5%, var(--tool-input-bg));
+  background: color-mix(in srgb, var(--accent) 5%, var(--bg-secondary));
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .case-result-card.copied {
   border-color: var(--color-success);
-  background: color-mix(in srgb, var(--color-success) 5%, var(--tool-input-bg));
+  background: color-mix(in srgb, var(--color-success) 5%, var(--bg-secondary));
 }
 
 .case-result-header {
@@ -1827,8 +1845,8 @@
   gap: var(--space-3);
   flex-wrap: wrap;
   padding: var(--space-4);
-  background: var(--tool-input-bg);
-  border: 1px solid var(--tool-input-border);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
   border-radius: var(--radius-lg);
 }
 
@@ -1876,8 +1894,8 @@
 }
 
 .option-card {
-  background: var(--tool-input-bg);
-  border: 1px solid var(--tool-input-border);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
   border-radius: var(--radius-lg);
   padding: var(--space-4);
 }
@@ -2080,8 +2098,8 @@
 }
 
 .timestamp-result-card {
-  background: var(--tool-input-bg);
-  border: 1px solid var(--tool-input-border);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
   border-radius: var(--radius-lg);
   padding: var(--space-4);
   cursor: pointer;
@@ -2216,8 +2234,8 @@
   flex: 1;
   display: flex;
   align-items: center;
-  background: var(--tool-input-bg);
-  border: 1px solid var(--tool-input-border);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
   border-radius: var(--radius-lg);
   padding: 0 var(--space-4);
   height: 48px;
@@ -2257,8 +2275,8 @@
 }
 
 .color-format-card {
-  background: var(--tool-input-bg);
-  border: 1px solid var(--tool-input-border);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
   border-radius: var(--radius-lg);
   padding: var(--space-3) var(--space-4);
   cursor: pointer;
@@ -2323,8 +2341,8 @@
 }
 
 .color-sliders-section {
-  background: var(--tool-input-bg);
-  border: 1px solid var(--tool-input-border);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
   border-radius: var(--radius-lg);
   padding: var(--space-5);
 }
@@ -2394,8 +2412,8 @@
 
 .saved-colors-section {
   padding: var(--space-4);
-  background: var(--tool-input-bg);
-  border: 1px solid var(--tool-input-border);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
   border-radius: var(--radius-lg);
 }
 
@@ -2451,8 +2469,8 @@
 }
 
 .contrast-preview-section {
-  background: var(--tool-input-bg);
-  border: 1px solid var(--tool-input-border);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
   border-radius: var(--radius-lg);
   padding: var(--space-4);
 }
@@ -2486,8 +2504,8 @@
    Tool Info Card
    -------------------------------------------------------------------------- */
 .tool-info-card {
-  background: var(--tool-input-bg);
-  border: 1px solid var(--tool-input-border);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
   border-radius: var(--radius-lg);
   overflow: hidden;
 }
@@ -2608,8 +2626,8 @@
 }
 
 .qr-options-section {
-  background: var(--tool-input-bg);
-  border: 1px solid var(--tool-input-border);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
   border-radius: var(--radius-lg);
   padding: var(--space-4);
 }
@@ -2714,8 +2732,8 @@
   flex-direction: column;
   gap: var(--space-1);
   padding: var(--space-3);
-  background: var(--tool-input-bg);
-  border: 1px solid var(--tool-input-border);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
   border-radius: var(--radius-md);
 }
 
@@ -2775,8 +2793,8 @@
   align-items: center;
   gap: var(--space-3);
   padding: var(--space-3) var(--space-4);
-  background: var(--tool-input-bg);
-  border: 1px solid var(--tool-input-border);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
   border-radius: var(--radius-lg);
   cursor: pointer;
   transition: all 0.2s ease;
@@ -4675,196 +4693,5 @@
 
   .speed-info-card p {
     font-size: 0.8rem;
-  }
-}
-
-/* --------------------------------------------------------------------------
-   YouTube MP3/MP4 Converter Styles
-   -------------------------------------------------------------------------- */
-.video-preview-card {
-  background: linear-gradient(135deg, #1a1f35 0%, #222844 100%);
-  border: 1px solid var(--border-primary);
-  border-radius: var(--radius-xl);
-  overflow: hidden;
-  margin: var(--space-4) 0;
-  display: flex;
-  gap: var(--space-4);
-  padding: var(--space-4);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.video-preview-card:hover {
-  border-color: var(--border-hover);
-  background: linear-gradient(135deg, #1e2342 0%, #262d4a 100%);
-  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.1);
-}
-
-.video-preview-thumbnail {
-  width: 120px;
-  height: 120px;
-  border-radius: var(--radius-lg);
-  object-fit: cover;
-  flex-shrink: 0;
-  border: 1px solid var(--border-secondary);
-}
-
-.video-preview-info {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.video-preview-title {
-  font-size: var(--text-base);
-  font-weight: 600;
-  color: var(--text-primary);
-  margin: 0 0 var(--space-2) 0;
-  line-height: 1.4;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  line-clamp: 2;
-}
-
-.video-preview-duration,
-.video-preview-meta {
-  font-size: var(--text-sm);
-  color: var(--text-tertiary);
-  margin: 0;
-}
-
-.video-preview-meta {
-  display: flex;
-  gap: var(--space-4);
-}
-
-.video-preview-meta p {
-  margin: 0;
-}
-
-/* YouTube Converter Tab Styles */
-.tool-tab .tab-label {
-  font-weight: 600;
-  display: block;
-  margin-bottom: var(--space-1);
-}
-
-.tool-tab .tab-info {
-  font-size: var(--text-xs);
-  color: var(--text-tertiary);
-  display: block;
-}
-
-/* Input Group with Button */
-.input-group-with-button {
-  display: flex;
-  gap: var(--space-3);
-  width: 100%;
-}
-
-.input-group-with-button .tool-input {
-  flex: 1;
-}
-
-.input-group-with-button .tool-button {
-  flex-shrink: 0;
-  white-space: nowrap;
-}
-
-/* Output Group */
-.output-group {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-}
-
-.output-button-group {
-  display: flex;
-  gap: var(--space-3);
-  width: 100%;
-}
-
-.output-button-group .tool-button {
-  flex: 1;
-}
-
-/* Alert Styles for YouTube Tools */
-.alert {
-  padding: var(--space-4);
-  border-radius: var(--radius-lg);
-  display: flex;
-  gap: var(--space-3);
-  align-items: flex-start;
-  margin: var(--space-4) 0;
-  font-size: var(--text-sm);
-}
-
-.alert-error {
-  background: rgba(239, 68, 68, 0.1);
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  color: #fca5a5;
-}
-
-.alert-error svg {
-  flex-shrink: 0;
-  margin-top: 2px;
-}
-
-.alert-success {
-  background: rgba(34, 197, 94, 0.1);
-  border: 1px solid rgba(34, 197, 94, 0.3);
-  color: #86efac;
-}
-
-.alert-success svg {
-  flex-shrink: 0;
-  margin-top: 2px;
-}
-
-/* Tool Input Readonly State */
-.tool-input-readonly {
-  background: var(--bg-tertiary);
-  border-color: var(--border-secondary);
-  color: var(--text-secondary);
-  cursor: not-allowed;
-}
-
-.tool-input-readonly:focus {
-  border-color: var(--border-secondary);
-  box-shadow: none;
-}
-
-/* Responsive YouTube Converter */
-@media (max-width: 768px) {
-  .video-preview-card {
-    flex-direction: column;
-  }
-
-  .video-preview-thumbnail {
-    width: 100%;
-    height: 200px;
-  }
-
-  .input-group-with-button {
-    flex-direction: column;
-  }
-
-  .input-group-with-button .tool-button {
-    width: 100%;
-  }
-
-  .output-button-group {
-    flex-direction: column;
-  }
-
-  .output-button-group .tool-button {
-    width: 100%;
-  }
-
-  .tool-tab .tab-info {
-    font-size: 0.75rem;
   }
 }

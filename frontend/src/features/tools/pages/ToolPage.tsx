@@ -2,14 +2,13 @@ import { useEffect, useState } from "react";
 import { useParams, Link, Navigate } from "react-router-dom";
 import {
   JsonFormatter,
-  Base64Tool,
   UuidGenerator,
   JwtDecoder,
   RegexTester,
-  UrlEncoder,
   DiffTool,
   PasswordGenerator,
   TotpGenerator,
+  CipherHashLab,
 } from "../components";
 import {
   CsvToJsonTool,
@@ -24,7 +23,6 @@ import QueryParamsTool from "../components/QueryParamsTool";
 import HexRgbTool from "../components/HexRgbTool";
 import ImageBase64Tool from "../components/ImageBase64Tool";
 import Base64ImageTool from "../components/Base64ImageTool";
-import NumberBaseTool from "../components/NumberBaseTool";
 import CssUnitsTool from "../components/CssUnitsTool";
 import XmlJsonTool from "../components/XmlJsonTool";
 import SvgViewerTool from "../components/SvgViewerTool";
@@ -33,7 +31,6 @@ import CaseConverterTool from "../components/CaseConverterTool";
 import QrGeneratorTool from "../components/QrGeneratorTool";
 import MarkdownTool from "../components/MarkdownTool";
 import ColorPickerTool from "../components/ColorPickerTool";
-import HtmlEntitiesTool from "../components/HtmlEntitiesTool";
 import CronParserTool from "../components/CronParserTool";
 import CssInlineTool from "../components/CssInlineTool";
 import EnvNetlifyTool from "../components/EnvNetlifyTool";
@@ -42,8 +39,6 @@ import RandomStringTool from "../components/RandomStringTool";
 import SqlMinifyTool from "../components/SqlMinifyTool";
 import JsonYamlTool from "../components/JsonYamlTool";
 import ImageResizeTool from "../components/ImageResizeTool";
-import { YtMp3Tool } from "../components/YtMp3Tool";
-import { YtMp4Tool } from "../components/YtMp4Tool";
 
 type ToolConfig = {
   id: string;
@@ -137,18 +132,6 @@ const developerTools: ToolConfig[] = [
     description: "Preview and convert Markdown",
     component: MarkdownTool,
   },
-  {
-    id: "ytmp3",
-    name: "YouTube to MP3",
-    description: "Convert YouTube videos to MP3",
-    component: YtMp3Tool,
-  },
-  {
-    id: "ytmp4",
-    name: "YouTube to MP4",
-    description: "Convert YouTube videos to MP4",
-    component: YtMp4Tool,
-  },
 ];
 
 const securityTools: ToolConfig[] = [
@@ -177,28 +160,16 @@ const securityTools: ToolConfig[] = [
     component: RandomStringTool,
   },
   {
-    id: "base64",
-    name: "Base64",
-    description: "Encode and decode Base64",
-    component: Base64Tool,
-  },
-  {
-    id: "url",
-    name: "URL Encoder",
-    description: "Encode and decode URLs",
-    component: UrlEncoder,
+    id: "ciphers-hashes",
+    name: "Cipher & Hash Lab",
+    description: "Classic ciphers plus hashing",
+    component: CipherHashLab,
   },
   {
     id: "regex",
     name: "Regex Tester",
     description: "Test regular expressions",
     component: RegexTester,
-  },
-  {
-    id: "html-entities",
-    name: "HTML Entities",
-    description: "Encode/decode HTML entities",
-    component: HtmlEntitiesTool,
   },
   {
     id: "diff",
@@ -258,12 +229,6 @@ const dataTools: ToolConfig[] = [
     component: HexRgbTool,
   },
   {
-    id: "number-base",
-    name: "Number Base Converter",
-    description: "Binary, octal, decimal, hex",
-    component: NumberBaseTool,
-  },
-  {
     id: "sql",
     name: "SQL Formatter",
     description: "Format SQL queries",
@@ -304,12 +269,6 @@ const dataTools: ToolConfig[] = [
     name: "Color Picker",
     description: "Pick and convert colors",
     component: ColorPickerTool,
-  },
-  {
-    id: "html-entities",
-    name: "HTML Entities",
-    description: "Encode/decode HTML entities",
-    component: HtmlEntitiesTool,
   },
   {
     id: "cron-parser",
@@ -359,8 +318,8 @@ type ToolPageProps = {
   category: "developer" | "security" | "data";
 };
 
-const baseTitle = "z1x-utility tools";
-const baseDescription = "z1x-utility tools.";
+const baseTitle = "Utility Tools";
+const baseDescription = "Powerful utility tools for developers and professionals.";
 
 function setSeo({ title, description, path }: { title: string; description: string; path: string }) {
   document.title = title;
@@ -372,7 +331,7 @@ function setSeo({ title, description, path }: { title: string; description: stri
 
   const canonicalTag = document.querySelector('link[rel="canonical"]');
   if (canonicalTag) {
-    canonicalTag.setAttribute("href", `https://z1x.qzz.io${path}`);
+    canonicalTag.setAttribute("href", `${window.location.origin}${path}`);
   }
 
   const ogTitle = document.querySelector('meta[property="og:title"]');
@@ -387,7 +346,7 @@ function setSeo({ title, description, path }: { title: string; description: stri
 
   const ogUrl = document.querySelector('meta[property="og:url"]');
   if (ogUrl) {
-    ogUrl.setAttribute("content", `https://z1x.qzz.io${path}`);
+    ogUrl.setAttribute("content", `${window.location.origin}${path}`);
   }
 
   const twitterTitle = document.querySelector('meta[name="twitter:title"]');

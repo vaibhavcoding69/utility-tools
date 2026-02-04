@@ -8,22 +8,29 @@ import DataToolsPage from "../features/tools/pages/DataToolsPage";
 import ToolsHubPage from "../features/tools/pages/ToolsHubPage";
 import ToolPage from "../features/tools/pages/ToolPage";
 
-const baseTitle = "z1x-utility tools";
-const baseDescription = "z1x-utility tools.";
+// SEO configuration
+const baseTitle = "Utility Tools";
+const baseDescription = "A comprehensive collection of developer utilities and tools.";
 
+/**
+ * Update page SEO metadata dynamically
+ */
 function setSeo({ title, description, path }: { title: string; description: string; path: string }) {
   document.title = title;
 
+  // Update meta description
   const descriptionTag = document.querySelector('meta[name="description"]');
   if (descriptionTag) {
     descriptionTag.setAttribute("content", description);
   }
 
+  // Update canonical URL
   const canonicalTag = document.querySelector('link[rel="canonical"]');
   if (canonicalTag) {
-    canonicalTag.setAttribute("href", `https://z1x.qzz.io${path}`);
+    canonicalTag.setAttribute("href", `${window.location.origin}${path}`);
   }
 
+  // Update Open Graph meta tags
   const ogTitle = document.querySelector('meta[property="og:title"]');
   if (ogTitle) {
     ogTitle.setAttribute("content", title);
@@ -36,9 +43,10 @@ function setSeo({ title, description, path }: { title: string; description: stri
 
   const ogUrl = document.querySelector('meta[property="og:url"]');
   if (ogUrl) {
-    ogUrl.setAttribute("content", `https://z1x.qzz.io${path}`);
+    ogUrl.setAttribute("content", `${window.location.origin}${path}`);
   }
 
+  // Update Twitter meta tags
   const twitterTitle = document.querySelector('meta[name="twitter:title"]');
   if (twitterTitle) {
     twitterTitle.setAttribute("content", title);
@@ -50,6 +58,9 @@ function setSeo({ title, description, path }: { title: string; description: stri
   }
 }
 
+/**
+ * Component that updates SEO metadata when mounted
+ */
 function SeoTitle({ title, description, path }: { title: string; description: string; path: string }) {
   useEffect(() => {
     setSeo({ title, description, path });
@@ -58,6 +69,9 @@ function SeoTitle({ title, description, path }: { title: string; description: st
   return null;
 }
 
+/**
+ * Main application component with routing
+ */
 export default function App() {
   return (
     <BrowserRouter>
@@ -65,6 +79,7 @@ export default function App() {
         <Header />
         <main className="page-body">
           <Routes>
+            {/* Home page route */}
             <Route
               path="/"
               element={
@@ -74,13 +89,14 @@ export default function App() {
                 </>
               }
             />
+            {/* Tools hub page */}
             <Route
               path="/tools"
               element={
                 <>
                   <SeoTitle
-                    title={`${baseTitle} - tools`}
-                    description="z1x-utility tools."
+                    title={`${baseTitle} - All Tools`}
+                    description="Browse all available utility tools and features."
                     path="/tools"
                   />
                   <ToolsHubPage />
@@ -88,14 +104,14 @@ export default function App() {
               }
             />
 
-            {/* Developer Tools */}
+            {/* Developer tools category */}
             <Route
               path="/tools/developer"
               element={
                 <>
                   <SeoTitle
-                    title={`${baseTitle} - developer tools`}
-                    description="z1x-utility tools."
+                    title={`${baseTitle} - Developer Tools`}
+                    description="JSON formatting, encoding, regex testing, and developer utilities."
                     path="/tools/developer"
                   />
                   <DeveloperToolsPage />
@@ -118,7 +134,7 @@ export default function App() {
                 <>
                   <SeoTitle
                     title={`${baseTitle} - security tools`}
-                    description="z1x-utility tools."
+                    description="Explore powerful security utilities including password generators, JWT decoders, and encryption tools for developers and security professionals."
                     path="/tools/security"
                   />
                   <SecurityToolsPage />
@@ -141,7 +157,7 @@ export default function App() {
                 <>
                   <SeoTitle
                     title={`${baseTitle} - data tools`}
-                    description="z1x-utility tools."
+                    description="Transform and analyze data with our collection of JSON formatters, XML converters, YAML tools, and data processing utilities."
                     path="/tools/data"
                   />
                   <DataToolsPage />

@@ -1,24 +1,22 @@
 import { useState } from "react";
 import JsonFormatter from "./components/JsonFormatter";
-import Base64Tool from "./components/Base64Tool";
 import PasswordGenerator from "./components/PasswordGenerator";
 import HashGenerator from "./components/HashGenerator";
 import UuidGenerator from "./components/UuidGenerator";
 import JwtDecoder from "./components/JwtDecoder";
 import RegexTester from "./components/RegexTester";
-import UrlEncoder from "./components/UrlEncoder";
 import DiffTool from "./components/DiffTool";
 import TotpGenerator from "./components/TotpGenerator";
+import EncoderDecoderTool from "./components/EncoderDecoderTool";
 
 type ToolType =
   | "json"
-  | "base64"
+  | "encoder-decoder"
   | "password"
   | "hash"
   | "uuid"
   | "jwt"
   | "regex"
-  | "url"
   | "diff"
   | "totp"
   | null;
@@ -37,15 +35,9 @@ export function ToolsPage() {
       category: "developer",
     },
     {
-      id: "base64",
-      name: "Base64",
-      description: "Encode and decode Base64",
-      category: "developer",
-    },
-    {
-      id: "url",
-      name: "URL Encoder",
-      description: "Encode and decode URLs",
+      id: "encoder-decoder",
+      name: "Universal Encoder/Decoder",
+      description: "18+ encoding formats",
       category: "developer",
     },
     {
@@ -101,8 +93,8 @@ export function ToolsPage() {
     switch (selectedTool) {
       case "json":
         return <JsonFormatter />;
-      case "base64":
-        return <Base64Tool />;
+      case "encoder-decoder":
+        return <EncoderDecoderTool />;
       case "password":
         return <PasswordGenerator />;
       case "hash":
@@ -113,8 +105,6 @@ export function ToolsPage() {
         return <JwtDecoder />;
       case "regex":
         return <RegexTester />;
-      case "url":
-        return <UrlEncoder />;
       case "diff":
         return <DiffTool />;
       case "totp":

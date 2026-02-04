@@ -1,3 +1,10 @@
+"""
+Data processing API routes.
+
+This module provides endpoints for data manipulation tasks like CSV/JSON conversion,
+SQL formatting, fake data generation, and text analysis.
+"""
+
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
 import json

@@ -50,14 +50,6 @@ export default function QrGeneratorTool() {
     }
   };
 
-  const copyText = async () => {
-    try {
-      await navigator.clipboard.writeText(text);
-      showCopiedFeedback("text");
-    } catch (err) {
-      console.error("Failed to copy:", err);
-    }
-  };
 
   const showCopiedFeedback = (type: string) => {
     setCopied(type);

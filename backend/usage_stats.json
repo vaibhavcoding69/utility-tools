@@ -1,12 +1,22 @@
 {
-  "total": 523,
+  "total": 568,
   "tools": {
-    "jwt": 13,
-    "password": 1,
-    "json": 6,
-    "fake-data": 1,
-    "uuid": 8,
-    "regex": 1,
-    "diff": 1
+    "jwt": 14,
+    "password": 3,
+    "json": 8,
+    "fake-data": 2,
+    "uuid": 9,
+    "regex": 2,
+    "diff": 2,
+    "base64": 2,
+    "url": 2,
+    "hash": 2,
+    "totp": 1,
+    "csv-to-json": 1,
+    "json-to-csv": 1,
+    "sql": 1,
+    "base-converter": 1,
+    "text-stats": 1,
+    "case-converter": 1
   }
 }

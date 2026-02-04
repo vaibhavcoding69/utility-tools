@@ -1,4 +1,4 @@
-// API client for z1x utility tools
+// API client for utility tools
 
 // Default to the FastAPI router prefix used by the backend
 const API_BASE_URL = import.meta.env.VITE_API_URL || "/api";
@@ -158,6 +158,48 @@ class ApiClient {
       method: "POST",
       body: JSON.stringify({ data }),
     });
+  }
+
+  // ============================================================================
+  // Universal Encoder/Decoder
+  // ============================================================================
+
+  async encode(
+    data: string,
+    encoding: string,
+    options?: { shift?: number; key?: string; separator?: string }
+  ) {
+    return this.request<ApiResponse>("/developer/encode", {
+      method: "POST",
+      body: JSON.stringify({ data, encoding, mode: "encode", options }),
+    });
+  }
+
+  async decode(
+    data: string,
+    encoding: string,
+    options?: { shift?: number; key?: string }
+  ) {
+    return this.request<ApiResponse>("/developer/decode", {
+      method: "POST",
+      body: JSON.stringify({ data, encoding, mode: "decode", options }),
+    });
+  }
+
+  async encodeDecode(
+    data: string,
+    encoding: string,
+    mode: "encode" | "decode",
+    options?: { shift?: number; key?: string; separator?: string }
+  ) {
+    return this.request<ApiResponse>("/developer/encode-decode", {
+      method: "POST",
+      body: JSON.stringify({ data, encoding, mode, options }),
+    });
+  }
+
+  async listEncodings() {
+    return this.request<ApiResponse>("/developer/encodings");
   }
 
   // ============================================================================
@@ -374,45 +416,16 @@ class ApiClient {
       body: JSON.stringify({ value, from_base: fromBase, to_base: toBase }),
     });
   }
-
-  // ============================================================================
-  // YouTube Converter
-  // ============================================================================
-
-  async convertYtToMp3(url: string) {
-    return this.request<ApiResponse>("/developer/youtube/youtube-to-mp3", {
-      method: "POST",
-      body: JSON.stringify({ url }),
-    });
-  }
-
-  async convertYtToMp4(url: string, quality: string = "high") {
-    return this.request<ApiResponse>("/developer/youtube/youtube-to-mp4", {
-      method: "POST",
-      body: JSON.stringify({ url, quality }),
-    });
-  }
-
-  async getYouTubeInfo(url: string) {
-    return this.request<ApiResponse>(
-      `/developer/youtube/youtube-info?url=${encodeURIComponent(url)}`,
-      {
-        method: "GET",
-      },
-    );
-  }
-
-  async validateYouTubeUrl(url: string) {
-    return this.request<ApiResponse>(
-      `/developer/youtube/validate-youtube-url?url=${encodeURIComponent(url)}`,
-      {
-        method: "GET",
-      },
-    );
-  }
-
 }
 
 // Export singleton instance
 export const api = new ApiClient();
+
+// Export helper functions for convenience
+export const encode = (data: string, encoding: string, options?: any) =>
+  api.encode(data, encoding, options);
+
+export const decode = (data: string, encoding: string, options?: any) =>
+  api.decode(data, encoding, options);
+
 export default api;

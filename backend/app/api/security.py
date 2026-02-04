@@ -12,9 +12,9 @@ import re
 import base64
 import hmac
 
-# ============================================================================
+# 
 # Pydantic Models
-# ============================================================================
+# 
 
 
 class PasswordGenerateOptions(BaseModel):
@@ -87,9 +87,9 @@ class PasswordPolicyPayload(BaseModel):
 
 router = APIRouter()
 
-# ============================================================================
+# 
 # Password Generation
-# ============================================================================
+# 
 
 
 @router.get("/password/generate", summary="Generate Password")
@@ -184,9 +184,9 @@ async def password_generate_post(options: PasswordGenerateOptions):
     )
 
 
-# ============================================================================
+# 
 # Password Strength Analysis
-# ============================================================================
+# 
 
 
 @router.post("/password/strength", summary="Check Password Strength")
@@ -365,9 +365,9 @@ async def password_policy(payload: PasswordPolicyPayload):
     }
 
 
-# ============================================================================
+# 
 # Hashing
-# ============================================================================
+# 
 
 
 @router.post("/hash/generate", summary="Generate Hash")
@@ -455,9 +455,9 @@ async def hash_all(payload: HashPayload):
     return {"success": True, "hashes": results, "input_length": len(payload.data)}
 
 
-# ============================================================================
+# 
 # HMAC
-# ============================================================================
+# 
 
 
 @router.post("/hmac/generate", summary="Generate HMAC")
@@ -482,9 +482,9 @@ async def hmac_generate(payload: HmacPayload):
     }
 
 
-# ============================================================================
+# 
 # Email Validation
-# ============================================================================
+# 
 
 
 @router.post("/validate/email", summary="Validate Email")
@@ -530,9 +530,9 @@ async def validate_email(payload: EmailValidatePayload):
     }
 
 
-# ============================================================================
+# 
 # Secret/Token Generation
-# ============================================================================
+# 
 
 
 @router.post("/secret/generate", summary="Generate Secret Token")
@@ -569,9 +569,9 @@ async def generate_api_key(
     }
 
 
-# ============================================================================
+# 
 # Checksum
-# ============================================================================
+# 
 
 
 @router.post("/checksum/calculate", summary="Calculate Checksum")
@@ -602,9 +602,9 @@ async def checksum_calculate(payload: ChecksumPayload):
     }
 
 
-# ============================================================================
+# 
 # XOR Encryption (Educational)
-# ============================================================================
+# 
 
 
 @router.post("/encrypt/xor", summary="XOR Encrypt")
@@ -635,9 +635,9 @@ async def xor_decrypt(payload: EncryptPayload):
         raise HTTPException(status_code=400, detail=str(e))
 
 
-# ============================================================================
+# 
 # TOTP (Time-based OTP)
-# ============================================================================
+# 
 
 
 @router.post("/otp/generate", summary="Generate TOTP")
@@ -670,5 +670,5 @@ async def otp_generate(payload: OTPPayload):
         "digits": payload.digits,
         "period": payload.period,
         "time_remaining": payload.period - (current_time % payload.period),
-        "provisioning_uri": f"otpauth://totp/z1x:user?secret={secret}&issuer=z1x&digits={payload.digits}&period={payload.period}",
+        "provisioning_uri": f"otpauth://totp/UtilityTools:user?secret={secret}&issuer=UtilityTools&digits={payload.digits}&period={payload.period}",
     }
