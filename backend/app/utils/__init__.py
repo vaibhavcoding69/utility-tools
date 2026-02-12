@@ -34,15 +34,8 @@ def load_usage_stats() -> None:
         _tool_usage = {}
 
 def save_usage_stats() -> None:
-    data = {
-        "total": _request_count,
-        "tools": _tool_usage
-    }
-
-    try:
-        USAGE_STATS_FILE.write_text(json.dumps(data, indent=2), encoding="utf-8")
-    except Exception as e:
-        logger.error(f"Failed to save usage stats: {e}")
+    # Disabled for serverless deployment (Vercel) - stats don't persist
+    pass
 
 def increment_request_count() -> None:
     global _request_count

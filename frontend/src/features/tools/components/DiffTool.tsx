@@ -191,7 +191,6 @@ export function DiffTool() {
             className="btn primary"
             onClick={handleDiff}
             disabled={loading || !original || !modified}
-            title={loading ? "Processing..." : !original && !modified ? "Enter both texts first" : !original ? "Enter original text" : !modified ? "Enter modified text" : undefined}
             title={loading ? "Processing..." : !original && !modified ? "Enter both texts first" : !original ? "Enter original text first" : !modified ? "Enter modified text first" : undefined}
           >
             {loading ? (
