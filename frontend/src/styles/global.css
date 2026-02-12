@@ -37,15 +37,15 @@
   --border-active: rgba(255, 255, 255, 0.3);
   --border-subtle: rgba(255, 255, 255, 0.05);
 
-  --accent: #10b981; /* emerald green accent for interactive controls */
-  --accent-hover: #059669;
-  --accent-muted: #34d399;
-  --accent-subtle: rgba(16, 185, 129, 0.12);
+  --accent: #ffffff; 
+  --accent-hover: #d4d4d4;
+  --accent-muted: #a3a3a3;
+  --accent-subtle: rgba(255, 255, 255, 0.12);
 
-  --color-success: #10b981;
-  --color-error: #ef4444;
-  --color-warning: #f59e0b;
-  --color-info: #3b82f6;
+  --color-success: #ffffff;
+  --color-error: #ffffff;
+  --color-warning: #a3a3a3;
+  --color-info: #a3a3a3;
 
   --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.5);
   --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.45);
@@ -149,19 +149,19 @@
 
 [data-theme="light"] {
   --bg-primary: #ffffff;
-  --bg-secondary: #f3f4f6;
-  --bg-tertiary: #e5e7eb;
+  --bg-secondary: #f5f5f5;
+  --bg-tertiary: #e5e5e5;
   --bg-elevated: #ffffff;
-  --bg-hover: #f3f4f6;
-  --bg-active: #e5e7eb;
+  --bg-hover: #f5f5f5;
+  --bg-active: #e5e5e5;
   --bg-glass: rgba(255, 255, 255, 0.95);
   --bg-glass-subtle: rgba(0, 0, 0, 0.05);
   --bg-glass-hover: rgba(0, 0, 0, 0.08);
 
-  --text-primary: #111827;
-  --text-secondary: #4b5563;
-  --text-tertiary: #6b7280;
-  --text-muted: #9ca3af;
+  --text-primary: #1a1a1a;
+  --text-secondary: #525252;
+  --text-tertiary: #737373;
+  --text-muted: #a3a3a3;
   --text-inverse: #ffffff;
 
   --border-primary: rgba(0, 0, 0, 0.12);
@@ -170,9 +170,9 @@
   --border-active: rgba(0, 0, 0, 0.24);
   --border-subtle: rgba(0, 0, 0, 0.06);
 
-  --accent: #111827;
-  --accent-hover: #1f2937;
-  --accent-muted: #374151;
+  --accent: #1a1a1a;
+  --accent-hover: #404040;
+  --accent-muted: #525252;
   --accent-subtle: rgba(0, 0, 0, 0.08);
 
   --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
@@ -316,10 +316,6 @@
 .animate-float {
   animation: float 6s var(--ease-in-out) infinite;
 }
-
-/* ==========================================================================
-   EXTENDED ANIMATION UTILITIES
-   ========================================================================== */
 
 @keyframes bounce {
   0%, 100% { transform: translateY(0); }
@@ -467,7 +463,6 @@
 .animate-flip-in { animation: flipIn var(--duration-slow) var(--ease-out) forwards; }
 .animate-rotate-in { animation: rotateIn var(--duration-slow) var(--ease-out) forwards; }
 
-/* Animation delay utilities */
 .animate-delay-75 { animation-delay: 75ms; }
 .animate-delay-100 { animation-delay: 100ms; }
 .animate-delay-150 { animation-delay: 150ms; }
@@ -477,7 +472,6 @@
 .animate-delay-700 { animation-delay: 700ms; }
 .animate-delay-1000 { animation-delay: 1000ms; }
 
-/* Animation duration utilities */
 .animate-duration-75 { animation-duration: 75ms; }
 .animate-duration-100 { animation-duration: 100ms; }
 .animate-duration-150 { animation-duration: 150ms; }
@@ -487,30 +481,22 @@
 .animate-duration-700 { animation-duration: 700ms; }
 .animate-duration-1000 { animation-duration: 1000ms; }
 
-/* Animation iteration utilities */
 .animate-once { animation-iteration-count: 1; }
 .animate-twice { animation-iteration-count: 2; }
 .animate-infinite { animation-iteration-count: infinite; }
 
-/* Animation direction utilities */
 .animate-normal { animation-direction: normal; }
 .animate-reverse { animation-direction: reverse; }
 .animate-alternate { animation-direction: alternate; }
 .animate-alternate-reverse { animation-direction: alternate-reverse; }
 
-/* Animation fill mode utilities */
 .animate-fill-none { animation-fill-mode: none; }
 .animate-fill-forwards { animation-fill-mode: forwards; }
 .animate-fill-backwards { animation-fill-mode: backwards; }
 .animate-fill-both { animation-fill-mode: both; }
 
-/* Animation play state utilities */
 .animate-running { animation-play-state: running; }
 .animate-paused { animation-play-state: paused; }
-
-/* ==========================================================================
-   GLASSMORPHISM CARD STYLES
-   ========================================================================== */
 
 .glass-card {
   background: var(--bg-glass);
@@ -564,7 +550,6 @@
   opacity: 1;
 }
 
-/* Frosted glass effect */
 .frosted {
   background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(40px) saturate(180%);
@@ -575,10 +560,6 @@
   background: rgba(255, 255, 255, 0.7);
 }
 
-/* Lottie icon invert for theme switching
-   For icons with WHITE strokes (lock, developer):
-   - Default (dark mode): no invert (white on black = visible)
-   - Light mode: invert (black on white = visible) */
 .lottie-icon-invert {
   filter: invert(0);
 }
@@ -587,9 +568,6 @@
   filter: invert(1);
 }
 
-/* For icons with BLACK strokes (accuracy):
-   - Default (dark mode): invert to white (so visible on black)
-   - Light mode: no invert (black on white = visible) */
 .lottie-icon-invert-dark {
   filter: invert(1);
 }
@@ -597,10 +575,6 @@
 [data-theme="light"] .lottie-icon-invert-dark {
   filter: invert(0);
 }
-
-/* ==========================================================================
-   NOISE & TEXTURE OVERLAYS
-   ========================================================================== */
 
 .noise-overlay {
   position: relative;
@@ -693,10 +667,6 @@
     );
 }
 
-/* ==========================================================================
-   DIVIDER UTILITIES
-   ========================================================================== */
-
 .divider {
   display: flex;
   align-items: center;
@@ -743,10 +713,6 @@
   border: none;
   border-top: 1px dotted var(--border-primary);
 }
-
-/* ==========================================================================
-   GRADIENT UTILITIES
-   ========================================================================== */
 
 .gradient-text {
   background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
@@ -803,7 +769,6 @@
   pointer-events: none;
 }
 
-/* Gradient backgrounds */
 .gradient-bg-subtle {
   background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
 }
@@ -819,10 +784,6 @@
     transparent 40%
   );
 }
-
-/* ==========================================================================
-   SURFACE ELEVATION SYSTEM
-   ========================================================================== */
 
 .surface-0 {
   background: var(--bg-primary);
@@ -865,10 +826,6 @@
   border: 1px solid var(--border-primary);
   box-shadow: var(--shadow-xl);
 }
-
-/* ==========================================================================
-   INTERACTIVE STATES
-   ========================================================================== */
 
 .interactive {
   transition: all var(--duration-normal) var(--ease-out);
@@ -918,11 +875,6 @@
   transform: scale(0.96);
 }
 
-/* ==========================================================================
-   SPACING UTILITIES
-   ========================================================================== */
-
-/* Padding utilities */
 .p-0 { padding: 0; }
 .p-1 { padding: var(--space-1); }
 .p-2 { padding: var(--space-2); }
@@ -952,7 +904,6 @@
 .py-6 { padding-top: var(--space-6); padding-bottom: var(--space-6); }
 .py-8 { padding-top: var(--space-8); padding-bottom: var(--space-8); }
 
-/* Margin utilities */
 .m-0 { margin: 0; }
 .m-1 { margin: var(--space-1); }
 .m-2 { margin: var(--space-2); }
@@ -993,7 +944,6 @@
 .mb-6 { margin-bottom: var(--space-6); }
 .mb-8 { margin-bottom: var(--space-8); }
 
-/* Gap utilities */
 .gap-0 { gap: 0; }
 .gap-1 { gap: var(--space-1); }
 .gap-2 { gap: var(--space-2); }
@@ -1003,10 +953,6 @@
 .gap-6 { gap: var(--space-6); }
 .gap-8 { gap: var(--space-8); }
 .gap-10 { gap: var(--space-10); }
-
-/* ==========================================================================
-   FLEXBOX UTILITIES
-   ========================================================================== */
 
 .flex { display: flex; }
 .inline-flex { display: inline-flex; }
@@ -1044,10 +990,6 @@
 .self-end { align-self: flex-end; }
 .self-stretch { align-self: stretch; }
 
-/* ==========================================================================
-   GRID UTILITIES
-   ========================================================================== */
-
 .grid { display: grid; }
 .inline-grid { display: inline-grid; }
 
@@ -1080,10 +1022,6 @@
 .place-content-center { place-content: center; }
 .place-content-between { place-content: space-between; }
 
-/* ==========================================================================
-   DISPLAY & VISIBILITY UTILITIES
-   ========================================================================== */
-
 .block { display: block; }
 .inline-block { display: inline-block; }
 .inline { display: inline; }
@@ -1098,10 +1036,6 @@
 .opacity-50 { opacity: 0.5; }
 .opacity-75 { opacity: 0.75; }
 .opacity-100 { opacity: 1; }
-
-/* ==========================================================================
-   POSITION & SIZING UTILITIES
-   ========================================================================== */
 
 .static { position: static; }
 .relative { position: relative; }
@@ -1152,10 +1086,6 @@
 .max-w-xl { max-width: var(--max-width-xl); }
 .max-w-2xl { max-width: var(--max-width-2xl); }
 
-/* ==========================================================================
-   BORDER & RADIUS UTILITIES
-   ========================================================================== */
-
 .border { border: 1px solid var(--border-primary); }
 .border-0 { border: none; }
 .border-t { border-top: 1px solid var(--border-primary); }
@@ -1186,10 +1116,6 @@
 .rounded-b-lg { border-bottom-left-radius: var(--radius-lg); border-bottom-right-radius: var(--radius-lg); }
 .rounded-l-lg { border-top-left-radius: var(--radius-lg); border-bottom-left-radius: var(--radius-lg); }
 .rounded-r-lg { border-top-right-radius: var(--radius-lg); border-bottom-right-radius: var(--radius-lg); }
-
-/* ==========================================================================
-   TEXT UTILITIES
-   ========================================================================== */
 
 .text-left { text-align: left; }
 .text-center { text-align: center; }
@@ -1256,10 +1182,6 @@
 .leading-relaxed { line-height: var(--leading-relaxed); }
 .leading-loose { line-height: var(--leading-loose); }
 
-/* ==========================================================================
-   OVERFLOW & SCROLL UTILITIES
-   ========================================================================== */
-
 .overflow-auto { overflow: auto; }
 .overflow-hidden { overflow: hidden; }
 .overflow-visible { overflow: visible; }
@@ -1276,10 +1198,6 @@
 .overscroll-auto { overscroll-behavior: auto; }
 .overscroll-contain { overscroll-behavior: contain; }
 .overscroll-none { overscroll-behavior: none; }
-
-/* ==========================================================================
-   CURSOR & POINTER UTILITIES
-   ========================================================================== */
 
 .cursor-auto { cursor: auto; }
 .cursor-default { cursor: default; }
@@ -1302,10 +1220,6 @@
 .select-text { user-select: text; }
 .select-all { user-select: all; }
 .select-auto { user-select: auto; }
-
-/* ==========================================================================
-   TRANSFORM UTILITIES
-   ========================================================================== */
 
 .scale-0 { transform: scale(0); }
 .scale-50 { transform: scale(0.5); }
@@ -1374,10 +1288,6 @@
 .origin-left { transform-origin: left; }
 .origin-top-left { transform-origin: top left; }
 
-/* ==========================================================================
-   TRANSITION UTILITIES
-   ========================================================================== */
-
 .transition-none { transition-property: none; }
 .transition-all {
   transition-property: all;
@@ -1431,10 +1341,6 @@
 .delay-700 { transition-delay: 700ms; }
 .delay-1000 { transition-delay: 1000ms; }
 
-/* ==========================================================================
-   SHADOW UTILITIES
-   ========================================================================== */
-
 .shadow-none { box-shadow: none; }
 .shadow-xs { box-shadow: var(--shadow-xs); }
 .shadow-sm { box-shadow: var(--shadow-sm); }
@@ -1456,11 +1362,11 @@
 }
 
 .shadow-error {
-  box-shadow: 0 4px 14px 0 rgba(239, 68, 68, 0.25);
+  box-shadow: 0 4px 14px 0 rgba(163, 163, 163, 0.25);
 }
 
 .shadow-warning {
-  box-shadow: 0 4px 14px 0 rgba(245, 158, 11, 0.25);
+  box-shadow: 0 4px 14px 0 rgba(115, 115, 115, 0.25);
 }
 
 .drop-shadow-sm { filter: drop-shadow(0 1px 1px rgb(0 0 0 / 0.05)); }
@@ -1470,10 +1376,6 @@
 .drop-shadow-xl { filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08)); }
 .drop-shadow-2xl { filter: drop-shadow(0 25px 25px rgb(0 0 0 / 0.15)); }
 .drop-shadow-none { filter: drop-shadow(0 0 #0000); }
-
-/* ==========================================================================
-   FILTER & BACKDROP UTILITIES
-   ========================================================================== */
 
 .blur-none { filter: blur(0); }
 .blur-sm { filter: blur(4px); }
@@ -1528,10 +1430,6 @@
 .sepia-0 { filter: sepia(0); }
 .sepia { filter: sepia(100%); }
 
-/* ==========================================================================
-   RING UTILITIES (Outline-like focus rings)
-   ========================================================================== */
-
 .ring-0 { box-shadow: var(--tw-ring-inset) 0 0 0 calc(0px + var(--tw-ring-offset-width)) var(--tw-ring-color); }
 .ring-1 { box-shadow: var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color); }
 .ring-2 { box-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color); }
@@ -1550,10 +1448,6 @@
 .ring-transparent { --tw-ring-color: transparent; }
 .ring-white { --tw-ring-color: #fff; }
 .ring-black { --tw-ring-color: #000; }
-
-/* ==========================================================================
-   OUTLINE UTILITIES
-   ========================================================================== */
 
 .outline-none {
   outline: 2px solid transparent;
@@ -1584,10 +1478,6 @@
 .outline-offset-4 { outline-offset: 4px; }
 .outline-offset-8 { outline-offset: 8px; }
 
-/* ==========================================================================
-   VISIBILITY & ACCESSIBILITY
-   ========================================================================== */
-
 .visible { visibility: visible; }
 .invisible { visibility: hidden; }
 .collapse { visibility: collapse; }
@@ -1615,19 +1505,11 @@
   white-space: normal;
 }
 
-/* ==========================================================================
-   LIST UTILITIES
-   ========================================================================== */
-
 .list-none { list-style-type: none; }
 .list-disc { list-style-type: disc; }
 .list-decimal { list-style-type: decimal; }
 .list-inside { list-style-position: inside; }
 .list-outside { list-style-position: outside; }
-
-/* ==========================================================================
-   TABLE UTILITIES
-   ========================================================================== */
 
 .table-auto { table-layout: auto; }
 .table-fixed { table-layout: fixed; }
@@ -1638,10 +1520,6 @@
 .border-spacing-2 { border-spacing: 0.5rem; }
 .border-spacing-4 { border-spacing: 1rem; }
 
-/* ==========================================================================
-   ASPECT RATIO UTILITIES
-   ========================================================================== */
-
 .aspect-auto { aspect-ratio: auto; }
 .aspect-square { aspect-ratio: 1 / 1; }
 .aspect-video { aspect-ratio: 16 / 9; }
@@ -1649,10 +1527,6 @@
 .aspect-3\/2 { aspect-ratio: 3 / 2; }
 .aspect-2\/1 { aspect-ratio: 2 / 1; }
 .aspect-21\/9 { aspect-ratio: 21 / 9; }
-
-/* ==========================================================================
-   OBJECT FIT & POSITION UTILITIES
-   ========================================================================== */
 
 .object-contain { object-fit: contain; }
 .object-cover { object-fit: cover; }
@@ -1669,10 +1543,6 @@
 .object-right-bottom { object-position: right bottom; }
 .object-right-top { object-position: right top; }
 .object-top { object-position: top; }
-
-/* ==========================================================================
-   INSET & PLACEMENT UTILITIES
-   ========================================================================== */
 
 .inset-0 { inset: 0; }
 .inset-auto { inset: auto; }
@@ -1725,24 +1595,12 @@
 .-left-1 { left: -0.25rem; }
 .-left-2 { left: -0.5rem; }
 
-/* ==========================================================================
-   ISOLATION UTILITIES
-   ========================================================================== */
-
 .isolate { isolation: isolate; }
 .isolation-auto { isolation: auto; }
-
-/* ==========================================================================
-   CONTENT UTILITIES
-   ========================================================================== */
 
 .content-none { content: none; }
 .content-empty::before { content: ''; }
 .content-empty::after { content: ''; }
-
-/* ==========================================================================
-   BACKGROUND UTILITIES
-   ========================================================================== */
 
 .bg-transparent { background-color: transparent; }
 .bg-current { background-color: currentColor; }
@@ -1823,10 +1681,6 @@
 .bg-right-top { background-position: right top; }
 .bg-right-bottom { background-position: right bottom; }
 
-/* ==========================================================================
-   MIX BLEND MODE UTILITIES
-   ========================================================================== */
-
 .mix-blend-normal { mix-blend-mode: normal; }
 .mix-blend-multiply { mix-blend-mode: multiply; }
 .mix-blend-screen { mix-blend-mode: screen; }
@@ -1843,10 +1697,6 @@
 .mix-blend-saturation { mix-blend-mode: saturation; }
 .mix-blend-color { mix-blend-mode: color; }
 .mix-blend-luminosity { mix-blend-mode: luminosity; }
-
-/* ==========================================================================
-   BASE RESET & STYLES
-   ========================================================================== */
 
 *,
 *::before,
@@ -2191,6 +2041,41 @@ blockquote {
   flex-direction: column;
   gap: var(--space-24);
 }
+
+/* Footer */
+.site-footer {
+  width: 100%;
+  border-top: 1px solid var(--border-secondary);
+  padding: var(--space-6) var(--space-8);
+  background: var(--bg-secondary);
+}
+.footer-inner {
+  max-width: var(--max-width-xl);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  font-size: var(--text-sm);
+  color: var(--text-tertiary);
+}
+.footer-heart {
+  display: inline-block;
+  vertical-align: -2px;
+  color: #e25555;
+}
+.footer-link {
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+.footer-link:hover {
+  color: var(--text-primary);
+}
+.footer-separator {
+  color: var(--text-muted);
+}
+
 .container {
   width: 100%;
   max-width: var(--max-width-xl);
@@ -2369,20 +2254,23 @@ blockquote {
   transition: all var(--duration-fast) var(--ease-out);
   overflow: hidden;
 }
-.nav-link::before {
+.nav-link::after {
   content: "";
   position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-secondary) 100%);
-  border-radius: var(--radius-md);
-  opacity: 0;
-  transform: translateY(100%);
-  transition: all var(--duration-fast) var(--ease-out);
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%) scaleX(0);
+  width: 70%;
+  height: 2px;
+  background: var(--text-primary);
+  border-radius: var(--radius-full);
+  transition: transform var(--duration-normal) var(--ease-out);
 }
-.nav-link:hover::before,
-.nav-link.active::before {
-  opacity: 1;
-  transform: translateY(0);
+.nav-link:hover::after {
+  transform: translateX(-50%) scaleX(0.6);
+}
+.nav-link.active::after {
+  transform: translateX(-50%) scaleX(1);
 }
 .nav-link:hover,
 .nav-link.active {
@@ -2390,6 +2278,7 @@ blockquote {
 }
 .nav-link.active {
   font-weight: 600;
+  background: var(--bg-glass-subtle);
 }
 .nav-actions {
   display: flex;
@@ -3147,7 +3036,8 @@ blockquote {
   color: var(--text-primary);
 }
 .command-search input::placeholder {
-  color: var(--text-muted);
+  color: var(--text-tertiary);
+  opacity: 1;
 }
 .command-search-link {
   font-family: var(--font-mono);
@@ -3378,7 +3268,6 @@ blockquote {
   color: var(--text-primary);
 }
 
-/* Alternate text alignment (left, right, left...) */
 .features-grid .feature-card:nth-child(even) .feature-card-content {
   text-align: right;
 }
@@ -3519,7 +3408,7 @@ blockquote {
   width: 100%;
   min-width: 0;
 }
-/* Ensure button element gets proper styles (override global button reset) */
+
 button.tool-card {
   background: var(--bg-tertiary);
   border: 1px solid var(--border-primary);
@@ -3536,18 +3425,18 @@ button.tool-card:hover {
   box-shadow: var(--shadow-lg);
 }
 .tool-card-icon {
-  width: 44px;
-  height: 44px;
+  width: 48px;
+  height: 48px;
   display: grid;
   place-items: center;
-  font-size: var(--text-xl);
+  font-size: var(--text-2xl);
   flex-shrink: 0;
   border-radius: var(--radius-lg);
   background: var(--bg-secondary);
   border: 1px solid var(--border-secondary);
 }
 .tool-card-icon .bi {
-  font-size: 20px;
+  font-size: 24px;
   color: var(--text-primary);
 }
 .tool-card-icon.subtle {
@@ -3951,7 +3840,6 @@ button.tool-card:hover {
   transform: scale(1.1);
 }
 
-/* Tool component styles */
 .btn-icon {
   display: inline-flex;
   align-items: center;
@@ -3979,7 +3867,6 @@ button.tool-card:hover {
   font-size: 14px;
 }
 
-/* Status badges */
 .jwt-status,
 .regex-status {
   display: flex;
@@ -3992,15 +3879,15 @@ button.tool-card:hover {
 }
 .jwt-status.valid,
 .regex-status.match {
-  background: rgba(34, 197, 94, 0.1);
-  border: 1px solid rgba(34, 197, 94, 0.3);
-  color: #22c55e;
+  background: rgba(212, 212, 212, 0.1);
+  border: 1px solid rgba(212, 212, 212, 0.3);
+  color: #d4d4d4;
 }
 .jwt-status.expired,
 .regex-status.no-match {
-  background: rgba(239, 68, 68, 0.1);
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  color: #ef4444;
+  background: rgba(163, 163, 163, 0.1);
+  border: 1px solid rgba(163, 163, 163, 0.3);
+  color: #a3a3a3;
 }
 .jwt-status .bi,
 .regex-status .bi {
@@ -4012,7 +3899,6 @@ button.tool-card:hover {
   opacity: 0.8;
 }
 
-/* JWT sections */
 .jwt-section {
   display: flex;
   flex-direction: column;
@@ -4025,7 +3911,6 @@ button.tool-card:hover {
   gap: var(--space-3);
 }
 
-/* UUID results */
 .uuid-results {
   display: flex;
   flex-direction: column;
@@ -4049,7 +3934,6 @@ button.tool-card:hover {
   min-width: 0;
 }
 
-/* TOTP styles */
 .totp-code-container {
   display: flex;
   align-items: center;
@@ -4123,17 +4007,16 @@ button.tool-card:hover {
   align-items: center;
   gap: var(--space-2);
   padding: var(--space-3) var(--space-4);
-  background: rgba(59, 130, 246, 0.08);
-  border: 1px solid rgba(59, 130, 246, 0.2);
+  background: rgba(163, 163, 163, 0.08);
+  border: 1px solid rgba(163, 163, 163, 0.2);
   border-radius: var(--radius-md);
   font-size: var(--text-sm);
   color: var(--text-secondary);
 }
 .totp-note .bi {
-  color: #3b82f6;
+  color: #a3a3a3;
 }
 
-/* Hash results */
 .hash-results {
   display: flex;
   flex-direction: column;
@@ -4169,7 +4052,6 @@ button.tool-card:hover {
   min-width: 0;
 }
 
-/* Regex styles */
 .regex-flags {
   display: flex;
   flex-wrap: wrap;
@@ -4199,7 +4081,7 @@ button.tool-card:hover {
   word-break: break-word;
 }
 .regex-highlighted mark {
-  background: rgba(251, 191, 36, 0.3);
+  background: rgba(115, 115, 115, 0.3);
   color: inherit;
   padding: 1px 2px;
   border-radius: 2px;
@@ -4237,105 +4119,93 @@ button.tool-card:hover {
   color: var(--text-muted);
 }
 
-/* ==========================================================================
-   COMPREHENSIVE TOOL STYLING SYSTEM
-   ========================================================================== */
-
-/* --------------------------------------------------------------------------
-   Tool Color System - Semantic Colors for Tools
-   -------------------------------------------------------------------------- */
 :root {
-  /* Success palette */
-  --tool-success-bg: rgba(34, 197, 94, 0.08);
-  --tool-success-border: rgba(34, 197, 94, 0.25);
-  --tool-success-text: #22c55e;
-  --tool-success-icon: #4ade80;
   
-  /* Error palette */
-  --tool-error-bg: rgba(239, 68, 68, 0.08);
-  --tool-error-border: rgba(239, 68, 68, 0.25);
-  --tool-error-text: #ef4444;
-  --tool-error-icon: #f87171;
+  --tool-success-bg: rgba(255, 255, 255, 0.06);
+  --tool-success-border: rgba(255, 255, 255, 0.2);
+  --tool-success-text: #d4d4d4;
+  --tool-success-icon: #e5e5e5;
   
-  /* Warning palette */
-  --tool-warning-bg: rgba(251, 191, 36, 0.08);
-  --tool-warning-border: rgba(251, 191, 36, 0.25);
-  --tool-warning-text: #fbbf24;
-  --tool-warning-icon: #fcd34d;
   
-  /* Info palette */
-  --tool-info-bg: rgba(59, 130, 246, 0.08);
-  --tool-info-border: rgba(59, 130, 246, 0.25);
-  --tool-info-text: #3b82f6;
-  --tool-info-icon: #60a5fa;
+  --tool-error-bg: rgba(255, 255, 255, 0.06);
+  --tool-error-border: rgba(255, 255, 255, 0.2);
+  --tool-error-text: #a3a3a3;
+  --tool-error-icon: #d4d4d4;
   
-  /* Accent palette for tools */
-  --tool-accent-bg: rgba(139, 92, 246, 0.08);
-  --tool-accent-border: rgba(139, 92, 246, 0.25);
-  --tool-accent-text: #8b5cf6;
-  --tool-accent-icon: #a78bfa;
   
-  /* Neutral palette */
+  --tool-warning-bg: rgba(255, 255, 255, 0.06);
+  --tool-warning-border: rgba(255, 255, 255, 0.2);
+  --tool-warning-text: #a3a3a3;
+  --tool-warning-icon: #d4d4d4;
+  
+  
+  --tool-info-bg: rgba(255, 255, 255, 0.06);
+  --tool-info-border: rgba(255, 255, 255, 0.2);
+  --tool-info-text: #a3a3a3;
+  --tool-info-icon: #d4d4d4;
+  
+  
+  --tool-accent-bg: rgba(255, 255, 255, 0.06);
+  --tool-accent-border: rgba(255, 255, 255, 0.2);
+  --tool-accent-text: #d4d4d4;
+  --tool-accent-icon: #e5e5e5;
+  
+  
   --tool-neutral-bg: rgba(115, 115, 115, 0.08);
   --tool-neutral-border: rgba(115, 115, 115, 0.25);
   --tool-neutral-text: #737373;
   
-  /* Code colors */
-  --code-keyword: #c678dd;
-  --code-string: #98c379;
-  --code-number: #d19a66;
-  --code-comment: #5c6370;
-  --code-function: #61afef;
-  --code-variable: #e06c75;
-  --code-operator: #56b6c2;
-  --code-punctuation: #abb2bf;
+  
+  --code-keyword: #e5e5e5;
+  --code-string: #a3a3a3;
+  --code-number: #d4d4d4;
+  --code-comment: #525252;
+  --code-function: #e5e5e5;
+  --code-variable: #a3a3a3;
+  --code-operator: #d4d4d4;
+  --code-punctuation: #737373;
 }
 
 [data-theme="light"] {
-  --tool-success-bg: rgba(34, 197, 94, 0.1);
-  --tool-success-border: rgba(34, 197, 94, 0.3);
-  --tool-success-text: #16a34a;
-  --tool-success-icon: #22c55e;
+  --tool-success-bg: rgba(0, 0, 0, 0.05);
+  --tool-success-border: rgba(0, 0, 0, 0.15);
+  --tool-success-text: #404040;
+  --tool-success-icon: #525252;
   
-  --tool-error-bg: rgba(239, 68, 68, 0.1);
-  --tool-error-border: rgba(239, 68, 68, 0.3);
-  --tool-error-text: #dc2626;
-  --tool-error-icon: #ef4444;
+  --tool-error-bg: rgba(0, 0, 0, 0.05);
+  --tool-error-border: rgba(0, 0, 0, 0.15);
+  --tool-error-text: #404040;
+  --tool-error-icon: #525252;
   
-  --tool-warning-bg: rgba(245, 158, 11, 0.1);
-  --tool-warning-border: rgba(245, 158, 11, 0.3);
-  --tool-warning-text: #d97706;
-  --tool-warning-icon: #f59e0b;
+  --tool-warning-bg: rgba(0, 0, 0, 0.05);
+  --tool-warning-border: rgba(0, 0, 0, 0.15);
+  --tool-warning-text: #525252;
+  --tool-warning-icon: #737373;
   
-  --tool-info-bg: rgba(59, 130, 246, 0.1);
-  --tool-info-border: rgba(59, 130, 246, 0.3);
-  --tool-info-text: #2563eb;
-  --tool-info-icon: #3b82f6;
+  --tool-info-bg: rgba(0, 0, 0, 0.05);
+  --tool-info-border: rgba(0, 0, 0, 0.15);
+  --tool-info-text: #525252;
+  --tool-info-icon: #737373;
   
-  --tool-accent-bg: rgba(139, 92, 246, 0.1);
-  --tool-accent-border: rgba(139, 92, 246, 0.3);
-  --tool-accent-text: #7c3aed;
-  --tool-accent-icon: #8b5cf6;
+  --tool-accent-bg: rgba(0, 0, 0, 0.05);
+  --tool-accent-border: rgba(0, 0, 0, 0.15);
+  --tool-accent-text: #404040;
+  --tool-accent-icon: #525252;
   
   --tool-neutral-bg: rgba(115, 115, 115, 0.1);
   --tool-neutral-border: rgba(115, 115, 115, 0.3);
   --tool-neutral-text: #525252;
   
-  --code-keyword: #a626a4;
-  --code-string: #50a14f;
-  --code-number: #986801;
-  --code-comment: #a0a1a7;
-  --code-function: #4078f2;
-  --code-variable: #e45649;
-  --code-operator: #0184bc;
-  --code-punctuation: #383a42;
+  --code-keyword: #404040;
+  --code-string: #525252;
+  --code-number: #525252;
+  --code-comment: #a3a3a3;
+  --code-function: #1a1a1a;
+  --code-variable: #404040;
+  --code-operator: #525252;
+  --code-punctuation: #737373;
 }
 
-/* --------------------------------------------------------------------------
-   Tool Layout Variants
-   -------------------------------------------------------------------------- */
-
-/* Split panel layout for tools with input/output */
 .tool-split-layout {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -4348,7 +4218,6 @@ button.tool-card:hover {
   min-height: 0;
 }
 
-/* Vertical split for smaller screens */
 @media (max-width: 900px) {
   .tool-split-layout {
     grid-template-columns: 1fr;
@@ -4356,7 +4225,6 @@ button.tool-card:hover {
   }
 }
 
-/* Three column layout */
 .tool-triple-layout {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -4375,7 +4243,6 @@ button.tool-card:hover {
   }
 }
 
-/* Sidebar layout */
 .tool-sidebar-layout {
   display: grid;
   grid-template-columns: 280px 1fr;
@@ -4398,20 +4265,14 @@ button.tool-card:hover {
   }
 }
 
-/* Centered content layout */
 .tool-centered-layout {
   max-width: 720px;
   margin: 0 auto;
 }
 
-/* Wide layout for data-heavy tools */
 .tool-wide-layout {
   max-width: 100%;
 }
-
-/* --------------------------------------------------------------------------
-   Tool Panel System
-   -------------------------------------------------------------------------- */
 
 .tool-panel {
   background: var(--bg-tertiary);
@@ -4473,7 +4334,6 @@ button.tool-card:hover {
   gap: var(--space-3);
 }
 
-/* Panel size variants */
 .tool-panel.compact .tool-panel-header {
   padding: var(--space-2) var(--space-3);
   min-height: 40px;
@@ -4487,7 +4347,6 @@ button.tool-card:hover {
   font-size: var(--text-xs);
 }
 
-/* Panel color variants */
 .tool-panel.success {
   border-color: var(--tool-success-border);
 }
@@ -4520,11 +4379,6 @@ button.tool-card:hover {
   background: var(--tool-info-bg);
 }
 
-/* --------------------------------------------------------------------------
-   Tool Input Components
-   -------------------------------------------------------------------------- */
-
-/* Input group with label and help */
 .tool-input-group {
   display: flex;
   flex-direction: column;
@@ -4537,7 +4391,6 @@ button.tool-card:hover {
   line-height: var(--leading-relaxed);
 }
 
-/* Input with icon */
 .tool-input-icon-wrapper {
   position: relative;
   display: flex;
@@ -4567,7 +4420,6 @@ button.tool-card:hover {
   padding-right: 40px;
 }
 
-/* Input with addon */
 .tool-input-addon-wrapper {
   display: flex;
   align-items: stretch;
@@ -4599,7 +4451,6 @@ button.tool-card:hover {
   border-radius: 0 var(--radius-md) var(--radius-md) 0;
 }
 
-/* Input states */
 .tool-input.success,
 .tool-textarea.success {
   border-color: var(--tool-success-border);
@@ -4625,7 +4476,6 @@ button.tool-card:hover {
   border-color: var(--tool-warning-border);
 }
 
-/* Input sizes */
 .tool-input.sm {
   padding: var(--space-2) var(--space-3);
   font-size: var(--text-xs);
@@ -4648,7 +4498,6 @@ button.tool-card:hover {
   min-height: 200px;
 }
 
-/* Inline input with label */
 .tool-input-inline {
   display: flex;
   align-items: center;
@@ -4663,10 +4512,6 @@ button.tool-card:hover {
 .tool-input-inline .tool-input {
   flex: 1;
 }
-
-/* --------------------------------------------------------------------------
-   Tool Select Components
-   -------------------------------------------------------------------------- */
 
 .tool-select-wrapper {
   position: relative;
@@ -4692,7 +4537,6 @@ button.tool-card:hover {
   padding-right: var(--space-8);
 }
 
-/* Select sizes */
 .tool-select.sm {
   padding: var(--space-2) var(--space-6) var(--space-2) var(--space-3);
   font-size: var(--text-xs);
@@ -4703,7 +4547,6 @@ button.tool-card:hover {
   font-size: var(--text-base);
 }
 
-/* Multi-select styling */
 .tool-select[multiple] {
   padding: var(--space-2);
   height: auto;
@@ -4720,10 +4563,6 @@ button.tool-card:hover {
   background: var(--accent);
   color: var(--text-inverse);
 }
-
-/* --------------------------------------------------------------------------
-   Tool Checkbox & Radio
-   -------------------------------------------------------------------------- */
 
 .tool-checkbox,
 .tool-radio {
@@ -4750,7 +4589,6 @@ button.tool-card:hover {
   color: var(--text-primary);
 }
 
-/* Checkbox/Radio group */
 .tool-checkbox-group,
 .tool-radio-group {
   display: flex;
@@ -4764,7 +4602,6 @@ button.tool-card:hover {
   gap: var(--space-3);
 }
 
-/* Toggle switch */
 .tool-toggle {
   display: flex;
   align-items: center;
@@ -4820,10 +4657,6 @@ button.tool-card:hover {
   color: var(--text-secondary);
 }
 
-/* --------------------------------------------------------------------------
-   Tool Range Slider
-   -------------------------------------------------------------------------- */
-
 .tool-range-wrapper {
   display: flex;
   flex-direction: column;
@@ -4874,11 +4707,6 @@ button.tool-card:hover {
   color: var(--text-muted);
 }
 
-/* --------------------------------------------------------------------------
-   Tool Buttons Extended
-   -------------------------------------------------------------------------- */
-
-/* Button group */
 .tool-btn-group {
   display: inline-flex;
   border-radius: var(--radius-md);
@@ -4902,7 +4730,6 @@ button.tool-card:hover {
   border-right: 1px solid var(--border-secondary);
 }
 
-/* Segmented control */
 .tool-segmented {
   display: inline-flex;
   background: var(--bg-secondary);
@@ -4934,7 +4761,6 @@ button.tool-card:hover {
   background: var(--accent);
 }
 
-/* Icon-only button */
 .btn-icon-only {
   width: 36px;
   height: 36px;
@@ -4954,7 +4780,6 @@ button.tool-card:hover {
   height: 44px;
 }
 
-/* Floating action button */
 .tool-fab {
   position: fixed;
   bottom: var(--space-6);
@@ -4983,10 +4808,6 @@ button.tool-card:hover {
 .tool-fab:active {
   transform: scale(0.98);
 }
-
-/* --------------------------------------------------------------------------
-   Tool Tabs
-   -------------------------------------------------------------------------- */
 
 .tool-tabs {
   display: flex;
@@ -5054,7 +4875,6 @@ button.tool-card:hover {
   padding: var(--space-2) 0;
 }
 
-/* Pill tabs variant */
 .tool-tabs-list.pills {
   border-bottom: none;
   background: var(--bg-secondary);
@@ -5074,7 +4894,6 @@ button.tool-card:hover {
   color: var(--text-inverse);
 }
 
-/* Vertical tabs */
 .tool-tabs.vertical {
   flex-direction: row;
   gap: var(--space-6);
@@ -5100,10 +4919,6 @@ button.tool-card:hover {
 .tool-tabs.vertical .tool-tab.active {
   border-right-color: var(--accent);
 }
-
-/* --------------------------------------------------------------------------
-   Tool Code Display
-   -------------------------------------------------------------------------- */
 
 .tool-code {
   position: relative;
@@ -5147,7 +4962,6 @@ button.tool-card:hover {
   font-family: inherit;
 }
 
-/* Line numbers */
 .tool-code.with-lines .tool-code-body {
   display: flex;
 }
@@ -5164,7 +4978,6 @@ button.tool-card:hover {
   user-select: none;
 }
 
-/* Syntax highlighting */
 .tool-code .token-keyword { color: var(--code-keyword); }
 .tool-code .token-string { color: var(--code-string); }
 .tool-code .token-number { color: var(--code-number); }
@@ -5174,17 +4987,12 @@ button.tool-card:hover {
 .tool-code .token-operator { color: var(--code-operator); }
 .tool-code .token-punctuation { color: var(--code-punctuation); }
 
-/* Highlighted line */
 .tool-code .line-highlight {
   background: var(--tool-warning-bg);
   margin: 0 calc(var(--space-4) * -1);
   padding: 0 var(--space-4);
   display: block;
 }
-
-/* --------------------------------------------------------------------------
-   Tool Data Table
-   -------------------------------------------------------------------------- */
 
 .tool-table-wrapper {
   overflow-x: auto;
@@ -5228,24 +5036,20 @@ button.tool-card:hover {
   background: var(--bg-glass-subtle);
 }
 
-/* Striped variant */
 .tool-table.striped tbody tr:nth-child(even) {
   background: var(--bg-glass-subtle);
 }
 
-/* Compact variant */
 .tool-table.compact th,
 .tool-table.compact td {
   padding: var(--space-2) var(--space-3);
 }
 
-/* Mono cells */
 .tool-table .cell-mono {
   font-family: var(--font-mono);
   font-size: var(--text-xs);
 }
 
-/* Truncated cells */
 .tool-table .cell-truncate {
   max-width: 200px;
   overflow: hidden;
@@ -5253,7 +5057,6 @@ button.tool-card:hover {
   white-space: nowrap;
 }
 
-/* Sortable headers */
 .tool-table th.sortable {
   cursor: pointer;
   user-select: none;
@@ -5285,10 +5088,6 @@ button.tool-card:hover {
 .tool-table th.sortable.desc::after {
   opacity: 1;
 }
-
-/* --------------------------------------------------------------------------
-   Tool Tree View
-   -------------------------------------------------------------------------- */
 
 .tool-tree {
   font-size: var(--text-sm);
@@ -5352,10 +5151,6 @@ button.tool-card:hover {
   padding-left: var(--space-2);
 }
 
-/* --------------------------------------------------------------------------
-   Tool JSON Viewer
-   -------------------------------------------------------------------------- */
-
 .tool-json-viewer {
   font-family: var(--font-mono);
   font-size: var(--text-sm);
@@ -5415,10 +5210,6 @@ button.tool-card:hover {
   color: var(--text-muted);
   font-size: 10px;
 }
-
-/* --------------------------------------------------------------------------
-   Tool Diff Viewer
-   -------------------------------------------------------------------------- */
 
 .tool-diff-viewer {
   font-family: var(--font-mono);
@@ -5503,7 +5294,6 @@ button.tool-card:hover {
   color: var(--text-secondary);
 }
 
-/* Side-by-side diff */
 .tool-diff-split {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -5516,10 +5306,6 @@ button.tool-card:hover {
 .tool-diff-split .tool-diff-pane:last-child {
   border-right: none;
 }
-
-/* --------------------------------------------------------------------------
-   Tool File Drop Zone
-   -------------------------------------------------------------------------- */
 
 .tool-dropzone {
   position: relative;
@@ -5592,7 +5378,6 @@ button.tool-card:hover {
   cursor: pointer;
 }
 
-/* File preview in dropzone */
 .tool-dropzone-preview {
   display: flex;
   align-items: center;
@@ -5634,11 +5419,6 @@ button.tool-card:hover {
   color: var(--text-muted);
 }
 
-/* --------------------------------------------------------------------------
-   Tool Progress Indicators
-   -------------------------------------------------------------------------- */
-
-/* Progress bar */
 .tool-progress {
   width: 100%;
   height: 8px;
@@ -5666,7 +5446,6 @@ button.tool-card:hover {
   background: var(--tool-warning-text);
 }
 
-/* Striped/animated progress */
 .tool-progress.striped .tool-progress-bar {
   background-image: linear-gradient(
     45deg,
@@ -5690,7 +5469,6 @@ button.tool-card:hover {
   100% { background-position: 0 0; }
 }
 
-/* Circular progress */
 .tool-progress-circle {
   position: relative;
   width: 48px;
@@ -5726,7 +5504,6 @@ button.tool-card:hover {
   color: var(--text-primary);
 }
 
-/* Spinner */
 .tool-spinner {
   width: 24px;
   height: 24px;
@@ -5758,7 +5535,6 @@ button.tool-card:hover {
   to { transform: rotate(360deg); }
 }
 
-/* Dots loader */
 .tool-dots {
   display: flex;
   gap: var(--space-1);
@@ -5786,10 +5562,6 @@ button.tool-card:hover {
     opacity: 1;
   }
 }
-
-/* --------------------------------------------------------------------------
-   Tool Alerts & Notifications
-   -------------------------------------------------------------------------- */
 
 .tool-alert {
   display: flex;
@@ -5843,7 +5615,6 @@ button.tool-card:hover {
   opacity: 1;
 }
 
-/* Alert variants */
 .tool-alert.success {
   background: var(--tool-success-bg);
   border: 1px solid var(--tool-success-border);
@@ -5868,15 +5639,10 @@ button.tool-card:hover {
   color: var(--tool-info-text);
 }
 
-/* Inline alert (compact) */
 .tool-alert.inline {
   padding: var(--space-2) var(--space-3);
   font-size: var(--text-xs);
 }
-
-/* --------------------------------------------------------------------------
-   Tool Toast Notifications
-   -------------------------------------------------------------------------- */
 
 .tool-toast-container {
   position: fixed;
@@ -5969,10 +5735,6 @@ button.tool-card:hover {
   color: var(--tool-error-icon);
 }
 
-/* --------------------------------------------------------------------------
-   Tool Tooltips
-   -------------------------------------------------------------------------- */
-
 .tool-tooltip-wrapper {
   position: relative;
   display: inline-flex;
@@ -6024,7 +5786,6 @@ button.tool-card:hover {
   transform: translateX(-50%) translateY(-12px);
 }
 
-/* Tooltip positions */
 .tool-tooltip.bottom {
   bottom: auto;
   top: 100%;
@@ -6063,10 +5824,6 @@ button.tool-card:hover {
   top: 50%;
   transform: translateY(-50%) translateX(8px);
 }
-
-/* --------------------------------------------------------------------------
-   Tool Popover
-   -------------------------------------------------------------------------- */
 
 .tool-popover-wrapper {
   position: relative;
@@ -6120,10 +5877,6 @@ button.tool-card:hover {
   justify-content: flex-end;
   gap: var(--space-2);
 }
-
-/* --------------------------------------------------------------------------
-   Tool Modal
-   -------------------------------------------------------------------------- */
 
 .tool-modal-backdrop {
   position: fixed;
@@ -6215,7 +5968,6 @@ button.tool-card:hover {
   border-top: 1px solid var(--border-secondary);
 }
 
-/* Modal sizes */
 .tool-modal.sm {
   max-width: 400px;
 }
@@ -6235,10 +5987,6 @@ button.tool-card:hover {
   max-height: none;
   border-radius: 0;
 }
-
-/* --------------------------------------------------------------------------
-   Tool Badges & Tags
-   -------------------------------------------------------------------------- */
 
 .tool-badge {
   display: inline-flex;
@@ -6283,7 +6031,6 @@ button.tool-card:hover {
   color: var(--tool-accent-text);
 }
 
-/* Solid badges */
 .tool-badge.solid {
   background: var(--accent);
   border-color: transparent;
@@ -6298,17 +6045,12 @@ button.tool-card:hover {
   background: var(--tool-error-text);
 }
 
-/* Dot indicator */
 .tool-badge-dot {
   width: 6px;
   height: 6px;
   border-radius: var(--radius-full);
   background: currentColor;
 }
-
-/* --------------------------------------------------------------------------
-   Tool Skeleton Loading
-   -------------------------------------------------------------------------- */
 
 .tool-skeleton {
   background: linear-gradient(
@@ -6362,10 +6104,6 @@ button.tool-card:hover {
   height: 120px;
 }
 
-/* --------------------------------------------------------------------------
-   Tool Empty States
-   -------------------------------------------------------------------------- */
-
 .tool-empty {
   display: flex;
   flex-direction: column;
@@ -6402,10 +6140,6 @@ button.tool-card:hover {
   margin-bottom: var(--space-5);
 }
 
-/* --------------------------------------------------------------------------
-   Tool Keyboard Shortcuts
-   -------------------------------------------------------------------------- */
-
 .tool-kbd {
   display: inline-flex;
   align-items: center;
@@ -6438,10 +6172,6 @@ button.tool-card:hover {
   font-size: var(--text-xs);
 }
 
-/* --------------------------------------------------------------------------
-   Tool Copy Feedback
-   -------------------------------------------------------------------------- */
-
 .tool-copy-wrapper {
   position: relative;
   display: inline-flex;
@@ -6469,10 +6199,6 @@ button.tool-card:hover {
   visibility: visible;
   transform: translateX(-50%) translateY(-12px);
 }
-
-/* --------------------------------------------------------------------------
-   Tool Dividers
-   -------------------------------------------------------------------------- */
 
 .tool-divider {
   height: 1px;
@@ -6507,10 +6233,6 @@ button.tool-card:hover {
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
-
-/* --------------------------------------------------------------------------
-   Tool Accordion
-   -------------------------------------------------------------------------- */
 
 .tool-accordion {
   border: 1px solid var(--border-primary);
@@ -6572,10 +6294,6 @@ button.tool-card:hover {
   color: var(--text-secondary);
 }
 
-/* --------------------------------------------------------------------------
-   Tool Scroll Area
-   -------------------------------------------------------------------------- */
-
 .tool-scroll-area {
   overflow: auto;
   scrollbar-width: thin;
@@ -6599,10 +6317,6 @@ button.tool-card:hover {
 .tool-scroll-area::-webkit-scrollbar-thumb:hover {
   background: var(--border-hover);
 }
-
-/* --------------------------------------------------------------------------
-   Tool Resize Handle
-   -------------------------------------------------------------------------- */
 
 .tool-resize-handle {
   position: absolute;
@@ -6654,10 +6368,6 @@ button.tool-card:hover {
 .tool-resize-handle:hover::after {
   background: var(--accent);
 }
-
-/* --------------------------------------------------------------------------
-   Tool Color Swatch
-   -------------------------------------------------------------------------- */
 
 .tool-color-swatch {
   width: 32px;
@@ -6711,10 +6421,6 @@ button.tool-card:hover {
 .tool-color-input::-webkit-color-swatch {
   border: none;
 }
-
-/* --------------------------------------------------------------------------
-   Tool Password Strength
-   -------------------------------------------------------------------------- */
 
 .tool-password-strength {
   display: flex;
@@ -6772,10 +6478,6 @@ button.tool-card:hover {
   color: var(--tool-success-text);
 }
 
-/* --------------------------------------------------------------------------
-   Tool Statistics Display
-   -------------------------------------------------------------------------- */
-
 .tool-stat-card {
   display: flex;
   flex-direction: column;
@@ -6827,10 +6529,6 @@ button.tool-card:hover {
   gap: var(--space-4);
 }
 
-/* --------------------------------------------------------------------------
-   Tool QR Code Display
-   -------------------------------------------------------------------------- */
-
 .tool-qr-container {
   display: flex;
   flex-direction: column;
@@ -6854,10 +6552,6 @@ button.tool-card:hover {
   max-width: 200px;
   word-break: break-all;
 }
-
-/* --------------------------------------------------------------------------
-   Tool Timeline
-   -------------------------------------------------------------------------- */
 
 .tool-timeline {
   position: relative;
@@ -6923,18 +6617,12 @@ button.tool-card:hover {
   margin-top: var(--space-1);
 }
 
-/* ==========================================================================
-   ENHANCED TOOL PAGE LAYOUT - BIGGER & BOLDER
-   ========================================================================== */
-
-/* Tool Page Full-Width Container */
 .tool-page-wrapper {
   min-height: calc(100vh - var(--header-height));
   padding: 0;
   background: var(--bg-primary);
 }
 
-/* Tool Page Header - Much Larger */
 .tools-page-header {
   padding: var(--space-10) var(--space-8);
   background: linear-gradient(
@@ -6998,7 +6686,6 @@ button.tool-card:hover {
   letter-spacing: 0.1em;
 }
 
-/* Tool Page Body - Sidebar Layout */
 .tool-page-body {
   display: grid;
   grid-template-columns: 1fr 320px;
@@ -7009,7 +6696,6 @@ button.tool-card:hover {
   align-items: start;
 }
 
-/* Main Tool Content Area */
 .tool-page-content {
   min-width: 0;
 }
@@ -7022,7 +6708,6 @@ button.tool-card:hover {
   box-shadow: var(--shadow-lg);
 }
 
-/* Tool Navigation Sidebar */
 .tool-page-nav-section {
   position: sticky;
   top: calc(var(--header-height) + var(--space-8));
@@ -7126,7 +6811,6 @@ button.tool-card:hover {
   color: var(--accent);
 }
 
-/* Collapse Toggle Button */
 .collapse-toggle {
   display: flex;
   align-items: center;
@@ -7154,10 +6838,6 @@ button.tool-card:hover {
 .collapse-toggle.open .collapse-icon {
   transform: rotate(180deg);
 }
-
-/* ==========================================================================
-   ENHANCED TOOL CONTAINER - BIGGER COMPONENTS
-   ========================================================================== */
 
 .tool-container {
   display: flex;
@@ -7188,7 +6868,6 @@ button.tool-card:hover {
   gap: var(--space-6);
 }
 
-/* Enhanced Input Section */
 .tool-input-section {
   display: flex;
   flex-direction: column;
@@ -7228,7 +6907,6 @@ button.tool-card:hover {
   color: var(--text-muted);
 }
 
-/* Enhanced Options */
 .tool-options {
   display: flex;
   flex-wrap: wrap;
@@ -7293,12 +6971,27 @@ button.tool-card:hover {
   color: var(--text-primary);
 }
 
-/* Enhanced Actions */
 .tool-actions {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-3);
   padding-top: var(--space-2);
+}
+
+.tool-actions .btn.ghost:first-of-type {
+  margin-left: var(--space-2);
+  padding-left: calc(var(--space-6) + var(--space-2));
+  position: relative;
+}
+
+.tool-actions .btn.ghost:first-of-type::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 20%;
+  height: 60%;
+  width: 1px;
+  background: var(--border-primary);
 }
 
 .tool-actions .btn {
@@ -7319,7 +7012,6 @@ button.tool-card:hover {
   box-shadow: var(--shadow-lg);
 }
 
-/* Enhanced Error Display */
 .tool-error {
   display: flex;
   align-items: flex-start;
@@ -7338,7 +7030,6 @@ button.tool-card:hover {
   font-size: var(--text-lg);
 }
 
-/* Enhanced Output Section */
 .tool-output-section {
   display: flex;
   flex-direction: column;
@@ -7367,10 +7058,6 @@ button.tool-card:hover {
   background: none;
   padding: 0;
 }
-
-/* ==========================================================================
-   TOOL WORKSPACE LAYOUT - SPLIT PANE DESIGN
-   ========================================================================== */
 
 .tool-workspace {
   display: grid;
@@ -7434,22 +7121,15 @@ button.tool-card:hover {
   box-shadow: none;
 }
 
-/* Full-width workspace variant */
 .tool-workspace.full-width {
   grid-template-columns: 1fr;
 }
 
-/* Vertical workspace variant */
 .tool-workspace.vertical {
   grid-template-columns: 1fr;
   grid-template-rows: 1fr 1fr;
 }
 
-/* ==========================================================================
-   TOOL FEATURE CARDS
-   ========================================================================== */
-
-/* Continuous horizontal feature strip */
 .tool-feature-strip {
   display: flex;
   background: var(--bg-secondary);
@@ -7468,7 +7148,6 @@ button.tool-card:hover {
   transition: background var(--duration-normal) var(--ease-out);
 }
 
-/* Divider between items */
 .tool-feature-strip-item:not(:last-child)::after {
   content: "";
   position: absolute;
@@ -7529,7 +7208,6 @@ button.tool-card:hover {
   gap: var(--space-3);
 }
 
-/* Responsive - stack vertically on mobile */
 @media (max-width: 900px) {
   .tool-feature-strip {
     flex-direction: column;
@@ -7544,10 +7222,6 @@ button.tool-card:hover {
     height: 1px;
   }
 }
-
-/* ==========================================================================
-   TOOL FEATURE CARDS (Alternative grid layout)
-   ========================================================================== */
 
 .tool-feature-grid {
   display: grid;
@@ -7574,7 +7248,6 @@ button.tool-card:hover {
   transform: translateY(-2px);
 }
 
-/* Feature card content (left side) */
 .tool-feature-content {
   display: flex;
   flex-direction: column;
@@ -7623,7 +7296,6 @@ button.tool-card:hover {
   gap: var(--space-3);
 }
 
-/* Feature card graphic area (right side) */
 .tool-feature-graphic {
   position: relative;
   display: flex;
@@ -7663,7 +7335,6 @@ button.tool-card:hover {
   z-index: 1;
 }
 
-/* Alternate layout - graphic on left */
 .tool-feature-card.graphic-left {
   grid-template-columns: 1fr 1fr;
 }
@@ -7672,7 +7343,6 @@ button.tool-card:hover {
   order: -1;
 }
 
-/* Compact variant */
 .tool-feature-card.compact {
   grid-template-columns: 1fr;
   min-height: auto;
@@ -7683,7 +7353,6 @@ button.tool-card:hover {
   display: none;
 }
 
-/* Multi-column grid for smaller feature cards */
 .tool-feature-grid.multi-column {
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
 }
@@ -7698,7 +7367,6 @@ button.tool-card:hover {
   order: -1;
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
   .tool-feature-card {
     grid-template-columns: 1fr;
@@ -7718,10 +7386,6 @@ button.tool-card:hover {
     font-size: var(--text-sm);
   }
 }
-
-/* ==========================================================================
-   TOOL RESULT DISPLAY - ENHANCED
-   ========================================================================== */
 
 .tool-result {
   padding: var(--space-6);
@@ -7791,10 +7455,6 @@ button.tool-card:hover {
 .tool-result-value.copyable:active {
   transform: scale(0.99);
 }
-
-/* ==========================================================================
-   TOOL HISTORY LIST
-   ========================================================================== */
 
 .tool-history {
   display: flex;
@@ -7876,10 +7536,6 @@ button.tool-card:hover {
 .tool-history-item:hover .tool-history-item-action {
   opacity: 1;
 }
-
-/* ==========================================================================
-   TOOL FORM LAYOUTS - PROFESSIONAL FORMS
-   ========================================================================== */
 
 .tool-form {
   display: flex;
@@ -7971,10 +7627,6 @@ button.tool-card:hover {
   border-radius: var(--radius-full);
 }
 
-/* ==========================================================================
-   TOOL PREVIEW PANELS
-   ========================================================================== */
-
 .tool-preview {
   position: relative;
   background: var(--bg-secondary);
@@ -8056,10 +7708,6 @@ button.tool-card:hover {
   object-fit: contain;
 }
 
-/* ==========================================================================
-   TOOL COMPARISON VIEW
-   ========================================================================== */
-
 .tool-compare {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
@@ -8135,10 +7783,6 @@ button.tool-card:hover {
   color: var(--text-secondary);
   font-size: 14px;
 }
-
-/* ==========================================================================
-   TOOL SETTINGS PANEL
-   ========================================================================== */
 
 .tool-settings {
   display: flex;
@@ -8223,10 +7867,6 @@ button.tool-card:hover {
 .tool-settings-item-control {
   flex-shrink: 0;
 }
-
-/* ==========================================================================
-   TOOL STEP WIZARD
-   ========================================================================== */
 
 .tool-wizard {
   display: flex;
@@ -8319,10 +7959,6 @@ button.tool-card:hover {
   min-width: 120px;
 }
 
-/* ==========================================================================
-   TOOL METRICS DISPLAY
-   ========================================================================== */
-
 .tool-metrics {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -8380,7 +8016,6 @@ button.tool-card:hover {
   color: var(--text-secondary);
 }
 
-/* Colored metric variants */
 .tool-metric.success .tool-metric-icon {
   background: var(--tool-success-bg);
   color: var(--tool-success-icon);
@@ -8400,10 +8035,6 @@ button.tool-card:hover {
   background: var(--tool-info-bg);
   color: var(--tool-info-icon);
 }
-
-/* ==========================================================================
-   TOOL COMMAND BAR
-   ========================================================================== */
 
 .tool-command-bar {
   display: flex;
@@ -8448,10 +8079,6 @@ button.tool-card:hover {
   align-items: center;
   gap: var(--space-2);
 }
-
-/* ==========================================================================
-   TOOL SNIPPET DISPLAY
-   ========================================================================== */
 
 .tool-snippet {
   position: relative;
@@ -8513,10 +8140,6 @@ button.tool-card:hover {
 .tool-snippet:hover .tool-snippet-copy {
   opacity: 1;
 }
-
-/* ==========================================================================
-   TOOL TAG INPUT
-   ========================================================================== */
 
 .tool-tag-input {
   display: flex;
@@ -8584,10 +8207,6 @@ button.tool-card:hover {
 .tool-tag-input input::placeholder {
   color: var(--text-muted);
 }
-
-/* ==========================================================================
-   TOOL DATA GRID ADVANCED
-   ========================================================================== */
 
 .tool-data-grid {
   display: flex;
@@ -8754,10 +8373,6 @@ button.tool-card:hover {
   color: var(--text-inverse);
 }
 
-/* ==========================================================================
-   TOOL FILE BROWSER
-   ========================================================================== */
-
 .tool-file-browser {
   display: flex;
   flex-direction: column;
@@ -8874,10 +8489,6 @@ button.tool-card:hover {
   color: var(--text-muted);
   white-space: nowrap;
 }
-
-/* ==========================================================================
-   TOOL LOG VIEWER
-   ========================================================================== */
 
 .tool-log-viewer {
   display: flex;
@@ -8996,10 +8607,6 @@ button.tool-card:hover {
   border-radius: var(--radius-xs);
 }
 
-/* ==========================================================================
-   TOOL TERMINAL DISPLAY
-   ========================================================================== */
-
 .tool-terminal {
   background: var(--gray-950);
   border: 1px solid var(--border-primary);
@@ -9028,9 +8635,9 @@ button.tool-card:hover {
   border-radius: var(--radius-full);
 }
 
-.tool-terminal-dot.red { background: #ff5f56; }
-.tool-terminal-dot.yellow { background: #ffbd2e; }
-.tool-terminal-dot.green { background: #27c93f; }
+.tool-terminal-dot.red { background: #737373; }
+.tool-terminal-dot.yellow { background: #737373; }
+.tool-terminal-dot.green { background: #737373; }
 
 .tool-terminal-title {
   flex: 1;
@@ -9079,10 +8686,6 @@ button.tool-card:hover {
   50% { opacity: 0; }
 }
 
-/* ==========================================================================
-   TOOL CHART CONTAINER
-   ========================================================================== */
-
 .tool-chart-container {
   padding: var(--space-6);
   background: var(--bg-secondary);
@@ -9128,7 +8731,6 @@ button.tool-card:hover {
   position: relative;
 }
 
-/* Simple bar chart */
 .tool-bar-chart {
   display: flex;
   align-items: flex-end;
@@ -9165,10 +8767,6 @@ button.tool-card:hover {
   font-family: var(--font-mono);
   color: var(--text-secondary);
 }
-
-/* ==========================================================================
-   TOOL NOTIFICATION CENTER
-   ========================================================================== */
 
 .tool-notifications {
   position: fixed;
@@ -9304,11 +8902,6 @@ button.tool-card:hover {
   to { width: 0%; }
 }
 
-/* ==========================================================================
-   TOOL ANIMATIONS & TRANSITIONS
-   ========================================================================== */
-
-/* Fade animations */
 @keyframes tool-fade-in {
   from {
     opacity: 0;
@@ -9371,7 +8964,6 @@ button.tool-card:hover {
   }
 }
 
-/* Scale animations */
 @keyframes tool-scale-in {
   from {
     opacity: 0;
@@ -9411,7 +9003,6 @@ button.tool-card:hover {
   }
 }
 
-/* Rotate animations */
 @keyframes tool-rotate {
   from {
     transform: rotate(0deg);
@@ -9433,7 +9024,6 @@ button.tool-card:hover {
   }
 }
 
-/* Pulse animations */
 @keyframes tool-pulse {
   0%, 100% {
     opacity: 1;
@@ -9468,7 +9058,6 @@ button.tool-card:hover {
   }
 }
 
-/* Shake animations */
 @keyframes tool-shake {
   0%, 100% {
     transform: translateX(0);
@@ -9502,7 +9091,6 @@ button.tool-card:hover {
   }
 }
 
-/* Slide animations */
 @keyframes tool-slide-up {
   from {
     transform: translateY(100%);
@@ -9521,7 +9109,6 @@ button.tool-card:hover {
   }
 }
 
-/* Glow animation */
 @keyframes tool-glow {
   0%, 100% {
     box-shadow: 0 0 5px var(--accent);
@@ -9531,13 +9118,11 @@ button.tool-card:hover {
   }
 }
 
-/* Typing animation */
 @keyframes tool-typing {
   from { width: 0; }
   to { width: 100%; }
 }
 
-/* Animation utility classes */
 .animate-fade-in { animation: tool-fade-in var(--duration-normal) var(--ease-out); }
 .animate-fade-in-up { animation: tool-fade-in-up var(--duration-normal) var(--ease-out); }
 .animate-fade-in-down { animation: tool-fade-in-down var(--duration-normal) var(--ease-out); }
@@ -9552,7 +9137,6 @@ button.tool-card:hover {
 .animate-wobble { animation: tool-wobble 1s ease-in-out; }
 .animate-glow { animation: tool-glow 2s infinite; }
 
-/* Hover animations */
 .hover-lift {
   transition: transform var(--duration-normal) var(--ease-out);
 }
@@ -9576,10 +9160,6 @@ button.tool-card:hover {
 .hover-glow:hover {
   box-shadow: 0 0 20px var(--accent-subtle);
 }
-
-/* ==========================================================================
-   TOOL SPECIFIC STYLES - JSON FORMATTER
-   ========================================================================== */
 
 .json-formatter-container {
   display: flex;
@@ -9693,10 +9273,6 @@ button.tool-card:hover {
   color: var(--tool-error-text);
 }
 
-/* ==========================================================================
-   TOOL SPECIFIC STYLES - BASE64 CONVERTER
-   ========================================================================== */
-
 .base64-converter {
   display: flex;
   flex-direction: column;
@@ -9778,10 +9354,6 @@ button.tool-card:hover {
   transform: scale(1.1);
   box-shadow: 0 4px 12px var(--accent-subtle);
 }
-
-/* ==========================================================================
-   TOOL SPECIFIC STYLES - PASSWORD GENERATOR
-   ========================================================================== */
 
 .password-generator {
   display: flex;
@@ -9922,10 +9494,6 @@ button.tool-card:hover {
   font-size: var(--text-xs);
   color: var(--text-muted);
 }
-
-/* ==========================================================================
-   TOOL SPECIFIC STYLES - HASH GENERATOR
-   ========================================================================== */
 
 .hash-generator {
   display: flex;
@@ -10130,6 +9698,13 @@ button.tool-card:hover {
   .tool-actions .btn {
     width: 100%;
   }
+  .tool-actions .btn.ghost:first-of-type {
+    margin-left: 0;
+    padding-left: var(--space-6);
+  }
+  .tool-actions .btn.ghost:first-of-type::after {
+    display: none;
+  }
   .tools-grid {
     grid-template-columns: 1fr;
   }
@@ -10211,12 +9786,8 @@ button.tool-card:hover {
   }
 }
 
-/* ==========================================================================
-   ENHANCED MOBILE RESPONSIVE STYLES
-   ========================================================================== */
-
 @media (max-width: 1200px) {
-  /* Tool page body adjustments for smaller screens */
+  
   .tool-page-body {
     grid-template-columns: 1fr 280px;
     gap: var(--space-6);
@@ -10227,7 +9798,7 @@ button.tool-card:hover {
     padding: var(--space-6);
   }
   
-  /* JSON formatter side by side */
+  
   .json-formatter-editor {
     gap: var(--space-3);
   }
@@ -10238,7 +9809,7 @@ button.tool-card:hover {
 }
 
 @media (max-width: 1024px) {
-  /* Switch to single column layout */
+  
   .tool-page-body {
     grid-template-columns: 1fr;
     gap: var(--space-6);
@@ -10261,7 +9832,7 @@ button.tool-card:hover {
     gap: var(--space-2);
   }
   
-  /* Tool workspaces */
+  
   .tool-workspace {
     grid-template-columns: 1fr;
   }
@@ -10294,7 +9865,7 @@ button.tool-card:hover {
     height: 2px;
   }
   
-  /* Data grids */
+  
   .tool-data-grid-toolbar {
     flex-direction: column;
     align-items: stretch;
@@ -10309,12 +9880,12 @@ button.tool-card:hover {
     justify-content: flex-end;
   }
   
-  /* Metrics */
+  
   .tool-metrics {
     grid-template-columns: repeat(2, 1fr);
   }
   
-  /* Wizard */
+  
   .tool-wizard-steps {
     flex-wrap: wrap;
   }
@@ -10325,7 +9896,7 @@ button.tool-card:hover {
 }
 
 @media (max-width: 768px) {
-  /* Tool page header adjustments */
+  
   .tools-page-header {
     padding: var(--space-6) var(--space-4);
     text-align: center;
@@ -10352,7 +9923,7 @@ button.tool-card:hover {
     border-radius: var(--radius-lg);
   }
   
-  /* Tool container */
+  
   .tool-container {
     gap: var(--space-5);
   }
@@ -10383,7 +9954,7 @@ button.tool-card:hover {
     justify-content: space-between;
   }
   
-  /* Panels */
+  
   .tool-panel-header {
     padding: var(--space-3);
   }
@@ -10392,7 +9963,7 @@ button.tool-card:hover {
     padding: var(--space-3);
   }
   
-  /* Workspace panes */
+  
   .tool-workspace-pane-header {
     padding: var(--space-3) var(--space-4);
     flex-wrap: wrap;
@@ -10403,7 +9974,7 @@ button.tool-card:hover {
     padding: var(--space-4);
   }
   
-  /* Forms */
+  
   .tool-form-row {
     grid-template-columns: 1fr;
   }
@@ -10417,7 +9988,7 @@ button.tool-card:hover {
     min-width: auto;
   }
   
-  /* Settings */
+  
   .tool-settings-item {
     flex-direction: column;
     align-items: stretch;
@@ -10428,12 +9999,12 @@ button.tool-card:hover {
     align-self: flex-start;
   }
   
-  /* Preview */
+  
   .tool-preview-body {
     padding: var(--space-4);
   }
   
-  /* Tabs */
+  
   .tool-tabs-list {
     gap: 0;
   }
@@ -10443,14 +10014,14 @@ button.tool-card:hover {
     font-size: var(--text-xs);
   }
   
-  /* Tables */
+  
   .tool-table th,
   .tool-table td {
     padding: var(--space-2) var(--space-3);
     font-size: var(--text-xs);
   }
   
-  /* Modals */
+  
   .tool-modal {
     width: 95%;
     max-height: 85vh;
@@ -10473,13 +10044,13 @@ button.tool-card:hover {
     width: 100%;
   }
   
-  /* Data grid */
+  
   .tool-data-grid-pagination {
     flex-direction: column;
     gap: var(--space-3);
   }
   
-  /* File browser */
+  
   .tool-file-browser-path {
     font-size: var(--text-xs);
   }
@@ -10493,7 +10064,7 @@ button.tool-card:hover {
     height: 28px;
   }
   
-  /* Log viewer */
+  
   .tool-log-viewer-header {
     flex-direction: column;
     align-items: stretch;
@@ -10518,7 +10089,7 @@ button.tool-card:hover {
     width: auto;
   }
   
-  /* Terminal */
+  
   .tool-terminal-body {
     padding: var(--space-3);
     min-height: 150px;
@@ -10528,7 +10099,7 @@ button.tool-card:hover {
     font-size: var(--text-xs);
   }
   
-  /* Metrics */
+  
   .tool-metrics {
     grid-template-columns: 1fr 1fr;
     gap: var(--space-3);
@@ -10542,7 +10113,7 @@ button.tool-card:hover {
     font-size: var(--text-2xl);
   }
   
-  /* Chart */
+  
   .tool-chart-container {
     padding: var(--space-4);
   }
@@ -10557,14 +10128,14 @@ button.tool-card:hover {
     height: 200px;
   }
   
-  /* Notifications */
+  
   .tool-notifications {
     left: var(--space-4);
     right: var(--space-4);
     max-width: none;
   }
   
-  /* Password generator */
+  
   .password-display-value {
     font-size: var(--text-xl);
     min-height: 50px;
@@ -10575,12 +10146,12 @@ button.tool-card:hover {
     padding: var(--space-4);
   }
   
-  /* Hash generator */
+  
   .hash-results-grid {
     grid-template-columns: 1fr;
   }
   
-  /* Wizard */
+  
   .tool-wizard-steps {
     padding: var(--space-3);
   }
@@ -10613,7 +10184,7 @@ button.tool-card:hover {
 }
 
 @media (max-width: 480px) {
-  /* Extra small screens */
+  
   .tools-page-header {
     padding: var(--space-5) var(--space-3);
   }
@@ -10640,7 +10211,7 @@ button.tool-card:hover {
     font-size: var(--text-xs);
   }
   
-  /* Inputs */
+  
   .tool-textarea {
     min-height: 120px;
     padding: var(--space-3);
@@ -10651,14 +10222,14 @@ button.tool-card:hover {
     padding: var(--space-1) var(--space-2);
   }
   
-  /* Actions */
+  
   .tool-actions .btn {
     padding: var(--space-3) var(--space-4);
     font-size: var(--text-sm);
     min-width: auto;
   }
   
-  /* Segmented controls */
+  
   .tool-segmented {
     width: 100%;
   }
@@ -10669,17 +10240,17 @@ button.tool-card:hover {
     font-size: var(--text-xs);
   }
   
-  /* Button groups */
+  
   .tool-btn-group {
     flex-wrap: wrap;
   }
   
-  /* Metrics */
+  
   .tool-metrics {
     grid-template-columns: 1fr;
   }
   
-  /* Feature cards */
+  
   .tool-feature-grid {
     grid-template-columns: 1fr;
   }
@@ -10688,18 +10259,18 @@ button.tool-card:hover {
     padding: var(--space-4);
   }
   
-  /* Alerts */
+  
   .tool-alert {
     padding: var(--space-3);
     flex-direction: column;
   }
   
-  /* Stats */
+  
   .tool-stat-grid {
     grid-template-columns: 1fr;
   }
   
-  /* Password display */
+  
   .password-display {
     padding: var(--space-4);
   }
@@ -10716,7 +10287,7 @@ button.tool-card:hover {
     width: 100%;
   }
   
-  /* Toggle */
+  
   .tool-toggle-track {
     width: 36px;
     height: 20px;
@@ -10731,10 +10302,6 @@ button.tool-card:hover {
     transform: translateX(16px);
   }
 }
-
-/* ==========================================================================
-   HIGH CONTRAST MODE SUPPORT
-   ========================================================================== */
 
 @media (prefers-contrast: high) {
   :root {
@@ -10765,10 +10332,6 @@ button.tool-card:hover {
   }
 }
 
-/* ==========================================================================
-   REDUCED MOTION SUPPORT
-   ========================================================================== */
-
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -10793,10 +10356,6 @@ button.tool-card:hover {
   }
 }
 
-/* ==========================================================================
-   FOCUS VISIBLE IMPROVEMENTS
-   ========================================================================== */
-
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
@@ -10820,11 +10379,6 @@ button.tool-card:hover {
   outline-offset: -2px;
 }
 
-/* ==========================================================================
-   RESPONSIVE BREAKPOINT UTILITIES
-   ========================================================================== */
-
-/* Small screens and up (sm: 640px) */
 @media (min-width: 640px) {
   .sm\:block { display: block; }
   .sm\:inline-block { display: inline-block; }
@@ -10868,7 +10422,6 @@ button.tool-card:hover {
   .sm\:w-full { width: 100%; }
 }
 
-/* Medium screens and up (md: 768px) */
 @media (min-width: 768px) {
   .md\:block { display: block; }
   .md\:inline-block { display: inline-block; }
@@ -10915,7 +10468,6 @@ button.tool-card:hover {
   .md\:w-1\/3 { width: 33.333333%; }
 }
 
-/* Large screens and up (lg: 1024px) */
 @media (min-width: 1024px) {
   .lg\:block { display: block; }
   .lg\:inline-block { display: inline-block; }
@@ -10962,7 +10514,6 @@ button.tool-card:hover {
   .lg\:w-1\/4 { width: 25%; }
 }
 
-/* Extra large screens (xl: 1280px) */
 @media (min-width: 1280px) {
   .xl\:block { display: block; }
   .xl\:flex { display: flex; }
@@ -10987,10 +10538,6 @@ button.tool-card:hover {
   .xl\:text-4xl { font-size: var(--text-4xl); }
 }
 
-/* ==========================================================================
-   SCROLLBAR STYLING FOR WEBKIT
-   ========================================================================== */
-
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
@@ -11014,7 +10561,6 @@ button.tool-card:hover {
   background: var(--bg-secondary);
 }
 
-/* Thin scrollbar for specific areas */
 .tool-scroll-area::-webkit-scrollbar,
 .tool-page-nav-wrap::-webkit-scrollbar,
 .tool-log-viewer-body::-webkit-scrollbar {
@@ -11026,10 +10572,6 @@ button.tool-card:hover {
 .tool-log-viewer-body::-webkit-scrollbar-thumb {
   border: none;
 }
-
-/* ==========================================================================
-   HOVER STATE UTILITIES
-   ========================================================================== */
 
 .hover\:scale-105:hover { transform: scale(1.05); }
 .hover\:scale-110:hover { transform: scale(1.1); }
@@ -11060,10 +10602,6 @@ button.tool-card:hover {
 .hover\:brightness-110:hover { filter: brightness(1.1); }
 .hover\:brightness-90:hover { filter: brightness(0.9); }
 
-/* ==========================================================================
-   FOCUS STATE UTILITIES
-   ========================================================================== */
-
 .focus\:outline-none:focus { outline: none; }
 .focus\:ring-2:focus { box-shadow: 0 0 0 2px var(--accent); }
 .focus\:ring-4:focus { box-shadow: 0 0 0 4px var(--accent); }
@@ -11074,10 +10612,6 @@ button.tool-card:hover {
 .focus-within\:ring-2:focus-within { box-shadow: 0 0 0 2px var(--accent); }
 .focus-within\:border-accent:focus-within { border-color: var(--accent); }
 
-/* ==========================================================================
-   GROUP HOVER UTILITIES
-   ========================================================================== */
-
 .group:hover .group-hover\:opacity-100 { opacity: 1; }
 .group:hover .group-hover\:opacity-0 { opacity: 0; }
 .group:hover .group-hover\:visible { visibility: visible; }
@@ -11087,28 +10621,16 @@ button.tool-card:hover {
 .group:hover .group-hover\:text-accent { color: var(--accent); }
 .group:hover .group-hover\:bg-hover { background-color: var(--bg-hover); }
 
-/* ==========================================================================
-   ACTIVE STATE UTILITIES
-   ========================================================================== */
-
 .active\:scale-95:active { transform: scale(0.95); }
 .active\:scale-98:active { transform: scale(0.98); }
 .active\:opacity-80:active { opacity: 0.8; }
 .active\:bg-active:active { background-color: var(--bg-active); }
 .active\:shadow-inner:active { box-shadow: var(--shadow-inner); }
 
-/* ==========================================================================
-   DISABLED STATE UTILITIES
-   ========================================================================== */
-
 .disabled\:opacity-50:disabled { opacity: 0.5; }
 .disabled\:cursor-not-allowed:disabled { cursor: not-allowed; }
 .disabled\:pointer-events-none:disabled { pointer-events: none; }
 .disabled\:grayscale:disabled { filter: grayscale(100%); }
-
-/* ==========================================================================
-   DARK MODE SPECIFIC UTILITIES
-   ========================================================================== */
 
 .dark\:bg-primary { background-color: var(--bg-primary); }
 .dark\:bg-secondary { background-color: var(--bg-secondary); }
@@ -11116,10 +10638,6 @@ button.tool-card:hover {
 .dark\:text-secondary { color: var(--text-secondary); }
 .dark\:border-primary { border-color: var(--border-primary); }
 .dark\:border-secondary { border-color: var(--border-secondary); }
-
-/* ==========================================================================
-   PRINT STYLES
-   ========================================================================== */
 
 @media print {
   .print\:hidden { display: none !important; }
@@ -11129,10 +10647,6 @@ button.tool-card:hover {
   .print\:shadow-none { box-shadow: none !important; }
   .print\:border-black { border-color: #000 !important; }
 }
-
-/* ==========================================================================
-   MOTION PREFERENCES
-   ========================================================================== */
 
 @media (prefers-reduced-motion: reduce) {
   .motion-reduce\:transition-none { transition: none !important; }
@@ -11155,19 +10669,10 @@ button.tool-card:hover {
   .motion-safe\:animate-pulse { animation: pulse 2s infinite; }
 }
 
-/* ==========================================================================
-   CONTAINER QUERIES
-   ========================================================================== */
-
 .container-type-inline { container-type: inline-size; }
 .container-type-size { container-type: size; }
 .container-type-normal { container-type: normal; }
 
-/* ==========================================================================
-   ADDITIONAL COMPONENT UTILITIES
-   ========================================================================== */
-
-/* Skeleton loading */
 .skeleton {
   background: linear-gradient(
     90deg,
@@ -11193,7 +10698,6 @@ button.tool-card:hover {
   border-radius: var(--radius-md);
 }
 
-/* Shimmer effect */
 .shimmer {
   position: relative;
   overflow: hidden;
@@ -11213,7 +10717,6 @@ button.tool-card:hover {
   animation: shimmer 2s infinite;
 }
 
-/* Highlight effect */
 .highlight {
   position: relative;
 }
@@ -11233,7 +10736,6 @@ button.tool-card:hover {
   z-index: -1;
 }
 
-/* Floating label input */
 .floating-label-group {
   position: relative;
 }
@@ -11264,7 +10766,6 @@ button.tool-card:hover {
   color: var(--accent);
 }
 
-/* Status dot indicator */
 .status-dot {
   width: 8px;
   height: 8px;
@@ -11281,7 +10782,6 @@ button.tool-card:hover {
   animation: pulse 2s infinite;
 }
 
-/* Avatar styles */
 .avatar {
   display: inline-flex;
   align-items: center;
@@ -11317,10 +10817,6 @@ button.tool-card:hover {
 .avatar-group .avatar:first-child {
   margin-left: 0;
 }
-
-/* ==========================================================================
-   TOOLTIP UTILITIES
-   ========================================================================== */
 
 .tooltip {
   position: relative;
@@ -11414,10 +10910,6 @@ button.tool-card:hover {
   border-right-color: var(--bg-elevated);
 }
 
-/* ==========================================================================
-   DROPDOWN UTILITIES
-   ========================================================================== */
-
 .dropdown {
   position: relative;
   display: inline-block;
@@ -11486,10 +10978,6 @@ button.tool-card:hover {
   margin: var(--space-2) 0;
 }
 
-/* ==========================================================================
-   ACCORDION UTILITIES
-   ========================================================================== */
-
 .accordion {
   border: 1px solid var(--border-primary);
   border-radius: var(--radius-lg);
@@ -11549,10 +11037,6 @@ button.tool-card:hover {
   line-height: var(--leading-relaxed);
 }
 
-/* ==========================================================================
-   BREADCRUMB UTILITIES
-   ========================================================================== */
-
 .breadcrumb {
   display: flex;
   align-items: center;
@@ -11585,10 +11069,6 @@ button.tool-card:hover {
 .breadcrumb-separator {
   color: var(--text-muted);
 }
-
-/* ==========================================================================
-   PAGINATION UTILITIES
-   ========================================================================== */
 
 .pagination {
   display: flex;
@@ -11638,10 +11118,6 @@ button.tool-card:hover {
   height: 36px;
   color: var(--text-muted);
 }
-
-/* ==========================================================================
-   STEPPER UTILITIES
-   ========================================================================== */
 
 .stepper {
   display: flex;
@@ -11719,10 +11195,6 @@ button.tool-card:hover {
   background: var(--success);
 }
 
-/* ==========================================================================
-   TIMELINE UTILITIES
-   ========================================================================== */
-
 .timeline {
   position: relative;
   padding-left: var(--space-8);
@@ -11786,10 +11258,6 @@ button.tool-card:hover {
   margin-top: var(--space-1);
 }
 
-/* ==========================================================================
-   CARD VARIANTS
-   ========================================================================== */
-
 .card-elevated {
   background: var(--bg-secondary);
   border: 1px solid var(--border-primary);
@@ -11840,10 +11308,6 @@ button.tool-card:hover {
 .card-spotlight:hover::before {
   opacity: 1;
 }
-
-/* ==========================================================================
-   ALERT/NOTICE UTILITIES
-   ========================================================================== */
 
 .alert {
   display: flex;
@@ -11904,10 +11368,6 @@ button.tool-card:hover {
   border: 1px solid var(--border-primary);
 }
 
-/* ==========================================================================
-   CALLOUT UTILITIES
-   ========================================================================== */
-
 .callout {
   padding: var(--space-4) var(--space-5);
   border-left: 4px solid var(--border-primary);
@@ -11946,10 +11406,6 @@ button.tool-card:hover {
   color: var(--text-secondary);
   line-height: var(--leading-relaxed);
 }
-
-/* ==========================================================================
-   STAT CARD UTILITIES
-   ========================================================================== */
 
 .stat-card {
   padding: var(--space-5);
@@ -11997,10 +11453,6 @@ button.tool-card:hover {
   margin-top: var(--space-2);
 }
 
-/* ==========================================================================
-   EMPTY STATE UTILITIES
-   ========================================================================== */
-
 .empty-state {
   display: flex;
   flex-direction: column;
@@ -12029,10 +11481,6 @@ button.tool-card:hover {
   max-width: 400px;
   margin-bottom: var(--space-6);
 }
-
-/* ==========================================================================
-   CODE BLOCK UTILITIES
-   ========================================================================== */
 
 .code-block {
   position: relative;
@@ -12097,7 +11545,6 @@ button.tool-card:hover {
   border: none;
 }
 
-/* Line numbers */
 .code-block.with-line-numbers .code-block-body {
   display: flex;
 }
@@ -12113,10 +11560,6 @@ button.tool-card:hover {
   color: var(--text-muted);
   user-select: none;
 }
-
-/* ==========================================================================
-   KEYBOARD SHORTCUT UTILITIES
-   ========================================================================== */
 
 .kbd {
   display: inline-flex;
@@ -12145,11 +11588,6 @@ button.tool-card:hover {
   color: var(--text-muted);
   font-size: var(--text-xs);
 }
-
-/* ==========================================================================
-   PREMIUM FEATURE SHOWCASE
-   Enhanced hero features with glassmorphism and premium feel
-   ========================================================================== */
 
 .premium-features {
   display: grid;
@@ -12348,7 +11786,6 @@ button.tool-card:hover {
   background: rgba(255, 255, 255, 0.12);
 }
 
-/* Light mode styles for premium features */
 [data-theme="light"] .premium-feature {
   background: linear-gradient(
     135deg,
@@ -12402,7 +11839,6 @@ button.tool-card:hover {
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
-/* Responsive for premium features */
 @media (max-width: 900px) {
   .premium-feature {
     grid-template-columns: 1fr;
@@ -12419,10 +11855,6 @@ button.tool-card:hover {
     aspect-ratio: 16/9;
   }
 }
-
-/* ==========================================================================
-   ANIMATED STATS COUNTER
-   ========================================================================== */
 
 .animated-stats {
   display: grid;
@@ -12523,10 +11955,6 @@ button.tool-card:hover {
   }
 }
 
-/* ==========================================================================
-   INTERACTIVE TOOL PREVIEW
-   ========================================================================== */
-
 .tool-preview-showcase {
   position: relative;
   max-width: 1000px;
@@ -12565,9 +11993,9 @@ button.tool-card:hover {
   border-radius: var(--radius-full);
 }
 
-.tool-preview-dot.red { background: #ff5f56; }
-.tool-preview-dot.yellow { background: #ffbd2e; }
-.tool-preview-dot.green { background: #27c93f; }
+.tool-preview-dot.red { background: #737373; }
+.tool-preview-dot.yellow { background: #737373; }
+.tool-preview-dot.green { background: #737373; }
 
 .tool-preview-title {
   flex: 1;
@@ -12623,7 +12051,6 @@ button.tool-card:hover {
   50% { opacity: 0; }
 }
 
-/* Floating elements around preview */
 .tool-preview-float {
   position: absolute;
   padding: var(--space-3) var(--space-4);
@@ -12658,10 +12085,6 @@ button.tool-card:hover {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-10px); }
 }
-
-/* ==========================================================================
-   TESTIMONIAL SLIDER
-   ========================================================================== */
 
 .testimonials-section {
   padding: var(--space-20) var(--space-6);
@@ -12753,10 +12176,6 @@ button.tool-card:hover {
   }
 }
 
-/* ==========================================================================
-   FLOATING ACTION DOCK
-   ========================================================================== */
-
 .action-dock {
   position: fixed;
   bottom: var(--space-6);
@@ -12830,10 +12249,6 @@ button.tool-card:hover {
   background: var(--border-primary);
   margin: 0 var(--space-2);
 }
-
-/* ==========================================================================
-   MEGA MENU NAVIGATION
-   ========================================================================== */
 
 .mega-menu {
   position: absolute;
@@ -12935,10 +12350,6 @@ button.tool-card:hover {
   margin-top: 2px;
 }
 
-/* ==========================================================================
-   NOTIFICATION TOAST SYSTEM
-   ========================================================================== */
-
 .toast-container {
   position: fixed;
   top: var(--space-6);
@@ -13002,23 +12413,23 @@ button.tool-card:hover {
 }
 
 .toast.success .toast-icon {
-  background: rgba(34, 197, 94, 0.2);
-  color: #22c55e;
+  background: rgba(212, 212, 212, 0.2);
+  color: #d4d4d4;
 }
 
 .toast.error .toast-icon {
-  background: rgba(239, 68, 68, 0.2);
-  color: #ef4444;
+  background: rgba(163, 163, 163, 0.2);
+  color: #a3a3a3;
 }
 
 .toast.warning .toast-icon {
-  background: rgba(234, 179, 8, 0.2);
-  color: #eab308;
+  background: rgba(115, 115, 115, 0.2);
+  color: #737373;
 }
 
 .toast.info .toast-icon {
-  background: rgba(59, 130, 246, 0.2);
-  color: #3b82f6;
+  background: rgba(163, 163, 163, 0.2);
+  color: #a3a3a3;
 }
 
 .toast-content {
@@ -13071,10 +12482,6 @@ button.tool-card:hover {
   from { width: 100%; }
   to { width: 0%; }
 }
-
-/* ==========================================================================
-   COMMAND PALETTE ENHANCED
-   ========================================================================== */
 
 .cmd-palette {
   position: fixed;
@@ -13237,9 +12644,6 @@ button.tool-card:hover {
   align-items: center;
   gap: var(--space-1);
 }
-/* ==========================================================================
-   GRADIENT TEXT UTILITIES
-   ========================================================================== */
 
 .gradient-text {
   background: linear-gradient(
@@ -13281,10 +12685,6 @@ button.tool-card:hover {
   to { background-position: 200% center; }
 }
 
-/* ==========================================================================
-   GLOW EFFECTS
-   ========================================================================== */
-
 .glow-sm {
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
 }
@@ -13310,10 +12710,6 @@ button.tool-card:hover {
   50% { box-shadow: 0 0 40px rgba(255, 255, 255, 0.15); }
 }
 
-/* ==========================================================================
-   BLUR BACKGROUNDS
-   ========================================================================== */
-
 .blur-bg {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
@@ -13333,10 +12729,6 @@ button.tool-card:hover {
   backdrop-filter: blur(40px);
   -webkit-backdrop-filter: blur(40px);
 }
-
-/* ==========================================================================
-   ANIMATED BORDERS
-   ========================================================================== */
 
 .border-gradient {
   position: relative;
@@ -13383,10 +12775,6 @@ button.tool-card:hover {
   inherits: false;
 }
 
-/* ==========================================================================
-   SCROLL INDICATORS
-   ========================================================================== */
-
 .scroll-indicator {
   position: fixed;
   top: 0;
@@ -13403,10 +12791,6 @@ button.tool-card:hover {
   transform-origin: left;
   transition: transform 0.1s linear;
 }
-
-/* ==========================================================================
-   SPOTLIGHT EFFECT
-   ========================================================================== */
 
 .spotlight-container {
   position: relative;
@@ -13431,10 +12815,6 @@ button.tool-card:hover {
 .spotlight-container:hover .spotlight {
   opacity: 1;
 }
-
-/* ==========================================================================
-   MARQUEE TEXT
-   ========================================================================== */
 
 .marquee {
   display: flex;
@@ -13482,10 +12862,6 @@ button.tool-card:hover {
   color: var(--text-secondary);
   white-space: nowrap;
 }
-
-/* ==========================================================================
-   FEATURE COMPARISON TABLE
-   ========================================================================== */
 
 .comparison-table {
   width: 100%;
@@ -13535,8 +12911,8 @@ button.tool-card:hover {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: rgba(34, 197, 94, 0.2);
-  color: #22c55e;
+  background: rgba(212, 212, 212, 0.2);
+  color: #d4d4d4;
   border-radius: var(--radius-full);
   font-size: 12px;
 }
@@ -13547,15 +12923,11 @@ button.tool-card:hover {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: rgba(239, 68, 68, 0.2);
-  color: #ef4444;
+  background: rgba(163, 163, 163, 0.2);
+  color: #a3a3a3;
   border-radius: var(--radius-full);
   font-size: 12px;
 }
-
-/* ==========================================================================
-   FLOATING LABELS
-   ========================================================================== */
 
 .floating-label-group {
   position: relative;
@@ -13597,10 +12969,6 @@ button.tool-card:hover {
   color: var(--accent);
 }
 
-/* ==========================================================================
-   PILL NAVIGATION
-   ========================================================================== */
-
 .pill-nav {
   display: flex;
   gap: var(--space-2);
@@ -13631,10 +12999,6 @@ button.tool-card:hover {
   color: var(--text-inverse);
   background: var(--accent);
 }
-
-/* ==========================================================================
-   HOVER CARD
-   ========================================================================== */
 
 .hover-card-trigger {
   cursor: pointer;
@@ -13720,10 +13084,6 @@ button.tool-card:hover {
   color: var(--text-muted);
 }
 
-/* ==========================================================================
-   STEP INDICATOR
-   ========================================================================== */
-
 .steps {
   display: flex;
   align-items: center;
@@ -13758,9 +13118,9 @@ button.tool-card:hover {
 }
 
 .step.completed .step-number {
-  background: rgba(34, 197, 94, 0.2);
-  border-color: #22c55e;
-  color: #22c55e;
+  background: rgba(212, 212, 212, 0.2);
+  border-color: #d4d4d4;
+  color: #d4d4d4;
 }
 
 .step-label {
@@ -13783,12 +13143,8 @@ button.tool-card:hover {
 }
 
 .step.completed + .step-connector {
-  background: #22c55e;
+  background: #d4d4d4;
 }
-
-/* ==========================================================================
-   METRIC CARDS
-   ========================================================================== */
 
 .metric-card {
   display: flex;
@@ -13827,11 +13183,11 @@ button.tool-card:hover {
 }
 
 .metric-card-trend.up {
-  color: #22c55e;
+  color: #d4d4d4;
 }
 
 .metric-card-trend.down {
-  color: #ef4444;
+  color: #a3a3a3;
 }
 
 .metric-card-value {
@@ -13851,10 +13207,6 @@ button.tool-card:hover {
   height: 60px;
   margin-top: var(--space-4);
 }
-
-/* ==========================================================================
-   CHIP / TAG ENHANCEMENTS
-   ========================================================================== */
 
 .chip {
   display: inline-flex;
@@ -13879,27 +13231,27 @@ button.tool-card:hover {
 }
 
 .chip-success {
-  background: rgba(34, 197, 94, 0.15);
-  color: #22c55e;
-  border: 1px solid rgba(34, 197, 94, 0.3);
+  background: rgba(212, 212, 212, 0.15);
+  color: #d4d4d4;
+  border: 1px solid rgba(212, 212, 212, 0.3);
 }
 
 .chip-warning {
-  background: rgba(234, 179, 8, 0.15);
-  color: #eab308;
-  border: 1px solid rgba(234, 179, 8, 0.3);
+  background: rgba(115, 115, 115, 0.15);
+  color: #737373;
+  border: 1px solid rgba(115, 115, 115, 0.3);
 }
 
 .chip-error {
-  background: rgba(239, 68, 68, 0.15);
-  color: #ef4444;
-  border: 1px solid rgba(239, 68, 68, 0.3);
+  background: rgba(163, 163, 163, 0.15);
+  color: #a3a3a3;
+  border: 1px solid rgba(163, 163, 163, 0.3);
 }
 
 .chip-info {
-  background: rgba(59, 130, 246, 0.15);
-  color: #3b82f6;
-  border: 1px solid rgba(59, 130, 246, 0.3);
+  background: rgba(163, 163, 163, 0.15);
+  color: #a3a3a3;
+  border: 1px solid rgba(163, 163, 163, 0.3);
 }
 
 .chip-removable {

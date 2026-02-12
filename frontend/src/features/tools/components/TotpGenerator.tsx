@@ -27,7 +27,6 @@ export function TotpGenerator() {
         });
         setCountdown(res.time_remaining as number);
 
-        // Start countdown
         const interval = setInterval(() => {
           setCountdown((prev) => {
             if (prev <= 1) {

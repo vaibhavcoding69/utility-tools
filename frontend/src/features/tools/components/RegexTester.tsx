@@ -124,6 +124,7 @@ export function RegexTester() {
             className="btn primary"
             onClick={handleTest}
             disabled={loading || !pattern || !text}
+            title={loading ? "Processing..." : !pattern && !text ? "Enter pattern and text first" : !pattern ? "Enter a regex pattern first" : !text ? "Enter test text first" : undefined}
           >
             {loading ? "Testing..." : "Test Pattern"}
           </button>

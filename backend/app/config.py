@@ -1,23 +1,12 @@
-"""
-Configuration constants for the Utility Tools API.
-
-This module contains all the configuration constants, mappings, and settings
-used throughout the application.
-"""
-
 from pathlib import Path
 
-# App configuration
 APP_TITLE = "Utility Tools API"
 APP_VERSION = "1.0.0"
 APP_DESCRIPTION = "A comprehensive collection of developer utilities"
 
-# File paths
 USAGE_STATS_FILE = Path(__file__).resolve().parent.parent / "usage_stats.json"
 
-# Tool path mapping for usage tracking
 TOOL_PATH_MAPPING = {
-    # Developer tools
     "/api/developer/json/format": "json-format",
     "/api/developer/json/minify": "json-minify",
     "/api/developer/json/validate": "json-validate",
@@ -41,7 +30,6 @@ TOOL_PATH_MAPPING = {
     "/api/developer/decode": "universal-decode",
     "/api/developer/encodings": "list-encodings",
 
-    # Security tools
     "/api/security/password/generate": "password-generate",
     "/api/security/password/strength": "password-strength",
     "/api/security/password/policy": "password-policy",
@@ -52,7 +40,6 @@ TOOL_PATH_MAPPING = {
     "/api/security/validate/email": "email-validate",
     "/api/security/secret/generate": "secret-generate",
 
-    # Data tools
     "/api/data/csv-to-json": "csv-to-json",
     "/api/data/json-to-csv": "json-to-csv",
     "/api/data/sql/format": "sql-format",
@@ -64,13 +51,11 @@ TOOL_PATH_MAPPING = {
     "/api/data/random/string": "random-string",
 }
 
-# Supported hash algorithms
 SUPPORTED_HASH_ALGORITHMS = [
     "md5", "sha1", "sha256", "sha384", "sha512",
     "blake2b", "blake2s"
 ]
 
-# Supported encoding types for universal encoder/decoder
 SUPPORTED_ENCODINGS = {
     "rotation": ["rot13", "rot5", "rot47", "caesar"],
     "substitution": ["vigenere", "atbash", "a1z26", "bacon", "reverse", "xor"],
@@ -80,16 +65,13 @@ SUPPORTED_ENCODINGS = {
     "url": ["url-encode", "url-decode"],
 }
 
-# CORS configuration
 CORS_ORIGINS = ["*"]  # Configure appropriately for production
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_METHODS = ["*"]
 CORS_ALLOW_HEADERS = ["*"]
 
-# Rate limiting (requests per minute per IP)
 RATE_LIMIT_REQUESTS = 100
 
-# Default timeouts
 HTTP_TIMEOUT = 10.0
 DEFAULT_UUID_COUNT = 1
 DEFAULT_FAKE_DATA_COUNT = 5
@@ -97,7 +79,6 @@ DEFAULT_PASSWORD_LENGTH = 16
 DEFAULT_RANDOM_STRING_LENGTH = 16
 DEFAULT_SECRET_LENGTH = 32
 
-# Limits
 MAX_UUID_COUNT = 100
 MAX_FAKE_DATA_COUNT = 100
 MAX_PASSWORD_LENGTH = 128

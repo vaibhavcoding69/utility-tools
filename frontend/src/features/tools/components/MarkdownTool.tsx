@@ -7,7 +7,6 @@ export default function MarkdownTool() {
   const convertToHtml = () => {
     let result = markdown;
 
-    // Headers
     result = result.replace(/^###### (.*$)/gm, "<h6>$1</h6>");
     result = result.replace(/^##### (.*$)/gm, "<h5>$1</h5>");
     result = result.replace(/^#### (.*$)/gm, "<h4>$1</h4>");
@@ -15,7 +14,6 @@ export default function MarkdownTool() {
     result = result.replace(/^## (.*$)/gm, "<h2>$1</h2>");
     result = result.replace(/^# (.*$)/gm, "<h1>$1</h1>");
 
-    // Bold and italic
     result = result.replace(
       /\*\*\*(.*?)\*\*\*/g,
       "<strong><em>$1</em></strong>",
@@ -25,37 +23,29 @@ export default function MarkdownTool() {
     result = result.replace(/__(.*?)__/g, "<strong>$1</strong>");
     result = result.replace(/_(.*?)_/g, "<em>$1</em>");
 
-    // Code blocks
     result = result.replace(
       /```(\w*)\n([\s\S]*?)```/g,
       '<pre><code class="language-$1">$2</code></pre>',
     );
     result = result.replace(/`([^`]+)`/g, "<code>$1</code>");
 
-    // Links and images
     result = result.replace(/!\[(.*?)\]\((.*?)\)/g, '<img src="$2" alt="$1">');
     result = result.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2">$1</a>');
 
-    // Lists
     result = result.replace(/^\s*[-*+]\s+(.*$)/gm, "<li>$1</li>");
     result = result.replace(/(<li>.*<\/li>)\n(<li>)/g, "$1$2");
     result = result.replace(/(<li>.*<\/li>)(?!\n<li>)/g, "<ul>$1</ul>");
 
-    // Numbered lists
     result = result.replace(/^\d+\.\s+(.*$)/gm, "<li>$1</li>");
 
-    // Blockquotes
     result = result.replace(/^>\s+(.*$)/gm, "<blockquote>$1</blockquote>");
 
-    // Horizontal rule
     result = result.replace(/^---$/gm, "<hr>");
     result = result.replace(/^\*\*\*$/gm, "<hr>");
 
-    // Line breaks
     result = result.replace(/\n\n/g, "</p><p>");
     result = result.replace(/\n/g, "<br>");
 
-    // Wrap in paragraphs
     if (!result.startsWith("<")) {
       result = "<p>" + result + "</p>";
     }

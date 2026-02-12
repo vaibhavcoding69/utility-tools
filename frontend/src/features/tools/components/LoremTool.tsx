@@ -69,7 +69,6 @@ export default function LoremTool() {
 
     setOutput(result);
     
-    // Calculate stats
     const wordCount = result.split(/\s+/).filter(w => w.length > 0).length;
     const charCount = result.length;
     const paragraphCount = result.split(/\n\n+/).filter(p => p.trim().length > 0).length;
@@ -120,7 +119,6 @@ export default function LoremTool() {
       </div>
 
       <div className="tool-content">
-        {/* Presets */}
         <div className="tool-presets">
           <span className="presets-label">
             <i className="bi bi-lightning" />
@@ -142,9 +140,7 @@ export default function LoremTool() {
           </div>
         </div>
 
-        {/* Options Grid */}
         <div className="lorem-options-grid">
-          {/* Count Input */}
           <div className="option-card">
             <div className="option-header">
               <i className="bi bi-hash" />
@@ -170,7 +166,6 @@ export default function LoremTool() {
             </div>
           </div>
 
-          {/* Unit Selector */}
           <div className="option-card">
             <div className="option-header">
               <i className="bi bi-rulers" />
@@ -192,7 +187,6 @@ export default function LoremTool() {
             </div>
           </div>
 
-          {/* Start with Lorem Option */}
           <div className="option-card">
             <div className="option-header">
               <i className="bi bi-gear" />
@@ -214,7 +208,6 @@ export default function LoremTool() {
           </div>
         </div>
 
-        {/* Action Buttons */}
         <div className="tool-actions">
           <button className="btn primary" onClick={generate}>
             <i className="bi bi-magic" style={{ marginRight: "6px" }} />
@@ -234,7 +227,6 @@ export default function LoremTool() {
           )}
         </div>
 
-        {/* Output Section */}
         {output ? (
           <div className="tool-output-section">
             <div className="tool-section-header">
@@ -271,7 +263,6 @@ export default function LoremTool() {
           </div>
         )}
 
-        {/* Info Card */}
         <div className="tool-info-card">
           <div className="info-card-header">
             <i className="bi bi-info-circle" />

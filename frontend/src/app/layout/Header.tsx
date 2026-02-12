@@ -19,10 +19,6 @@ export function Header() {
 
   return (
     <header className="site-header">
-      {/* <Link to="/" className="brand">
-        <div className="brand-mark">UT</div>
-        <span className="brand-name">Utility Tools</span>
-      </Link> */}
       <nav className="nav-links" aria-label="Primary">
         {navLinks.map((item) => (
           <Link
@@ -43,9 +39,6 @@ export function Header() {
         >
           {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
         </button>
-        {/* <Link className="btn primary" to="/tools/developer">
-          Get Started
-        </Link> */}
       </div>
     </header>
   );

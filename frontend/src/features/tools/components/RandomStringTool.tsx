@@ -22,7 +22,6 @@ export default function RandomStringTool() {
   const [copied, setCopied] = useState(false);
   const [history, setHistory] = useState<string[]>([]);
 
-  // Generate on mount
   useEffect(() => {
     generate();
   }, []);
@@ -32,7 +31,6 @@ export default function RandomStringTool() {
       const newOptions = prev.map(opt => 
         opt.id === id ? { ...opt, enabled: !opt.enabled } : opt
       );
-      // Ensure at least one option is enabled
       const hasEnabled = newOptions.some(opt => opt.enabled);
       if (!hasEnabled) return prev;
       return newOptions;
@@ -105,7 +103,6 @@ export default function RandomStringTool() {
       </div>
 
       <div className="tool-content">
-        {/* Output Display - Show First */}
         {output && (
           <div className="string-output-display">
             <code className="string-output-text">{output}</code>
@@ -129,7 +126,6 @@ export default function RandomStringTool() {
           </div>
         )}
 
-        {/* Length Section */}
         <div className="option-card">
           <div className="option-header">
             <i className="bi bi-rulers" />
@@ -168,7 +164,6 @@ export default function RandomStringTool() {
           </div>
         </div>
 
-        {/* Character Options */}
         <div className="tool-section">
           <div className="tool-section-header">
             <label className="tool-label">
@@ -193,7 +188,6 @@ export default function RandomStringTool() {
           </div>
         </div>
 
-        {/* Action Buttons */}
         <div className="tool-actions">
           <button 
             className="btn primary" 
@@ -222,7 +216,6 @@ export default function RandomStringTool() {
           </button>
         </div>
 
-        {/* Error Message */}
         {error && (
           <div className="tool-error">
             <i className="bi bi-exclamation-triangle" style={{ marginRight: "8px" }} />
@@ -230,7 +223,6 @@ export default function RandomStringTool() {
           </div>
         )}
 
-        {/* History */}
         {history.length > 1 && (
           <div className="tool-output-section">
             <div className="tool-section-header">
@@ -255,7 +247,6 @@ export default function RandomStringTool() {
           </div>
         )}
 
-        {/* Info Card */}
         <div className="tool-info-card">
           <div className="info-card-header">
             <i className="bi bi-shield-check" />

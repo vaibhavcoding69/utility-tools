@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useEffect } from "react";
 import Header from "./layout/Header";
+import Footer from "./layout/Footer";
 import HomePage from "../features/home/HomePage";
 import DeveloperToolsPage from "../features/tools/pages/DeveloperToolsPage";
 import SecurityToolsPage from "../features/tools/pages/SecurityToolsPage";
@@ -8,29 +9,22 @@ import DataToolsPage from "../features/tools/pages/DataToolsPage";
 import ToolsHubPage from "../features/tools/pages/ToolsHubPage";
 import ToolPage from "../features/tools/pages/ToolPage";
 
-// SEO configuration
 const baseTitle = "Utility Tools";
 const baseDescription = "A comprehensive collection of developer utilities and tools.";
 
-/**
- * Update page SEO metadata dynamically
- */
 function setSeo({ title, description, path }: { title: string; description: string; path: string }) {
   document.title = title;
 
-  // Update meta description
   const descriptionTag = document.querySelector('meta[name="description"]');
   if (descriptionTag) {
     descriptionTag.setAttribute("content", description);
   }
 
-  // Update canonical URL
   const canonicalTag = document.querySelector('link[rel="canonical"]');
   if (canonicalTag) {
     canonicalTag.setAttribute("href", `${window.location.origin}${path}`);
   }
 
-  // Update Open Graph meta tags
   const ogTitle = document.querySelector('meta[property="og:title"]');
   if (ogTitle) {
     ogTitle.setAttribute("content", title);
@@ -46,7 +40,6 @@ function setSeo({ title, description, path }: { title: string; description: stri
     ogUrl.setAttribute("content", `${window.location.origin}${path}`);
   }
 
-  // Update Twitter meta tags
   const twitterTitle = document.querySelector('meta[name="twitter:title"]');
   if (twitterTitle) {
     twitterTitle.setAttribute("content", title);
@@ -58,9 +51,6 @@ function setSeo({ title, description, path }: { title: string; description: stri
   }
 }
 
-/**
- * Component that updates SEO metadata when mounted
- */
 function SeoTitle({ title, description, path }: { title: string; description: string; path: string }) {
   useEffect(() => {
     setSeo({ title, description, path });
@@ -69,9 +59,6 @@ function SeoTitle({ title, description, path }: { title: string; description: st
   return null;
 }
 
-/**
- * Main application component with routing
- */
 export default function App() {
   return (
     <BrowserRouter>
@@ -79,7 +66,6 @@ export default function App() {
         <Header />
         <main className="page-body">
           <Routes>
-            {/* Home page route */}
             <Route
               path="/"
               element={
@@ -89,7 +75,6 @@ export default function App() {
                 </>
               }
             />
-            {/* Tools hub page */}
             <Route
               path="/tools"
               element={
@@ -104,7 +89,6 @@ export default function App() {
               }
             />
 
-            {/* Developer tools category */}
             <Route
               path="/tools/developer"
               element={
@@ -127,7 +111,6 @@ export default function App() {
               }
             />
 
-            {/* Security Tools */}
             <Route
               path="/tools/security"
               element={
@@ -150,7 +133,6 @@ export default function App() {
               }
             />
 
-            {/* Data Tools */}
             <Route
               path="/tools/data"
               element={
@@ -174,6 +156,7 @@ export default function App() {
             />
           </Routes>
         </main>
+        <Footer />
       </div>
     </BrowserRouter>
   );

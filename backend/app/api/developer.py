@@ -1,10 +1,3 @@
-"""
-Developer tools API routes.
-
-This module provides comprehensive developer utilities including JSON/YAML manipulation,
-encoding/decoding operations, regex testing, UUID generation, and more.
-"""
-
 from fastapi import APIRouter, HTTPException, Query
 from pydantic import BaseModel, Field
 from typing import Optional, List, Any
@@ -21,38 +14,26 @@ from difflib import unified_diff, HtmlDiff
 import os
 from pathlib import Path
 
-# Pydantic Models
-
-
 class JsonPayload(BaseModel):
-    """Request model for JSON operations."""
     data: str = Field(..., description="JSON string to process")
     indent: Optional[int] = Field(2, description="Indentation level for formatting")
     sort_keys: Optional[bool] = Field(
         False, description="Sort object keys alphabetically"
     )
 
-
 class YamlPayload(BaseModel):
-    """Request model for YAML operations."""
     data: str = Field(..., description="YAML or JSON string")
 
-
 class TextPayload(BaseModel):
-    """Generic text payload model."""
     data: str = Field(..., description="Text data to process")
 
-
 class TextPair(BaseModel):
-    """Two text strings for comparison"""
 
     a: str = Field(..., description="First text")
     b: str = Field(..., description="Second text")
     context_lines: Optional[int] = Field(3, description="Context lines for diff")
 
-
 class RegexPayload(BaseModel):
-    """Payload for regex testing"""
 
     pattern: str = Field(..., description="Regular expression pattern")
     text: str = Field(..., description="Text to search")
@@ -63,43 +44,31 @@ class RegexPayload(BaseModel):
         None, description="Replacement string for substitution"
     )
 
-
 class Base64Payload(BaseModel):
-    """Payload for Base64 operations"""
 
     data: str = Field(..., description="Data to encode/decode")
     url_safe: Optional[bool] = Field(False, description="Use URL-safe Base64")
 
-
 class UrlPayload(BaseModel):
-    """Payload for URL operations"""
 
     data: str = Field(..., description="URL or string to encode/decode")
 
-
 class JWTPayload(BaseModel):
-    """Payload for JWT operations"""
 
     token: str = Field(..., description="JWT token to decode")
 
-
 class CronPayload(BaseModel):
-    """Payload for cron expression parsing"""
 
     expression: str = Field(..., description="Cron expression (5 or 6 fields)")
     count: Optional[int] = Field(5, description="Number of next run times to return")
 
-
 class HttpPingPayload(BaseModel):
-    """Payload for HTTP ping/timing"""
 
     url: str = Field(..., description="URL to ping")
     method: Optional[str] = Field("GET", description="HTTP method")
     timeout: Optional[float] = Field(10.0, description="Request timeout in seconds")
 
-
 class ConversionResponse(BaseModel):
-    """Response from conversion endpoint"""
     success: bool
     message: str
     downloadUrl: Optional[str] = None
@@ -108,9 +77,7 @@ class ConversionResponse(BaseModel):
     thumbnail: Optional[str] = None
     fileSize: Optional[str] = None
 
-
 class VideoInfoResponse(BaseModel):
-    """Video information response"""
     success: bool
     title: Optional[str] = None
     duration: Optional[str] = None
@@ -118,9 +85,7 @@ class VideoInfoResponse(BaseModel):
     fileSize: Optional[str] = None
     format: Optional[str] = None
 
-
 class GitCommandPayload(BaseModel):
-    """Payload for git command generation"""
 
     action: str = Field(
         ...,
@@ -131,18 +96,14 @@ class GitCommandPayload(BaseModel):
     message: Optional[str] = Field(None, description="Commit message")
     tag_name: Optional[str] = Field(None, description="Tag name for tag operations")
 
-
 class LoremIpsumPayload(BaseModel):
-    """Payload for lorem ipsum generation"""
 
     paragraphs: Optional[int] = Field(3, description="Number of paragraphs")
     words_per_paragraph: Optional[int] = Field(
         50, description="Approximate words per paragraph"
     )
 
-
 class TimestampPayload(BaseModel):
-    """Payload for timestamp conversion"""
 
     value: str = Field(
         ..., description="Timestamp value (unix seconds/ms or ISO string)"
@@ -154,60 +115,44 @@ class TimestampPayload(BaseModel):
         "all", description="Output format: unix, unix_ms, iso, all"
     )
 
-
 class HtmlPayload(BaseModel):
-    """Payload for HTML operations"""
 
     data: str = Field(..., description="HTML or text to process")
 
-
 class CodeBeautifyPayload(BaseModel):
-    """Payload for code beautification"""
 
     code: str = Field(..., description="Code to beautify")
     language: str = Field("json", description="Language: json, html, css, sql, xml")
     indent: Optional[int] = Field(2, description="Indentation spaces")
 
-
 class SlugPayload(BaseModel):
-    """Payload for slug generation"""
 
     text: str = Field(..., description="Text to convert to slug")
     separator: Optional[str] = Field("-", description="Word separator")
     lowercase: Optional[bool] = Field(True, description="Convert to lowercase")
 
-
 class NumberBasePayload(BaseModel):
-    """Payload for number base conversion"""
 
     value: str = Field(..., description="Number value as string")
     from_base: int = Field(..., description="Source base (2-36)")
     to_base: int = Field(..., description="Target base (2-36)")
 
-
 class EnvPayload(BaseModel):
-    """Payload for .env to netlify.toml conversion"""
 
     data: str = Field(..., description="Contents of .env file")
     site_name: Optional[str] = Field(None, description="Netlify site name")
 
-
 class HarPayload(BaseModel):
-    """Payload for HAR summary"""
 
     data: str = Field(..., description="HAR file content as JSON string")
     max_entries: int = Field(50, description="Limit number of entries returned")
 
-
 class CssInlinePayload(BaseModel):
-    """Payload for CSS inlining"""
 
     html: str = Field(..., description="HTML content to inline CSS")
     base_url: Optional[str] = Field(None, description="Base URL for resolving links")
 
-
 class ImageResizePayload(BaseModel):
-    """Payload for image resize/conversion"""
 
     data: str = Field(..., description="Base64 image data URI or raw base64")
     width: Optional[int] = Field(None, ge=1)
@@ -215,17 +160,10 @@ class ImageResizePayload(BaseModel):
     format: Optional[str] = Field("jpeg", description="jpeg/png/webp")
     quality: Optional[int] = Field(80, ge=1, le=100)
 
-
     format: Optional[str] = Field("jpeg", description="jpeg/png/webp")
     quality: Optional[int] = Field(80, ge=1, le=100)
 
-
-# Router setup
 router = APIRouter()
-
-
-# JSON processing endpoints
-
 
 @router.post(
     "/json/format",
@@ -233,7 +171,6 @@ router = APIRouter()
     description="Pretty-print and format JSON data",
 )
 async def format_json(payload: JsonPayload):
-    """Format JSON with configurable indentation and key sorting."""
     try:
         obj = json.loads(payload.data)
         formatted = json.dumps(
@@ -258,14 +195,12 @@ async def format_json(payload: JsonPayload):
             "error_position": {"line": e.lineno, "column": e.colno},
         }
 
-
 @router.post(
     "/json/validate",
     summary="Validate JSON",
     description="Check if a string is valid JSON",
 )
 async def validate_json(payload: JsonPayload):
-    """Validate JSON syntax and return structure information."""
     try:
         obj = json.loads(payload.data)
         return {
@@ -286,12 +221,10 @@ async def validate_json(payload: JsonPayload):
             "error_position": {"line": e.lineno, "column": e.colno},
         }
 
-
 @router.post(
     "/json/minify", summary="Minify JSON", description="Remove whitespace from JSON"
 )
 async def minify_json(payload: JsonPayload):
-    """Minify JSON by removing all unnecessary whitespace."""
     try:
         obj = json.loads(payload.data)
         minified = json.dumps(obj, separators=(",", ":"), ensure_ascii=False)
@@ -309,7 +242,6 @@ async def minify_json(payload: JsonPayload):
     except json.JSONDecodeError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-
 @router.post(
     "/json/query",
     summary="Query JSON",
@@ -319,7 +251,6 @@ async def query_json(
     payload: JsonPayload,
     path: str = Query(..., description="Dot notation path like 'users.0.name'"),
 ):
-    """Query JSON data using dot notation path."""
     try:
         obj = json.loads(payload.data)
         result = navigate_json_path(obj, path)
@@ -327,21 +258,15 @@ async def query_json(
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-
         result = navigate_json_path(obj, path)
         return {"success": True, "result": result, "path": path}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-
-# YAML processing endpoints
-
-
 @router.post(
     "/yaml/to-json", summary="YAML to JSON", description="Convert YAML to JSON format"
 )
 async def yaml_to_json(payload: YamlPayload):
-    """Convert YAML string to JSON."""
     try:
         import yaml
     except ImportError:
@@ -353,12 +278,10 @@ async def yaml_to_json(payload: YamlPayload):
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-
 @router.post(
     "/json/to-yaml", summary="JSON to YAML", description="Convert JSON to YAML format"
 )
 async def json_to_yaml(payload: JsonPayload):
-    """Convert JSON string to YAML."""
     try:
         import yaml
     except ImportError:
@@ -375,15 +298,10 @@ async def json_to_yaml(payload: JsonPayload):
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-
-# Encoding and decoding endpoints
-
-
 @router.post(
     "/base64/encode", summary="Base64 Encode", description="Encode text to Base64"
 )
 async def base64_encode(payload: Base64Payload):
-    """Encode string to Base64 with optional URL-safe encoding."""
     try:
         data_bytes = payload.data.encode("utf-8")
         if payload.url_safe:
@@ -400,16 +318,12 @@ async def base64_encode(payload: Base64Payload):
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-
 @router.post(
     "/base64/decode", summary="Base64 Decode", description="Decode Base64 to text"
 )
 async def base64_decode(payload: Base64Payload):
-    """Decode Base64 string to original text."""
     try:
-        # Handle both standard and URL-safe Base64
         data = payload.data
-        # Add padding if necessary
         padding = 4 - len(data) % 4
         if padding != 4:
             data += "=" * padding
@@ -428,10 +342,8 @@ async def base64_decode(payload: Base64Payload):
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-
 @router.post("/url/encode", summary="URL Encode", description="URL encode a string")
 async def url_encode(payload: UrlPayload):
-    """URL encode a string for safe use in URLs."""
     encoded = urllib.parse.quote(payload.data, safe="")
     return {
         "success": True,
@@ -440,10 +352,8 @@ async def url_encode(payload: UrlPayload):
         "encoded_length": len(encoded),
     }
 
-
 @router.post("/url/decode", summary="URL Decode", description="URL decode a string")
 async def url_decode(payload: UrlPayload):
-    """Decode a URL-encoded string."""
     decoded = urllib.parse.unquote(payload.data)
     return {
         "success": True,
@@ -452,45 +362,32 @@ async def url_decode(payload: UrlPayload):
         "decoded_length": len(decoded),
     }
 
-
 @router.post(
     "/html/encode", summary="HTML Encode", description="Encode special HTML characters"
 )
 async def html_encode(payload: HtmlPayload):
-    """Encode special characters for safe HTML display."""
     encoded = html.escape(payload.data)
     return {"success": True, "encoded": encoded}
 
-
 @router.post("/html/decode", summary="HTML Decode", description="Decode HTML entities")
 async def html_decode(payload: HtmlPayload):
-    """Decode HTML entities back to characters."""
     decoded = html.unescape(payload.data)
     return {"success": True, "decoded": decoded}
-
 
     encoded = html.escape(payload.data)
     return {"success": True, "encoded": encoded}
 
-
 @router.post("/html/decode", summary="HTML Decode", description="Decode HTML entities")
 async def html_decode(payload: HtmlPayload):
-    """Decode HTML entities back to characters."""
     decoded = html.unescape(payload.data)
     return {"success": True, "decoded": decoded}
-
-
-# Universal encoding/decoding endpoints
 
 class EncoderPayload(BaseModel):
-    """Payload for universal encoding/decoding"""
     data: str = Field(..., description="Data to encode/decode")
     encoding: str = Field(..., description="Encoding type")
     mode: str = Field("encode", description="Mode: encode or decode")
     options: Optional[dict] = Field(None, description="Additional options (shift, key, separator)")
 
-
-# Lookup tables
 MORSE_CODE = {
     "A": ".-", "B": "-...", "C": "-.-.", "D": "-..", "E": ".", "F": "..-.",
     "G": "--.", "H": "....", "I": "..", "J": ".---", "K": "-.-", "L": ".-..",
@@ -524,9 +421,7 @@ BACON_REVERSE = {v: k for k, v in BACON_CIPHER.items()}
 
 BASE32_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567"
 
-
 def base32_encode(data: str) -> str:
-    """Base32 encode a string."""
     data_bytes = data.encode("utf-8")
     bits = "".join(f"{b:08b}" for b in data_bytes)
     while len(bits) % 5:
@@ -536,17 +431,13 @@ def base32_encode(data: str) -> str:
         result += "="
     return result
 
-
 def base32_decode(data: str) -> str:
-    """Base32 decode a string."""
     cleaned = data.rstrip("=").upper()
     bits = "".join(f"{BASE32_ALPHABET.index(c):05b}" for c in cleaned if c in BASE32_ALPHABET)
     byte_list = [int(bits[i:i+8], 2) for i in range(0, len(bits) - len(bits) % 8, 8)]
     return bytes(byte_list).decode("utf-8")
 
-
 def vigenere_encode(text: str, key: str) -> str:
-    """Vigenère cipher encode."""
     if not key:
         return text
     key_upper = "".join(c for c in key.upper() if c.isalpha())
@@ -566,9 +457,7 @@ def vigenere_encode(text: str, key: str) -> str:
             result.append(char)
     return "".join(result)
 
-
 def vigenere_decode(text: str, key: str) -> str:
-    """Vigenère cipher decode."""
     if not key:
         return text
     key_upper = "".join(c for c in key.upper() if c.isalpha())
@@ -588,9 +477,7 @@ def vigenere_decode(text: str, key: str) -> str:
             result.append(char)
     return "".join(result)
 
-
 def universal_encode(data: str, encoding: str, options: dict = None) -> str:
-    """Universal encoder supporting 33+ formats."""
     options = options or {}
     shift = options.get("shift", 3)
     key = options.get("key", "KEY")
@@ -677,9 +564,7 @@ def universal_encode(data: str, encoding: str, options: dict = None) -> str:
     else:
         raise ValueError(f"Unknown encoding: {encoding}")
 
-
 def universal_decode(data: str, encoding: str, options: dict = None) -> str:
-    """Universal decoder supporting reversible formats."""
     options = options or {}
     shift = options.get("shift", 3)
     key = options.get("key", "KEY")
@@ -760,14 +645,12 @@ def universal_decode(data: str, encoding: str, options: dict = None) -> str:
     else:
         raise ValueError(f"Unknown encoding: {encoding}")
 
-
 @router.post(
     "/encode",
     summary="Universal Encode",
     description="Encode data using various formats (base64, hex, binary, morse, etc.)"
 )
 async def universal_encode_endpoint(payload: EncoderPayload):
-    """Encode data using one of 33+ supported encoding formats."""
     try:
         result = universal_encode(payload.data, payload.encoding, payload.options)
         return {
@@ -781,14 +664,12 @@ async def universal_encode_endpoint(payload: EncoderPayload):
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-
 @router.post(
     "/decode",
     summary="Universal Decode", 
     description="Decode data from various formats (base64, hex, binary, morse, etc.)"
 )
 async def universal_decode_endpoint(payload: EncoderPayload):
-    """Decode data from one of 33+ supported encoding formats."""
     try:
         result = universal_decode(payload.data, payload.encoding, payload.options)
         return {
@@ -802,14 +683,12 @@ async def universal_decode_endpoint(payload: EncoderPayload):
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-
 @router.post(
     "/encode-decode",
     summary="Encode/Decode",
     description="Universal encode or decode endpoint"
 )
 async def encode_decode_endpoint(payload: EncoderPayload):
-    """Encode or decode data based on mode parameter."""
     try:
         if payload.mode == "encode":
             result = universal_encode(payload.data, payload.encoding, payload.options)
@@ -826,14 +705,12 @@ async def encode_decode_endpoint(payload: EncoderPayload):
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-
 @router.get(
     "/encodings",
     summary="List Encodings",
     description="Get list of all supported encoding formats"
 )
 async def list_encodings():
-    """Return list of all supported encoding formats with metadata."""
     encodings = [
         {"id": "base64", "name": "Base64", "category": "web", "canDecode": True},
         {"id": "base64url", "name": "Base64 URL", "category": "web", "canDecode": True},
@@ -870,15 +747,10 @@ async def list_encodings():
     ]
     return {"success": True, "encodings": encodings, "count": len(encodings)}
 
-
-# Regex processing endpoints
-
-
 @router.post(
     "/regex/test", summary="Test Regex", description="Test a regex pattern against text"
 )
 async def regex_test(payload: RegexPayload):
-    """Test regex pattern and return all matches with positions."""
     flags = 0
     flag_descriptions = []
     if payload.flags:
@@ -925,7 +797,6 @@ async def regex_test(payload: RegexPayload):
         "flags_applied": flag_descriptions,
     }
 
-    # Include replacement result if replace_with is provided
     if payload.replace_with is not None:
         replaced = pattern.sub(payload.replace_with, payload.text)
         result["replaced"] = replaced
@@ -933,14 +804,12 @@ async def regex_test(payload: RegexPayload):
 
     return result
 
-
 @router.post(
     "/regex/replace",
     summary="Regex Replace",
     description="Replace text using regex pattern",
 )
 async def regex_replace(payload: RegexPayload):
-    """Replace all matches of regex pattern with replacement string."""
     if payload.replace_with is None:
         raise HTTPException(status_code=400, detail="replace_with is required")
 
@@ -966,10 +835,6 @@ async def regex_replace(payload: RegexPayload):
     except re.error as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-
-# UUID generation endpoints
-
-
 @router.get(
     "/uuid/generate", summary="Generate UUID", description="Generate a new UUID"
 )
@@ -981,7 +846,6 @@ async def uuid_generate(
     ),
     name: Optional[str] = Query(None, description="Name for UUID5"),
 ):
-    """Generate one or more UUIDs of specified version."""
     count = min(count, 100)
     uuids = []
 
@@ -1009,14 +873,12 @@ async def uuid_generate(
         return {"success": True, "uuid": uuids[0], "version": version}
     return {"success": True, "uuids": uuids, "count": len(uuids), "version": version}
 
-
 @router.post(
     "/uuid/validate",
     summary="Validate UUID",
     description="Check if string is valid UUID",
 )
 async def uuid_validate(payload: TextPayload):
-    """Validate if a string is a properly formatted UUID."""
     try:
         parsed = uuid.UUID(payload.data)
         return {
@@ -1029,17 +891,12 @@ async def uuid_validate(payload: TextPayload):
     except ValueError:
         return {"success": True, "valid": False, "error": "Invalid UUID format"}
 
-
-# Text diff endpoints
-
-
 @router.post(
     "/diff/text",
     summary="Text Diff",
     description="Compare two texts and show differences",
 )
 async def text_diff(payload: TextPair):
-    """Generate unified diff between two texts."""
     a_lines = payload.a.splitlines(keepends=True)
     b_lines = payload.b.splitlines(keepends=True)
 
@@ -1054,7 +911,6 @@ async def text_diff(payload: TextPair):
         )
     )
 
-    # Count changes
     additions = sum(
         1 for line in diff_lines if line.startswith("+") and not line.startswith("+++")
     )
@@ -1073,10 +929,8 @@ async def text_diff(payload: TextPair):
         },
     }
 
-
 @router.post("/diff/html", summary="HTML Diff", description="Generate HTML diff view")
 async def html_diff(payload: TextPair):
-    """Generate side-by-side HTML diff."""
     a_lines = payload.a.splitlines()
     b_lines = payload.b.splitlines()
 
@@ -1092,32 +946,23 @@ async def html_diff(payload: TextPair):
 
     return {"success": True, "html": html_table}
 
-
-# JWT processing endpoints
-
-
 @router.post(
     "/jwt/decode", summary="Decode JWT", description="Decode and inspect JWT token"
 )
 async def jwt_decode(payload: JWTPayload):
-    """Decode JWT token and return header and payload (without verification)."""
     try:
         parts = payload.token.split(".")
         if len(parts) < 2:
             raise ValueError("Invalid JWT structure - must have at least 2 parts")
 
-        # Decode header
         header_b64 = parts[0]
-        # Add padding
         header_b64 += "=" * (4 - len(header_b64) % 4)
         header = json.loads(base64.urlsafe_b64decode(header_b64))
 
-        # Decode payload
         payload_b64 = parts[1]
         payload_b64 += "=" * (4 - len(payload_b64) % 4)
         body = json.loads(base64.urlsafe_b64decode(payload_b64))
 
-        # Check expiration if present
         exp_info = None
         if "exp" in body:
             exp_time = datetime.fromtimestamp(body["exp"])
@@ -1132,7 +977,6 @@ async def jwt_decode(payload: JWTPayload):
                 ),
             }
 
-        # Check issued at if present
         iat_info = None
         if "iat" in body:
             iat_time = datetime.fromtimestamp(body["iat"])
@@ -1149,17 +993,12 @@ async def jwt_decode(payload: JWTPayload):
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-
-# Cron expression endpoints
-
-
 @router.post(
     "/cron/next",
     summary="Cron Next Runs",
     description="Get next execution times for cron expression",
 )
 async def cron_next(payload: CronPayload):
-    """Parse cron expression and return next scheduled run times."""
     try:
         from croniter import croniter
     except ImportError:
@@ -1190,14 +1029,12 @@ async def cron_next(payload: CronPayload):
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-
 @router.post(
     "/cron/explain",
     summary="Explain Cron",
     description="Get human-readable explanation of cron expression",
 )
 async def cron_explain(payload: CronPayload):
-    """Provide human-readable explanation of cron expression."""
     parts = payload.expression.split()
     if len(parts) < 5:
         raise HTTPException(
@@ -1219,17 +1056,10 @@ async def cron_explain(payload: CronPayload):
         "summary": build_cron_summary(explanations),
     }
 
-
-# 
-# HTTP Endpoints
-# 
-
-
 @router.post(
     "/http/ping", summary="HTTP Ping", description="Check URL response time and status"
 )
 async def http_ping(payload: HttpPingPayload):
-    """Ping a URL and return response time, status, and headers."""
     try:
         import httpx
     except ImportError:
@@ -1261,17 +1091,12 @@ async def http_ping(payload: HttpPingPayload):
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-
-# Git command generation endpoints
-
-
 @router.post(
     "/git/generate",
     summary="Generate Git Command",
     description="Generate git commands for common workflows",
 )
 async def git_generate(payload: GitCommandPayload):
-    """Generate git commands for various workflows."""
     action = payload.action.lower()
     branch = payload.branch or "main"
     remote = payload.remote or "origin"
@@ -1317,24 +1142,17 @@ async def git_generate(payload: GitCommandPayload):
         "combined": " && ".join(commands[action]),
     }
 
-
-# Timestamp conversion endpoints
-
-
 @router.post(
     "/timestamp/convert",
     summary="Convert Timestamp",
     description="Convert between timestamp formats",
 )
 async def timestamp_convert(payload: TimestampPayload):
-    """Convert timestamps between Unix, milliseconds, and ISO formats."""
     try:
-        # Parse input
         value = payload.value.strip()
         dt = None
 
         if payload.from_format == "auto":
-            # Try to auto-detect
             if value.isdigit():
                 num = int(value)
                 if num > 9999999999:  # Likely milliseconds
@@ -1370,14 +1188,12 @@ async def timestamp_convert(payload: TimestampPayload):
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-
 @router.get(
     "/timestamp/now",
     summary="Current Timestamp",
     description="Get current timestamp in all formats",
 )
 async def timestamp_now():
-    """Get current time in various formats."""
     now = datetime.utcnow()
     return {
         "success": True,
@@ -1387,32 +1203,22 @@ async def timestamp_now():
         "formatted": now.strftime("%Y-%m-%d %H:%M:%S UTC"),
     }
 
-
-# 
-# Slug Generator
-# 
-
-
 @router.post(
     "/slug/generate",
     summary="Generate Slug",
     description="Convert text to URL-friendly slug",
 )
 async def slug_generate(payload: SlugPayload):
-    """Generate URL-friendly slug from text."""
     import unicodedata
 
     text = payload.text
 
-    # Normalize unicode
     text = unicodedata.normalize("NFKD", text)
     text = text.encode("ascii", "ignore").decode("ascii")
 
-    # Convert to lowercase if requested
     if payload.lowercase:
         text = text.lower()
 
-    # Replace spaces and invalid chars
     text = re.sub(r"[^\w\s-]", "", text)
     text = re.sub(r"[-\s]+", payload.separator, text).strip("-_")
 
@@ -1423,27 +1229,18 @@ async def slug_generate(payload: SlugPayload):
         "length": len(text),
     }
 
-
-# 
-# Number Base Conversion
-# 
-
-
 @router.post(
     "/base/convert",
     summary="Convert Number Base",
     description="Convert numbers between bases 2-36",
 )
 async def base_convert(payload: NumberBasePayload):
-    """Convert number from one base to another."""
     if not (2 <= payload.from_base <= 36 and 2 <= payload.to_base <= 36):
         raise HTTPException(status_code=400, detail="Base must be between 2 and 36")
 
     try:
-        # Convert to decimal first
         decimal_value = int(payload.value, payload.from_base)
 
-        # Convert to target base
         if payload.to_base == 10:
             result = str(decimal_value)
         else:
@@ -1468,12 +1265,6 @@ async def base_convert(payload: NumberBasePayload):
         raise HTTPException(
             status_code=400, detail=f"Invalid number for base {payload.from_base}"
         )
-
-
-# =========================================================================
-# .env to netlify.toml
-# =========================================================================
-
 
 @router.post(
     "/env/netlify",
@@ -1510,12 +1301,6 @@ async def env_to_netlify(payload: EnvPayload):
         "success": True,
         "toml": "\n\n".join([site_block, env_block, redirects_block]),
     }
-
-
-# =========================================================================
-# HAR Summary
-# =========================================================================
-
 
 @router.post(
     "/har/summary",
@@ -1570,12 +1355,6 @@ async def har_summary(payload: HarPayload):
 
     return {"success": True, "summary": summary}
 
-
-# =========================================================================
-# CSS Inline
-# =========================================================================
-
-
 @router.post(
     "/css/inline",
     summary="Inline CSS for email",
@@ -1589,12 +1368,6 @@ async def css_inline(payload: CssInlinePayload):
 
     html_inlined = transform(payload.html, base_url=payload.base_url)
     return {"success": True, "html": html_inlined}
-
-
-# =========================================================================
-# Image Resize / WebP
-# =========================================================================
-
 
 @router.post(
     "/image/resize",
@@ -1619,6 +1392,9 @@ async def image_resize(payload: ImageResizePayload):
         fmt = (payload.format or "jpeg").upper()
         fmt = "WEBP" if fmt.lower() == "webp" else fmt
 
+        if fmt == "JPEG" and img.mode in ("RGBA", "LA", "P"):
+            img = img.convert("RGB")
+
         out = io.BytesIO()
         save_kwargs = {"format": fmt}
         if fmt in ("JPEG", "WEBP") and payload.quality:
@@ -1633,19 +1409,12 @@ async def image_resize(payload: ImageResizePayload):
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-
-# 
-# Lorem Ipsum Generator
-# 
-
-
 @router.post(
     "/lorem/generate",
     summary="Generate Lorem Ipsum",
     description="Generate placeholder text",
 )
 async def lorem_generate(payload: LoremIpsumPayload):
-    """Generate lorem ipsum placeholder text."""
     words = [
         "lorem",
         "ipsum",
@@ -1720,7 +1489,6 @@ async def lorem_generate(payload: LoremIpsumPayload):
         for _ in range(payload.words_per_paragraph):
             para_words.append(random.choice(words))
 
-        # Capitalize first word and add period
         para_text = " ".join(para_words)
         para_text = para_text[0].upper() + para_text[1:] + "."
         paragraphs.append(para_text)
@@ -1732,14 +1500,7 @@ async def lorem_generate(payload: LoremIpsumPayload):
         "word_count": sum(len(p.split()) for p in paragraphs),
     }
 
-
-# 
-# Helper Functions
-# 
-
-
 def count_keys(obj, count=0):
-    """Recursively count keys in a JSON object."""
     if isinstance(obj, dict):
         count += len(obj)
         for v in obj.values():
@@ -1749,9 +1510,7 @@ def count_keys(obj, count=0):
             count = count_keys(item, count)
     return count
 
-
 def get_json_depth(obj, depth=0):
-    """Get maximum depth of JSON structure."""
     if isinstance(obj, dict):
         if not obj:
             return depth
@@ -1762,9 +1521,7 @@ def get_json_depth(obj, depth=0):
         return max(get_json_depth(item, depth + 1) for item in obj)
     return depth
 
-
 def navigate_json_path(obj, path):
-    """Navigate JSON using dot notation path."""
     parts = path.split(".")
     current = obj
     for part in parts:
@@ -1774,9 +1531,7 @@ def navigate_json_path(obj, path):
             current = current[part]
     return current
 
-
 def get_relative_time(dt, now):
-    """Get human-readable relative time."""
     diff = dt - now
     seconds = diff.total_seconds()
 
@@ -1791,9 +1546,7 @@ def get_relative_time(dt, now):
     else:
         return f"in {int(seconds / 86400)} days"
 
-
 def explain_cron_field(value, name, min_val, max_val):
-    """Explain a single cron field."""
     if value == "*":
         return f"every {name}"
     elif value.startswith("*/"):
@@ -1806,9 +1559,7 @@ def explain_cron_field(value, name, min_val, max_val):
     else:
         return f"at {name} {value}"
 
-
 def build_cron_summary(explanations):
-    """Build summary from cron explanations."""
     parts = []
     for field, explanation in explanations.items():
         parts.append(explanation)

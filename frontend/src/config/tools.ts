@@ -1,8 +1,3 @@
-/**
- * Global Tool Index
- * Centralized list of all available tools used across the frontend
- */
-
 export interface Tool {
   name: string;
   description: string;
@@ -14,7 +9,6 @@ export interface Tool {
 }
 
 export const toolIndex: Tool[] = [
-  // Developer Tools
   {
     name: "JSON Formatter",
     description: "Format & validate JSON payloads",
@@ -187,7 +181,6 @@ export const toolIndex: Tool[] = [
     tags: ["Netlify", "Env"],
   },
 
-  // Security Tools
   {
     name: "Password Generator",
     description: "Create secure passwords",
@@ -224,17 +217,7 @@ export const toolIndex: Tool[] = [
     icon: "bi-shuffle",
     tags: ["Random", "String"],
   },
-  {
-    name: "Cipher & Hash Lab",
-    description: "Work with classic ciphers and cryptographic hashes",
-    href: "/tools/security/ciphers-hashes",
-    category: "Security",
-    keywords: ["cipher", "hash", "rot13", "caesar", "vigenere", "md5", "sha256", "sha1"],
-    icon: "bi-shield-lock",
-    tags: ["Cipher", "Hash", "Crypto"],
-  },
 
-  // Data Tools
   {
     name: "CSV to JSON",
     description: "Convert CSV quickly",
@@ -345,30 +328,18 @@ export const toolIndex: Tool[] = [
   },
 ];
 
-/**
- * Get tools by category
- */
 export function getToolsByCategory(category: Tool["category"]): Tool[] {
   return toolIndex.filter((tool) => tool.category === category);
 }
 
-/**
- * Get a tool by href
- */
 export function getToolByHref(href: string): Tool | undefined {
   return toolIndex.find((tool) => tool.href === href);
 }
 
-/**
- * Get a tool by ID (extracted from href)
- */
 export function getToolById(id: string): Tool | undefined {
   return toolIndex.find((tool) => tool.href.endsWith(`/${id}`));
 }
 
-/**
- * Search tools by query
- */
 export function searchTools(query: string): Tool[] {
   const normalized = query.trim().toLowerCase();
   if (!normalized) return [];
@@ -381,16 +352,10 @@ export function searchTools(query: string): Tool[] {
   );
 }
 
-/**
- * Get quick action tools (first 6 most commonly used)
- */
 export function getQuickActions(): Tool[] {
   return toolIndex.slice(0, 6);
 }
 
-/**
- * Get tools count
- */
 export function getToolCountByCategory(category: Tool["category"]): number {
   return getToolsByCategory(category).length;
 }

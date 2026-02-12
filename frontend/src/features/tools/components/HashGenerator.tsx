@@ -96,7 +96,6 @@ export function HashGenerator() {
       </div>
 
       <div className="tool-content">
-        {/* Mode Toggle */}
         <div className="tool-tabs">
           <button
             className={`tool-tab ${mode === "single" ? "active" : ""}`}
@@ -114,7 +113,6 @@ export function HashGenerator() {
           </button>
         </div>
 
-        {/* Input Section */}
         <div className="tool-input-section">
           <div className="tool-section-header">
             <label className="tool-label">
@@ -133,7 +131,6 @@ export function HashGenerator() {
           />
         </div>
 
-        {/* Algorithm Selection (only for single mode) */}
         {mode === "single" && (
           <div className="tool-options-panel">
             <div className="tool-section-header">
@@ -157,12 +154,12 @@ export function HashGenerator() {
           </div>
         )}
 
-        {/* Action Buttons */}
         <div className="tool-actions">
           <button
             className="btn primary"
             onClick={handleProcess}
             disabled={loading || !input.trim()}
+            title={loading ? "Processing..." : !input.trim() ? "Enter text to hash first" : undefined}
           >
             {loading ? (
               <>
@@ -195,10 +192,8 @@ export function HashGenerator() {
           </button>
         </div>
 
-        {/* Error Display */}
         {error && <div className="tool-error">{error}</div>}
 
-        {/* Single Hash Output */}
         {output && mode === "single" && (
           <div className="tool-output-section">
             <div className="tool-section-header">
@@ -220,7 +215,6 @@ export function HashGenerator() {
           </div>
         )}
 
-        {/* All Hashes Output */}
         {allHashes && (
           <div className="tool-output-section">
             <div className="tool-section-header">

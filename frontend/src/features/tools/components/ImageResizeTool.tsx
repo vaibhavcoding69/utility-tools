@@ -14,7 +14,6 @@ export default function ImageResizeTool() {
     setLoading(true);
     setError("");
     try {
-      // Client-side image processing using Canvas
       const img = new Image();
       img.crossOrigin = "anonymous";
       
@@ -111,7 +110,7 @@ export default function ImageResizeTool() {
           </div>
         </div>
         <div className="tool-actions">
-          <button className="btn primary" onClick={handleConvert} disabled={!data || loading}>
+          <button className="btn primary" onClick={handleConvert} disabled={!data || loading} title={loading ? "Processing..." : !data ? "Enter image data first" : undefined}>
             {loading ? "Processing..." : "Convert"}
           </button>
           <button className="btn secondary" onClick={copy} disabled={!output}>

@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ArrowUpRight} from "lucide-react";
 
@@ -10,24 +9,6 @@ const heroQuickLinks = [
 ];
 
 export function Hero() {
-  const [, setRequestCount] = useState<string>("0");
-
-  useEffect(() => {
-    const fetchRequestCount = async () => {
-      try {
-        const response = await fetch("/api/stats/requests");
-        const data = await response.json();
-        setRequestCount(new Intl.NumberFormat().format(data.count));
-      } catch {
-        setRequestCount("NaN");
-      }
-    };
-    fetchRequestCount();
-
-    const interval = setInterval(fetchRequestCount, 5000);
-    return () => clearInterval(interval);
-  }, []);
-
   return (
     <section className="hero" id="home">
       <div className="hero-aurora" aria-hidden="true" />

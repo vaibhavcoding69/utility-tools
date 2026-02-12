@@ -27,7 +27,6 @@ export function ToolsPage() {
   const [category, setCategory] = useState<CategoryType>("all");
 
   const tools = [
-    // Developer Tools
     {
       id: "json",
       name: "JSON Formatter",
@@ -65,7 +64,6 @@ export function ToolsPage() {
       category: "developer",
     },
 
-    // Security Tools
     {
       id: "password",
       name: "Password Generator",

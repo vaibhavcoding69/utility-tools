@@ -89,7 +89,6 @@ export function JsonFormatter() {
       </div>
 
       <div className="tool-content">
-        {/* Options Panel */}
         <div className="tool-options">
           <div className="tool-option">
             <label className="tool-label">
@@ -125,7 +124,6 @@ export function JsonFormatter() {
           </div>
         </div>
 
-        {/* Input Section */}
         <div className="tool-input-section">
           <div className="tool-section-header">
             <label className="tool-label">
@@ -146,12 +144,12 @@ export function JsonFormatter() {
           />
         </div>
 
-        {/* Action Buttons */}
         <div className="tool-actions">
           <button
             className="btn primary"
             onClick={handleFormat}
             disabled={loading || !input.trim()}
+            title={loading ? "Processing..." : !input.trim() ? "Enter JSON input first" : undefined}
           >
             {loading ? (
               <>
@@ -169,6 +167,7 @@ export function JsonFormatter() {
             className="btn secondary"
             onClick={handleMinify}
             disabled={loading || !input.trim()}
+            title={loading ? "Processing..." : !input.trim() ? "Enter JSON input first" : undefined}
           >
             <i className="bi bi-arrows-collapse" />
             Minify
@@ -191,14 +190,12 @@ export function JsonFormatter() {
           </button>
         </div>
 
-        {/* Error Display */}
         {error && (
           <div className="tool-error">
             {error}
           </div>
         )}
 
-        {/* Output Section */}
         {output && (
           <div className="tool-output-section">
             <div className="tool-section-header">

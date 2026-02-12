@@ -50,7 +50,6 @@ export default function SvgViewerTool() {
       const formatted = serializer.serializeToString(doc);
       setSvgCode(formatted);
     } catch {
-      // Keep original if formatting fails
     }
   };
 

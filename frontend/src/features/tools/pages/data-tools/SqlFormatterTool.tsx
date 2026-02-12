@@ -44,6 +44,7 @@ export function SqlFormatterTool() {
             className="btn primary"
             onClick={handleFormat}
             disabled={loading || !input}
+            title={loading ? "Processing..." : !input ? "Enter SQL query first" : undefined}
           >
             {loading ? "Formatting..." : "Format SQL"}
           </button>

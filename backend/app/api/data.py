@@ -1,10 +1,3 @@
-"""
-Data processing API routes.
-
-This module provides endpoints for data manipulation tasks like CSV/JSON conversion,
-SQL formatting, fake data generation, and text analysis.
-"""
-
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
 import json
@@ -16,43 +9,29 @@ import re
 import secrets
 from typing import Optional
 
-
 class CsvPayload(BaseModel):
     csv: str = None
     data: str = None  # Alternative field name from frontend
 
-
 class JsonPayload(BaseModel):
     data: str
-
 
 class SqlPayload(BaseModel):
     query: str = None
     data: str = None  # Alternative field name from frontend
 
-
 class SqlMinifyPayload(BaseModel):
     query: str
-
 
 class BaseConvertPayload(BaseModel):
     value: str
     from_base: int
     to_base: int
 
-
-class SpeedTestResult(BaseModel):
-    download_mbps: float
-    upload_mbps: float
-    ping_ms: float
-    server: str | None = None
-
-
 class FakeDataPayload(BaseModel):
     data_type: str = "person"
     count: int = 10
     locale: str = "en_US"
-
 
 class RandomStringPayload(BaseModel):
     length: int = 16
@@ -61,9 +40,7 @@ class RandomStringPayload(BaseModel):
     digits: bool = True
     symbols: bool = False
 
-
 router = APIRouter()
-
 
 @router.post("/csv-to-json")
 async def csv_to_json(payload: CsvPayload):
@@ -82,7 +59,6 @@ async def csv_to_json(payload: CsvPayload):
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-
 @router.post("/json-to-csv")
 async def json_to_csv(payload: JsonPayload):
     try:
@@ -98,7 +74,6 @@ async def json_to_csv(payload: JsonPayload):
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-
 @router.post("/sql/format")
 async def sql_format(payload: SqlPayload):
     try:
@@ -106,7 +81,6 @@ async def sql_format(payload: SqlPayload):
         if not sql_data:
             raise ValueError("SQL query is required")
 
-        # Better SQL formatter
         keywords = [
             "SELECT",
             "FROM",
@@ -140,10 +114,8 @@ async def sql_format(payload: SqlPayload):
             "ALL",
         ]
 
-        # Normalize whitespace first
         formatted = " ".join(sql_data.split())
 
-        # Add newlines before major keywords
         for kw in [
             "SELECT",
             "FROM",
@@ -162,25 +134,21 @@ async def sql_format(payload: SqlPayload):
             formatted = formatted.replace(f" {kw} ", f"\n{kw} ")
             formatted = formatted.replace(f" {kw.lower()} ", f"\n{kw} ")
 
-        # Clean up leading newline if present
         formatted = formatted.strip()
 
         return {"success": True, "formatted": formatted}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-
 @router.post("/sql/minify")
 async def sql_minify(payload: SqlMinifyPayload):
     try:
-        # remove comments and extra whitespace
         q = re.sub(r"/\*.*?\*/", "", payload.query, flags=re.S)
         q = re.sub(r"--.*", "", q)
         q = " ".join(q.split())
         return {"success": True, "minified": q.strip()}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
-
 
 @router.post("/fake/generate")
 async def fake_data_generate(payload: FakeDataPayload):
@@ -242,7 +210,6 @@ async def fake_data_generate(payload: FakeDataPayload):
                     }
                 )
             else:
-                # Default to person
                 rows.append(
                     {
                         "name": fake.name(),
@@ -254,7 +221,6 @@ async def fake_data_generate(payload: FakeDataPayload):
         return {"success": True, "data": rows, "rows": rows}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
-
 
 @router.get("/fake-data")
 async def fake_data(count: int = 10, locale: str | None = None):
@@ -271,7 +237,6 @@ async def fake_data(count: int = 10, locale: str | None = None):
             }
         )
     return {"success": True, "rows": rows, "data": rows}
-
 
 @router.post("/base/convert")
 async def convert_base_post(payload: BaseConvertPayload):
@@ -291,7 +256,6 @@ async def convert_base_post(payload: BaseConvertPayload):
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-
 @router.post("/convert/base")
 async def convert_base(payload: BaseConvertPayload):
     try:
@@ -309,29 +273,6 @@ async def convert_base(payload: BaseConvertPayload):
         return {"success": True, "value": out, "result": out}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
-
-
-@router.get("/speedtest")
-async def speedtest_run():
-    try:
-        import speedtest
-    except ImportError:
-        raise HTTPException(status_code=500, detail="speedtest-cli not installed")
-
-    st = speedtest.Speedtest()
-    st.get_best_server()
-    download = st.download() / 1_000_000
-    upload = st.upload() / 1_000_000
-    ping = st.results.ping
-    server = st.results.server.get("sponsor") if st.results.server else None
-    return {
-        "success": True,
-        "download_mbps": round(download, 2),
-        "upload_mbps": round(upload, 2),
-        "ping_ms": round(ping, 2),
-        "server": server,
-    }
-
 
 @router.post("/random/string")
 async def random_string(payload: RandomStringPayload):

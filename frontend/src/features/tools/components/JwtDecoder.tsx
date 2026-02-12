@@ -67,6 +67,7 @@ export function JwtDecoder() {
             className="btn primary"
             onClick={handleDecode}
             disabled={loading || !token}
+            title={loading ? "Decoding..." : !token ? "Enter a JWT token first" : undefined}
           >
             {loading ? "Decoding..." : "Decode"}
           </button>

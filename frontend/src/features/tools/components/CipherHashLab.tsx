@@ -2,9 +2,6 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import clsx from "clsx";
 import { encode, decode } from "../../../lib/api";
 
-// Cipher + hash playground focused on classic rotations and modern digests
-// Designed to live alongside EncoderDecoderTool but scoped to security use cases
-
 type Mode = "encode" | "decode";
 
  type CipherAlgo =
@@ -184,7 +181,6 @@ function railFence(value: string, rails: number, mode: Mode) {
     }
     return rows.flat().join("");
   }
-  // decode
   const pattern: number[] = [];
   let rail = 0;
   let dir = 1;
@@ -349,7 +345,6 @@ export default function CipherHashLab() {
         case "rail-fence":
           return railFence(value, rails, mode);
         case "md5":
-          // fallback to API only
           throw new Error("MD5 requires API mode");
         case "sha1":
           return subtleHash("SHA-1", value);
@@ -412,7 +407,6 @@ export default function CipherHashLab() {
 
   useEffect(() => {
     process(input);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [algo, mode, shift, key, rails, useApi]);
 
   const apiName = (name: Algo) => {
@@ -485,7 +479,6 @@ export default function CipherHashLab() {
       </div>
 
       <div className="tool-content">
-        {/* Options Panel */}
         <div className="tool-options">
           <div className="tool-option">
             <label className="tool-label">
@@ -544,9 +537,7 @@ export default function CipherHashLab() {
           </div>
         </div>
 
-        {/* Input/Output Grid */}
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-          {/* Input Section */}
           <div className="tool-input-section">
             <div className="tool-section-header">
               <label className="tool-label">
@@ -572,7 +563,6 @@ export default function CipherHashLab() {
               spellCheck={false}
             />
 
-            {/* Algorithm-specific options */}
             <div className="flex flex-wrap gap-3 text-xs text-neutral-300">
               {algo === "caesar" && (
                 <label className="flex items-center gap-2">
@@ -631,7 +621,6 @@ export default function CipherHashLab() {
             </div>
           </div>
 
-          {/* Output Section */}
           <div className="tool-output-section">
             <div className="tool-section-header">
               <label className="tool-label">
@@ -668,9 +657,7 @@ export default function CipherHashLab() {
           </div>
         </div>
 
-        {/* Bottom Section with Algorithms, Presets, and History */}
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-          {/* Algorithms Panel */}
           <div className="rounded border border-neutral-800 bg-neutral-950/70 p-3 space-y-2">
             <h4 className="text-sm font-semibold text-neutral-100">Algorithms</h4>
             <div className="space-y-3 max-h-72 overflow-auto pr-1">
@@ -699,7 +686,6 @@ export default function CipherHashLab() {
             </div>
           </div>
 
-          {/* Presets Panel */}
           <div className="rounded border border-neutral-800 bg-neutral-950/70 p-3 space-y-2">
             <h4 className="text-sm font-semibold text-neutral-100">Presets</h4>
             <div className="space-y-2">
@@ -716,7 +702,6 @@ export default function CipherHashLab() {
             </div>
           </div>
 
-          {/* History Panel */}
           <div className="rounded border border-neutral-800 bg-neutral-950/70 p-3 space-y-2">
             <h4 className="text-sm font-semibold text-neutral-100">History</h4>
             <div className="space-y-2 max-h-72 overflow-auto pr-1">
@@ -753,7 +738,6 @@ export default function CipherHashLab() {
           </div>
         </div>
 
-        {/* Notes Section */}
         <div className="rounded border border-neutral-800 bg-neutral-950/70 p-3 space-y-3">
           <div className="flex items-center justify-between">
             <h4 className="text-sm font-semibold text-neutral-100">Notes</h4>

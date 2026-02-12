@@ -10,17 +10,14 @@ export default function CssInlineTool() {
     setLoading(true);
     setError("");
     try {
-      // Parse the HTML and extract styles
       const parser = new DOMParser();
       const doc = parser.parseFromString(html, "text/html");
       
-      // Get all style tags
       const styleTags = doc.querySelectorAll("style");
       const cssRules: { selector: string; styles: string }[] = [];
       
       styleTags.forEach((styleTag) => {
         const cssText = styleTag.textContent || "";
-        // Simple CSS rule parser
         const ruleRegex = /([^{]+)\{([^}]+)\}/g;
         let match;
         while ((match = ruleRegex.exec(cssText)) !== null) {
@@ -30,7 +27,6 @@ export default function CssInlineTool() {
         }
       });
       
-      // Apply styles inline
       cssRules.forEach(({ selector, styles }) => {
         try {
           const elements = doc.querySelectorAll(selector);
@@ -40,14 +36,11 @@ export default function CssInlineTool() {
             htmlEl.setAttribute("style", existingStyle + (existingStyle ? "; " : "") + styles);
           });
         } catch {
-          // Ignore invalid selectors
         }
       });
       
-      // Remove style tags
       styleTags.forEach((tag) => tag.remove());
       
-      // Get the result
       const serializer = new XMLSerializer();
       const result = serializer.serializeToString(doc);
       setOutput(result);
@@ -76,7 +69,7 @@ export default function CssInlineTool() {
           />
         </div>
         <div className="tool-actions">
-          <button className="btn primary" onClick={inline} disabled={!html || loading}>
+          <button className="btn primary" onClick={inline} disabled={!html || loading} title={loading ? "Processing..." : !html ? "Enter HTML input first" : undefined}>
             {loading ? "Inliner running..." : "Inline CSS"}
           </button>
         </div>

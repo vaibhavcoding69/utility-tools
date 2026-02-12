@@ -11,11 +11,11 @@ interface ColorInfo {
 }
 
 export default function ColorPickerTool() {
-  const [color, setColor] = useState("#3b82f6");
+  const [color, setColor] = useState("#737373");
   const [colorInfo, setColorInfo] = useState<ColorInfo | null>(null);
   const [copied, setCopied] = useState<string | null>(null);
   const [savedColors, setSavedColors] = useState<string[]>([]);
-  const [hexInput, setHexInput] = useState("#3b82f6");
+  const [hexInput, setHexInput] = useState("#737373");
 
   useEffect(() => {
     updateColorInfo(color);
@@ -166,9 +166,7 @@ export default function ColorPickerTool() {
       </div>
 
       <div className="tool-content">
-        {/* Main Color Display */}
         <div className="color-picker-main">
-          {/* Color Preview & Picker */}
           <div className="color-picker-preview-section">
             <div 
               className="color-preview-large"
@@ -198,7 +196,6 @@ export default function ColorPickerTool() {
             </div>
           </div>
 
-          {/* Color Formats */}
           <div className="color-formats-section">
             <div className="tool-section-header">
               <label className="tool-label">
@@ -235,7 +232,6 @@ export default function ColorPickerTool() {
           </div>
         </div>
 
-        {/* RGB Sliders */}
         {colorInfo && (
           <div className="color-sliders-section">
             <div className="tool-section-header">
@@ -246,7 +242,7 @@ export default function ColorPickerTool() {
             </div>
             <div className="color-sliders">
               <div className="color-slider-row">
-                <span className="slider-label" style={{ color: "#ef4444" }}>R</span>
+                <span className="slider-label" style={{ color: "#a3a3a3" }}>R</span>
                 <input
                   type="range"
                   min="0"
@@ -261,7 +257,7 @@ export default function ColorPickerTool() {
                 <span className="slider-value">{colorInfo.rgbValues.r}</span>
               </div>
               <div className="color-slider-row">
-                <span className="slider-label" style={{ color: "#22c55e" }}>G</span>
+                <span className="slider-label" style={{ color: "#d4d4d4" }}>G</span>
                 <input
                   type="range"
                   min="0"
@@ -276,7 +272,7 @@ export default function ColorPickerTool() {
                 <span className="slider-value">{colorInfo.rgbValues.g}</span>
               </div>
               <div className="color-slider-row">
-                <span className="slider-label" style={{ color: "#3b82f6" }}>B</span>
+                <span className="slider-label" style={{ color: "#a3a3a3" }}>B</span>
                 <input
                   type="range"
                   min="0"
@@ -294,7 +290,6 @@ export default function ColorPickerTool() {
           </div>
         )}
 
-        {/* Action Buttons */}
         <div className="tool-actions">
           <button className="btn primary" onClick={generateRandomColor}>
             <i className="bi bi-shuffle" style={{ marginRight: "6px" }} />
@@ -306,7 +301,6 @@ export default function ColorPickerTool() {
           </button>
         </div>
 
-        {/* Saved Colors */}
         {savedColors.length > 0 && (
           <div className="saved-colors-section">
             <div className="tool-section-header">
@@ -343,7 +337,6 @@ export default function ColorPickerTool() {
           </div>
         )}
 
-        {/* Contrast Preview */}
         <div className="contrast-preview-section">
           <div className="tool-section-header">
             <label className="tool-label">
@@ -361,7 +354,7 @@ export default function ColorPickerTool() {
             <div className="contrast-card" style={{ backgroundColor: "#ffffff", color: color }}>
               <span className="contrast-sample">Color Text on White</span>
             </div>
-            <div className="contrast-card" style={{ backgroundColor: "#1a1a2e", color: color }}>
+            <div className="contrast-card" style={{ backgroundColor: "#171717", color: color }}>
               <span className="contrast-sample">Color Text on Dark</span>
             </div>
           </div>

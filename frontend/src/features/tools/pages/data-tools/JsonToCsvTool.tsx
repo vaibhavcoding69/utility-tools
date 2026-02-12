@@ -44,6 +44,7 @@ export function JsonToCsvTool() {
             className="btn primary"
             onClick={handleConvert}
             disabled={loading || !input}
+            title={loading ? "Processing..." : !input ? "Enter JSON data first" : undefined}
           >
             {loading ? "Converting..." : "Convert to CSV"}
           </button>

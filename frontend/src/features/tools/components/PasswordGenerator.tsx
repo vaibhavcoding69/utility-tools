@@ -12,7 +12,6 @@ export function PasswordGenerator() {
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  // Generate on mount
   useEffect(() => {
     handleGenerate();
   }, []);
@@ -96,7 +95,6 @@ export function PasswordGenerator() {
       </div>
 
       <div className="tool-content">
-        {/* Password Output - Show First */}
         {password && (
           <div className="password-display">
             <div className="password-output-wrapper">
@@ -120,7 +118,6 @@ export function PasswordGenerator() {
               </div>
             </div>
             
-            {/* Strength Meter */}
             {strength && (
               <div className="password-strength-section">
                 <div className="strength-meter">
@@ -158,7 +155,6 @@ export function PasswordGenerator() {
           </div>
         )}
 
-        {/* Options Panel */}
         <div className="tool-options-panel">
           <div className="tool-section-header">
             <label className="tool-label">
@@ -167,7 +163,6 @@ export function PasswordGenerator() {
             </label>
           </div>
 
-          {/* Length Slider */}
           <div className="tool-option-row">
             <label className="tool-label">
               <i className="bi bi-rulers" />
@@ -186,7 +181,6 @@ export function PasswordGenerator() {
             </div>
           </div>
 
-          {/* Character Options */}
           <div className="checkbox-grid">
             <label className="tool-checkbox-label">
               <input
@@ -242,7 +236,6 @@ export function PasswordGenerator() {
           </div>
         </div>
 
-        {/* Actions */}
         <div className="tool-actions">
           <button
             className="btn primary"

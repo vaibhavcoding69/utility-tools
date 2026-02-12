@@ -135,7 +135,6 @@ export default function CaseConverterTool() {
       </div>
 
       <div className="tool-content">
-        {/* Input Section */}
         <div className="tool-input-section">
           <div className="tool-section-header">
             <label className="tool-label">
@@ -154,7 +153,6 @@ export default function CaseConverterTool() {
           />
         </div>
 
-        {/* Action Buttons */}
         <div className="tool-actions">
           <button 
             className="btn primary" 
@@ -183,7 +181,6 @@ export default function CaseConverterTool() {
           </button>
         </div>
 
-        {/* Results Grid */}
         {results.length > 0 && (
           <div className="tool-output-section">
             <div className="tool-section-header">
@@ -228,7 +225,6 @@ export default function CaseConverterTool() {
           </div>
         )}
 
-        {/* Empty State */}
         {!input && results.length === 0 && (
           <div className="tool-empty-state">
             <div className="empty-state-icon">

@@ -59,7 +59,7 @@ export default function HarViewerTool() {
           </div>
         </div>
         <div className="tool-actions">
-          <button className="btn primary" onClick={summarize} disabled={!input || loading}>
+          <button className="btn primary" onClick={summarize} disabled={!input || loading} title={loading ? "Processing..." : !input ? "Enter HAR JSON first" : undefined}>
             {loading ? "Summarizing..." : "Summarize"}
           </button>
         </div>

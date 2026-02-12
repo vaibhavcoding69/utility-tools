@@ -100,7 +100,7 @@ The frontend will be available at `http://localhost:5173`
 
 Complete API documentation is available in [API_REFERENCE.md](./API_REFERENCE.md).
 
-Once the backend is running, visit `http://localhost:8000/docs` for interactive API documentation powered by Swagger UI.
+Once the backend is running, you can test the API endpoints using the examples provided in [API_REFERENCE.md](API_REFERENCE.md).
 
 ## Deploy to Vercel
 

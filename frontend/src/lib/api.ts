@@ -1,6 +1,3 @@
-// API client for utility tools
-
-// Default to the FastAPI router prefix used by the backend
 const API_BASE_URL = import.meta.env.VITE_API_URL || "/api";
 
 interface ApiResponse<T = any> {
@@ -39,25 +36,9 @@ class ApiClient {
     return response.json();
   }
 
-  // ============================================================================
-  // Health
-  // ============================================================================
-
   async health() {
     return this.request<ApiResponse>("/health");
   }
-
-  // ============================================================================
-  // Stats
-  // ============================================================================
-
-  async toolUsage(limit: number = 6) {
-    return this.request<ApiResponse>(`/stats/tools?limit=${limit}`);
-  }
-
-  // ============================================================================
-  // Developer Tools
-  // ============================================================================
 
   async formatJson(
     data: string,
@@ -160,10 +141,6 @@ class ApiClient {
     });
   }
 
-  // ============================================================================
-  // Universal Encoder/Decoder
-  // ============================================================================
-
   async encode(
     data: string,
     encoding: string,
@@ -201,10 +178,6 @@ class ApiClient {
   async listEncodings() {
     return this.request<ApiResponse>("/developer/encodings");
   }
-
-  // ============================================================================
-  // Security Tools
-  // ============================================================================
 
   async generatePassword(
     options: {
@@ -319,10 +292,6 @@ class ApiClient {
     });
   }
 
-  // ============================================================================
-  // Data Tools
-  // ============================================================================
-
   async csvToJson(data: string) {
     return this.request<ApiResponse>("/data/csv-to-json", {
       method: "POST",
@@ -393,10 +362,6 @@ class ApiClient {
     });
   }
 
-  async runSpeedtest() {
-    return this.request<ApiResponse>("/data/speedtest");
-  }
-
   async randomString(options: {
     length?: number;
     uppercase?: boolean;
@@ -418,10 +383,8 @@ class ApiClient {
   }
 }
 
-// Export singleton instance
 export const api = new ApiClient();
 
-// Export helper functions for convenience
 export const encode = (data: string, encoding: string, options?: any) =>
   api.encode(data, encoding, options);
 

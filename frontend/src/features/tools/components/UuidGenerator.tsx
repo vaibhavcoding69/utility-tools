@@ -9,7 +9,6 @@ export function UuidGenerator() {
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
   const [copiedAll, setCopiedAll] = useState(false);
 
-  // Generate on mount
   useEffect(() => {
     handleGenerate();
   }, []);
@@ -69,7 +68,6 @@ export function UuidGenerator() {
       </div>
 
       <div className="tool-content">
-        {/* Options Panel */}
         <div className="tool-options-panel">
           <div className="tool-section-header">
             <label className="tool-label">
@@ -78,31 +76,29 @@ export function UuidGenerator() {
             </label>
           </div>
 
-          {/* Version Selection */}
-          <div className="uuid-version-selector">
+          <div className="uuid-version-grid">
             <button
-              className={`version-option ${version === 4 ? "selected" : ""}`}
+              className={`uuid-version-card ${version === 4 ? "selected" : ""}`}
               onClick={() => setVersion(4)}
             >
               <div className="version-badge">v4</div>
               <div className="version-info">
-                <span className="version-name">Random</span>
-                <span className="version-desc">Cryptographically random (recommended)</span>
+                <div className="version-name">Random</div>
+                <div className="version-desc">Cryptographically random (recommended)</div>
               </div>
             </button>
             <button
-              className={`version-option ${version === 1 ? "selected" : ""}`}
+              className={`uuid-version-card ${version === 1 ? "selected" : ""}`}
               onClick={() => setVersion(1)}
             >
               <div className="version-badge">v1</div>
               <div className="version-info">
-                <span className="version-name">Time-based</span>
-                <span className="version-desc">Based on timestamp and MAC address</span>
+                <div className="version-name">Time-based</div>
+                <div className="version-desc">Based on timestamp and MAC address</div>
               </div>
             </button>
           </div>
 
-          {/* Count Slider */}
           <div className="tool-option-row">
             <label className="tool-label">
               <i className="bi bi-plus-slash-minus" />
@@ -122,7 +118,6 @@ export function UuidGenerator() {
           </div>
         </div>
 
-        {/* Action Buttons */}
         <div className="tool-actions">
           <button
             className="btn primary"
@@ -149,7 +144,6 @@ export function UuidGenerator() {
           )}
         </div>
 
-        {/* Results */}
         {uuids.length > 0 && (
           <div className="tool-output-section">
             <div className="tool-section-header">

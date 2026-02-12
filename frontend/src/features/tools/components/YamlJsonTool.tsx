@@ -92,7 +92,7 @@ export default function YamlJsonTool() {
         <div className="tool-output-section">
           <label className="tool-label">Output</label>
           <pre className="tool-output">
-            {output || "Output will appear here"}
+            {output || "Output will appear here..."}
           </pre>
         </div>
       </div>

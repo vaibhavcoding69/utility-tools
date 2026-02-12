@@ -38,7 +38,7 @@ export default function JsonYamlTool() {
           />
         </div>
         <div className="tool-actions">
-          <button className="btn primary" onClick={convert} disabled={!input || loading}>
+          <button className="btn primary" onClick={convert} disabled={!input || loading} title={loading ? "Processing..." : !input ? "Enter JSON input first" : undefined}>
             {loading ? "Converting..." : "Convert"}
           </button>
           <button
@@ -52,7 +52,7 @@ export default function JsonYamlTool() {
         {error && <div className="tool-error">{error}</div>}
         <div className="tool-output-section">
           <label className="tool-label">YAML Output</label>
-          <pre className="tool-output">{output || "Result will appear here"}</pre>
+          <pre className="tool-output">{output || "Output will appear here..."}</pre>
         </div>
       </div>
     </div>

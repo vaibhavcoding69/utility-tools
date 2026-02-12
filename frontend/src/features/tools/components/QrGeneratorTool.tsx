@@ -11,7 +11,6 @@ export default function QrGeneratorTool() {
     if (!text.trim()) return;
     let qrContent = text;
     
-    // Format content based on type
     switch (inputType) {
       case "email":
         qrContent = `mailto:${text}`;
@@ -20,14 +19,12 @@ export default function QrGeneratorTool() {
         qrContent = `tel:${text}`;
         break;
       case "wifi":
-        // Simple wifi format: WIFI:S:SSID;T:WPA;P:password;;
         qrContent = text;
         break;
       default:
         qrContent = text;
     }
     
-    // Using Google Charts API for simplicity
     const url = `https://chart.googleapis.com/chart?cht=qr&chs=${size}x${size}&chl=${encodeURIComponent(qrContent)}&choe=UTF-8`;
     setQrUrl(url);
   };
@@ -49,7 +46,6 @@ export default function QrGeneratorTool() {
       console.error("Failed to copy:", err);
     }
   };
-
 
   const showCopiedFeedback = (type: string) => {
     setCopied(type);
@@ -90,7 +86,6 @@ export default function QrGeneratorTool() {
       </div>
 
       <div className="tool-content">
-        {/* Input Type Selector */}
         <div className="qr-type-selector">
           {inputTypes.map((type) => (
             <button
@@ -104,7 +99,6 @@ export default function QrGeneratorTool() {
           ))}
         </div>
 
-        {/* Input Section */}
         <div className="tool-input-section">
           <div className="tool-section-header">
             <label className="tool-label">
@@ -123,7 +117,6 @@ export default function QrGeneratorTool() {
           />
         </div>
 
-        {/* Size Options */}
         <div className="qr-options-section">
           <div className="tool-section-header">
             <label className="tool-label">
@@ -156,7 +149,6 @@ export default function QrGeneratorTool() {
           </div>
         </div>
 
-        {/* Action Buttons */}
         <div className="tool-actions">
           <button 
             className="btn primary" 
@@ -188,7 +180,6 @@ export default function QrGeneratorTool() {
           </button>
         </div>
 
-        {/* QR Code Output */}
         {qrUrl ? (
           <div className="tool-output-section">
             <div className="tool-section-header">
@@ -231,7 +222,6 @@ export default function QrGeneratorTool() {
           </div>
         )}
 
-        {/* Tips Section */}
         <div className="tool-info-card">
           <div className="info-card-header">
             <i className="bi bi-info-circle" />

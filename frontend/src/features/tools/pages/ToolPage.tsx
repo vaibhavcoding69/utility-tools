@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link, Navigate } from "react-router-dom";
 import {
   JsonFormatter,
+  EncoderDecoderTool,
   UuidGenerator,
   JwtDecoder,
   RegexTester,
@@ -53,6 +54,12 @@ const developerTools: ToolConfig[] = [
     name: "JSON Formatter",
     description: "Format and validate JSON",
     component: JsonFormatter,
+  },
+  {
+    id: "encoder-decoder",
+    name: "Encoder / Decoder",
+    description: "Universal encoder/decoder with 33+ formats",
+    component: EncoderDecoderTool,
   },
   {
     id: "jwt",
@@ -362,12 +369,11 @@ function setSeo({ title, description, path }: { title: string; description: stri
 
 export default function ToolPage({ category }: ToolPageProps) {
   const { toolId } = useParams<{ toolId: string }>();
-  const [navOpen, setNavOpen] = useState(true);
+  const [navOpen, setNavOpen] = useState(() => window.innerWidth > 1024);
 
   const tools = toolsByCategory[category];
   const currentTool = tools.find((t) => t.id === toolId);
 
-  // Reset scroll so each tool starts at the top, preventing mid-page offsets after navigation
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [toolId]);

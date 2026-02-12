@@ -1,12 +1,3 @@
-/* ==========================================================================
-   TOOLS REDESIGN - Modern Tool Component System
-   A complete overhaul of tool page styling with glassmorphism, 
-   smooth animations, and professional design patterns
-   ========================================================================== */
-
-/* --------------------------------------------------------------------------
-   Tool Container - The Main Wrapper
-   -------------------------------------------------------------------------- */
 .tool-container {
   background: var(--bg-secondary);
   border: 1px solid var(--border-primary);
@@ -15,9 +6,6 @@
   position: relative;
 }
 
-/* --------------------------------------------------------------------------
-   Tool Header - Title and Description Area
-   -------------------------------------------------------------------------- */
 .tool-header {
   padding: var(--space-6) var(--space-8);
   background: transparent;
@@ -73,9 +61,6 @@
   max-width: 600px;
 }
 
-/* --------------------------------------------------------------------------
-   Tool Content - Main Body Area
-   -------------------------------------------------------------------------- */
 .tool-content {
   padding: var(--space-8);
   display: flex;
@@ -83,9 +68,6 @@
   gap: var(--space-6);
 }
 
-/* --------------------------------------------------------------------------
-   Tool Sections - Input/Output Areas
-   -------------------------------------------------------------------------- */
 .tool-input-section,
 .tool-output-section {
   display: flex;
@@ -100,9 +82,6 @@
   gap: var(--space-3);
 }
 
-/* --------------------------------------------------------------------------
-   Tool Labels - Section Headers
-   -------------------------------------------------------------------------- */
 .tool-label {
   font-family: var(--font-mono);
   font-size: var(--text-xs);
@@ -132,9 +111,6 @@
   margin-left: var(--space-2);
 }
 
-/* --------------------------------------------------------------------------
-   Tool Inputs - Textarea & Input Fields
-   -------------------------------------------------------------------------- */
 .tool-textarea,
 .tool-input {
   width: 100%;
@@ -154,8 +130,8 @@
 
 .tool-textarea::placeholder,
 .tool-input::placeholder {
-  color: var(--text-muted);
-  opacity: 0.7;
+  color: var(--text-tertiary);
+  opacity: 1;
 }
 
 .tool-textarea:hover,
@@ -216,9 +192,6 @@
   box-shadow: 0 0 0 3px var(--accent-subtle);
 }
 
-/* --------------------------------------------------------------------------
-   Tool Select - Dropdown Menus
-   -------------------------------------------------------------------------- */
 .tool-select {
   padding: var(--space-3) var(--space-4);
   padding-right: var(--space-10);
@@ -254,9 +227,6 @@
   color: var(--text-primary);
 }
 
-/* --------------------------------------------------------------------------
-   Tool Options - Settings Grid
-   -------------------------------------------------------------------------- */
 .tool-options {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -279,9 +249,6 @@
   gap: var(--space-3);
 }
 
-/* --------------------------------------------------------------------------
-   Tool Checkbox - Custom Styled
-   -------------------------------------------------------------------------- */
 .tool-checkbox-label {
   display: flex;
   align-items: center;
@@ -300,7 +267,7 @@
 }
 
 .tool-checkbox-label input[type="checkbox"] {
-  /* Visually hide native checkbox but keep it accessible */
+  
   position: absolute;
   width: 1px;
   height: 1px;
@@ -312,7 +279,6 @@
   border: 0;
 }
 
-/* Custom checkbox control */
 .checkbox-custom {
   width: 20px;
   height: 20px;
@@ -324,7 +290,7 @@
   border: 2px solid var(--border-primary);
   border-radius: var(--radius-sm);
   transition: all var(--duration-fast) var(--ease-out);
-  color: transparent; /* hide any icon text by default */
+  color: transparent; 
 }
 
 .tool-checkbox-label input[type="checkbox"]:hover + .checkbox-custom {
@@ -356,9 +322,6 @@
   color: var(--text-secondary);
 }
 
-/* --------------------------------------------------------------------------
-   Tool Slider - Range Input
-   -------------------------------------------------------------------------- */
 .tool-slider {
   -webkit-appearance: none;
   appearance: none;
@@ -403,9 +366,6 @@
   box-shadow: var(--shadow-md);
 }
 
-/* --------------------------------------------------------------------------
-   Tool Actions - Button Row
-   -------------------------------------------------------------------------- */
 .tool-actions {
   display: flex;
   align-items: center;
@@ -414,9 +374,6 @@
   padding-top: var(--space-2);
 }
 
-/* --------------------------------------------------------------------------
-   Tool Buttons - Primary, Secondary, Ghost
-   -------------------------------------------------------------------------- */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -454,15 +411,17 @@
 }
 
 .btn:disabled {
-  opacity: 0.5;
+  opacity: 0.4;
   cursor: not-allowed;
+  filter: grayscale(30%);
+  transform: none !important;
+  box-shadow: none !important;
 }
 
 .btn:disabled::before {
   display: none;
 }
 
-/* Primary Button */
 .btn.primary {
   background: var(--accent);
   color: var(--text-inverse);
@@ -487,7 +446,6 @@
     inset 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-/* Secondary Button */
 .btn.secondary {
   background: var(--bg-glass-subtle);
   color: var(--text-primary);
@@ -505,7 +463,6 @@
   background: var(--bg-active);
 }
 
-/* Ghost Button */
 .btn.ghost {
   background: transparent;
   color: var(--text-secondary);
@@ -522,7 +479,6 @@
   background: var(--bg-glass-hover);
 }
 
-/* Icon Button */
 .btn-icon {
   display: inline-flex;
   align-items: center;
@@ -554,9 +510,6 @@
   font-size: 16px;
 }
 
-/* --------------------------------------------------------------------------
-   Tool Output - Result Display
-   -------------------------------------------------------------------------- */
 .tool-output {
   padding: var(--space-5);
   font-family: var(--font-mono);
@@ -577,12 +530,44 @@
   content: "Output will appear here...";
   color: var(--text-muted);
   font-style: italic;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80px;
+  opacity: 0.6;
 }
 
 .tool-output code {
   font-family: inherit;
   background: none;
   padding: 0;
+}
+
+/* Skeleton shimmer for loading states */
+@keyframes shimmer {
+  0% { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+.tool-output.loading {
+  position: relative;
+  color: transparent;
+  overflow: hidden;
+}
+
+.tool-output.loading::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    var(--bg-primary) 0%,
+    var(--bg-glass-hover) 50%,
+    var(--bg-primary) 100%
+  );
+  background-size: 800px 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  border-radius: var(--radius-lg);
 }
 
 .tool-output-mono {
@@ -598,9 +583,6 @@
   word-break: break-all;
 }
 
-/* --------------------------------------------------------------------------
-   Tool Error - Error Messages
-   -------------------------------------------------------------------------- */
 .tool-error {
   display: flex;
   align-items: flex-start;
@@ -621,9 +603,6 @@
   flex-shrink: 0;
 }
 
-/* --------------------------------------------------------------------------
-   Tool Success - Success Messages
-   -------------------------------------------------------------------------- */
 .tool-success {
   display: flex;
   align-items: flex-start;
@@ -644,9 +623,6 @@
   flex-shrink: 0;
 }
 
-/* --------------------------------------------------------------------------
-   Tool Info - Information Messages
-   -------------------------------------------------------------------------- */
 .tool-info {
   display: flex;
   align-items: flex-start;
@@ -666,9 +642,6 @@
   flex-shrink: 0;
 }
 
-/* --------------------------------------------------------------------------
-   Tool Tabs - Tab Navigation
-   -------------------------------------------------------------------------- */
 .tool-tabs {
   display: flex;
   gap: var(--space-1);
@@ -703,9 +676,6 @@
   box-shadow: var(--shadow-sm);
 }
 
-/* --------------------------------------------------------------------------
-   Split Layout - Side by Side Panels
-   -------------------------------------------------------------------------- */
 .tool-split {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -718,9 +688,6 @@
   }
 }
 
-/* --------------------------------------------------------------------------
-   Result Cards - Styled Output Items
-   -------------------------------------------------------------------------- */
 .result-card {
   display: flex;
   flex-direction: column;
@@ -767,9 +734,6 @@
   margin-left: auto;
 }
 
-/* --------------------------------------------------------------------------
-   Result List - Stacked Results
-   -------------------------------------------------------------------------- */
 .result-list {
   display: flex;
   flex-direction: column;
@@ -803,9 +767,6 @@
   text-overflow: ellipsis;
 }
 
-/* --------------------------------------------------------------------------
-   Status Badges - Success/Error/Warning Indicators
-   -------------------------------------------------------------------------- */
 .status-badge {
   display: inline-flex;
   align-items: center;
@@ -840,9 +801,6 @@
   color: var(--tool-info-text);
 }
 
-/* --------------------------------------------------------------------------
-   Code Block - Syntax Highlighted Output
-   -------------------------------------------------------------------------- */
 .code-block {
   position: relative;
   background: var(--bg-primary);
@@ -885,9 +843,6 @@
   font-family: inherit;
 }
 
-/* --------------------------------------------------------------------------
-   Diff Tool - Enhanced Diff Display
-   -------------------------------------------------------------------------- */
 .diff-inputs-grid {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
@@ -1063,18 +1018,18 @@
 }
 
 .diff-stat-card.additions {
-  background: rgba(34, 197, 94, 0.1);
-  border-color: rgba(34, 197, 94, 0.3);
+  background: rgba(212, 212, 212, 0.1);
+  border-color: rgba(212, 212, 212, 0.3);
 }
 
 .diff-stat-card.deletions {
-  background: rgba(239, 68, 68, 0.1);
-  border-color: rgba(239, 68, 68, 0.3);
+  background: rgba(163, 163, 163, 0.1);
+  border-color: rgba(163, 163, 163, 0.3);
 }
 
 .diff-stat-card.changes {
-  background: rgba(59, 130, 246, 0.1);
-  border-color: rgba(59, 130, 246, 0.3);
+  background: rgba(163, 163, 163, 0.1);
+  border-color: rgba(163, 163, 163, 0.3);
 }
 
 .diff-stat-icon {
@@ -1088,18 +1043,18 @@
 }
 
 .diff-stat-card.additions .diff-stat-icon {
-  background: rgba(34, 197, 94, 0.2);
-  color: #22c55e;
+  background: rgba(212, 212, 212, 0.2);
+  color: #d4d4d4;
 }
 
 .diff-stat-card.deletions .diff-stat-icon {
-  background: rgba(239, 68, 68, 0.2);
-  color: #ef4444;
+  background: rgba(163, 163, 163, 0.2);
+  color: #a3a3a3;
 }
 
 .diff-stat-card.changes .diff-stat-icon {
-  background: rgba(59, 130, 246, 0.2);
-  color: #3b82f6;
+  background: rgba(163, 163, 163, 0.2);
+  color: #a3a3a3;
 }
 
 .diff-stat-content {
@@ -1115,15 +1070,15 @@
 }
 
 .diff-stat-card.additions .diff-stat-value {
-  color: #22c55e;
+  color: #d4d4d4;
 }
 
 .diff-stat-card.deletions .diff-stat-value {
-  color: #ef4444;
+  color: #a3a3a3;
 }
 
 .diff-stat-card.changes .diff-stat-value {
-  color: #3b82f6;
+  color: #a3a3a3;
 }
 
 .diff-stat-label {
@@ -1181,43 +1136,42 @@
 }
 
 .diff-line.diff-addition {
-  background: rgba(34, 197, 94, 0.12);
+  background: rgba(212, 212, 212, 0.12);
 }
 
 .diff-line.diff-addition .diff-line-content {
-  color: #4ade80;
+  color: #e5e5e5;
 }
 
 .diff-line.diff-addition .diff-line-icon {
-  color: #22c55e;
+  color: #d4d4d4;
 }
 
 .diff-line.diff-deletion {
-  background: rgba(239, 68, 68, 0.12);
+  background: rgba(163, 163, 163, 0.12);
 }
 
 .diff-line.diff-deletion .diff-line-content {
-  color: #f87171;
+  color: #d4d4d4;
 }
 
 .diff-line.diff-deletion .diff-line-icon {
-  color: #ef4444;
+  color: #a3a3a3;
 }
 
 .diff-line.diff-header {
-  background: rgba(59, 130, 246, 0.1);
+  background: rgba(163, 163, 163, 0.1);
   font-weight: 600;
 }
 
 .diff-line.diff-header .diff-line-content {
-  color: #60a5fa;
+  color: #d4d4d4;
 }
 
 .diff-line.diff-header .diff-line-icon {
-  color: #3b82f6;
+  color: #a3a3a3;
 }
 
-/* Legacy diff styles for compatibility */
 .diff-stats {
   display: flex;
   gap: var(--space-4);
@@ -1241,9 +1195,6 @@
   color: var(--tool-error-text);
 }
 
-/* --------------------------------------------------------------------------
-   Hash Results - Multiple Hash Display
-   -------------------------------------------------------------------------- */
 .hash-results {
   display: flex;
   flex-direction: column;
@@ -1290,9 +1241,6 @@
   line-height: var(--leading-relaxed);
 }
 
-/* --------------------------------------------------------------------------
-   UUID Results - UUID List Display
-   -------------------------------------------------------------------------- */
 .uuid-results {
   display: flex;
   flex-direction: column;
@@ -1323,9 +1271,97 @@
   letter-spacing: 0.02em;
 }
 
-/* --------------------------------------------------------------------------
-   JWT Decoder - Token Analysis Display
-   -------------------------------------------------------------------------- */
+/* UUID Version Selector */
+.uuid-version-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+.uuid-version-card {
+  all: unset;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: var(--space-4);
+  padding: var(--space-4);
+  background: var(--bg-primary);
+  border: 2px solid var(--border-primary);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all var(--duration-normal) var(--ease-out);
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.uuid-version-card:hover {
+  border-color: var(--border-hover);
+  background: var(--bg-secondary);
+  transform: translateY(-2px);
+}
+
+.uuid-version-card.selected {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 8%, var(--bg-primary));
+  box-shadow: 0 0 0 1px var(--accent), var(--shadow-sm);
+}
+
+.version-badge {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-width: 44px;
+  height: 44px;
+  background: var(--accent-subtle);
+  border: 1px solid var(--accent-muted);
+  border-radius: var(--radius-lg);
+  font-weight: 700;
+  font-size: var(--text-lg);
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.version-info {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: var(--space-1);
+  flex: 1;
+  text-align: left !important;
+}
+
+.version-name {
+  display: block;
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: var(--text-base);
+  line-height: 1.2;
+}
+
+.version-desc {
+  display: block;
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+  line-height: var(--leading-relaxed);
+}
+
+@media (max-width: 768px) {
+  .uuid-version-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .uuid-version-card {
+    gap: var(--space-3);
+    padding: var(--space-3);
+  }
+
+  .version-badge {
+    min-width: 40px;
+    height: 40px;
+    font-size: var(--text-base);
+  }
+}
+
 .jwt-status {
   display: flex;
   align-items: center;
@@ -1367,9 +1403,6 @@
   justify-content: space-between;
 }
 
-/* --------------------------------------------------------------------------
-   TOTP Generator - OTP Display
-   -------------------------------------------------------------------------- */
 .totp-code-container {
   display: flex;
   align-items: center;
@@ -1468,9 +1501,6 @@
   color: var(--tool-info-text);
 }
 
-/* --------------------------------------------------------------------------
-   Regex Tester - Pattern Matching Display
-   -------------------------------------------------------------------------- */
 .regex-flags {
   display: flex;
   flex-wrap: wrap;
@@ -1512,7 +1542,7 @@
 }
 
 .regex-highlighted mark {
-  background: rgba(251, 191, 36, 0.4);
+  background: rgba(115, 115, 115, 0.4);
   color: inherit;
   padding: 2px 4px;
   border-radius: var(--radius-sm);
@@ -1584,9 +1614,6 @@
   color: var(--text-primary);
 }
 
-/* --------------------------------------------------------------------------
-   Password Generator - Strength Display
-   -------------------------------------------------------------------------- */
 .password-output {
   display: flex;
   align-items: center;
@@ -1673,9 +1700,6 @@
   margin-bottom: var(--space-1);
 }
 
-/* --------------------------------------------------------------------------
-   Diff Tool - Two Column Input
-   -------------------------------------------------------------------------- */
 .diff-inputs {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1688,9 +1712,6 @@
   }
 }
 
-/* --------------------------------------------------------------------------
-   Loading States
-   -------------------------------------------------------------------------- */
 .tool-loading {
   display: flex;
   align-items: center;
@@ -1714,9 +1735,6 @@
   }
 }
 
-/* --------------------------------------------------------------------------
-   Empty States
-   -------------------------------------------------------------------------- */
 .tool-empty {
   display: flex;
   flex-direction: column;
@@ -1738,9 +1756,6 @@
   max-width: 300px;
 }
 
-/* --------------------------------------------------------------------------
-   Case Converter Tool Styles
-   -------------------------------------------------------------------------- */
 .case-results-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -1836,9 +1851,6 @@
   border-radius: var(--radius-full);
 }
 
-/* --------------------------------------------------------------------------
-   Lorem Ipsum Tool Styles
-   -------------------------------------------------------------------------- */
 .tool-presets {
   display: flex;
   align-items: center;
@@ -2032,11 +2044,8 @@
   white-space: pre-wrap;
 }
 
-/* --------------------------------------------------------------------------
-   Timestamp Tool Styles
-   -------------------------------------------------------------------------- */
 .live-clock-card {
-  background: linear-gradient(135deg, var(--accent) 0%, color-mix(in srgb, var(--accent) 70%, #8b5cf6) 100%);
+  background: linear-gradient(135deg, var(--accent) 0%, color-mix(in srgb, var(--accent) 70%, #d4d4d4) 100%);
   border-radius: var(--radius-lg);
   padding: var(--space-5);
   color: white;
@@ -2171,9 +2180,6 @@
   word-break: break-all;
 }
 
-/* --------------------------------------------------------------------------
-   Color Picker Tool Styles
-   -------------------------------------------------------------------------- */
 .color-picker-main {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -2375,15 +2381,15 @@
 }
 
 .color-slider.red {
-  background: linear-gradient(to right, #000, #ef4444);
+  background: linear-gradient(to right, #000, #a3a3a3);
 }
 
 .color-slider.green {
-  background: linear-gradient(to right, #000, #22c55e);
+  background: linear-gradient(to right, #000, #d4d4d4);
 }
 
 .color-slider.blue {
-  background: linear-gradient(to right, #000, #3b82f6);
+  background: linear-gradient(to right, #000, #a3a3a3);
 }
 
 .color-slider::-webkit-slider-thumb {
@@ -2500,9 +2506,6 @@
   font-size: var(--text-sm);
 }
 
-/* --------------------------------------------------------------------------
-   Tool Info Card
-   -------------------------------------------------------------------------- */
 .tool-info-card {
   background: var(--bg-secondary);
   border: 1px solid var(--border-primary);
@@ -2548,9 +2551,6 @@
   color: var(--accent);
 }
 
-/* --------------------------------------------------------------------------
-   Tool Hint & Output Stats
-   -------------------------------------------------------------------------- */
 .tool-hint {
   display: flex;
   align-items: center;
@@ -2586,9 +2586,6 @@
   font-size: var(--text-xs);
 }
 
-/* --------------------------------------------------------------------------
-   QR Code Generator Styles
-   -------------------------------------------------------------------------- */
 .qr-type-selector {
   display: flex;
   gap: var(--space-2);
@@ -2755,9 +2752,6 @@
   word-break: break-all;
 }
 
-/* --------------------------------------------------------------------------
-   Random String Generator Styles
-   -------------------------------------------------------------------------- */
 .string-output-display {
   background: var(--bg-primary);
   border: 1px solid var(--border-secondary);
@@ -2839,9 +2833,6 @@
   color: var(--text-muted);
 }
 
-/* --------------------------------------------------------------------------
-   History List Styles
-   -------------------------------------------------------------------------- */
 .history-list {
   display: flex;
   flex-direction: column;
@@ -2879,18 +2870,12 @@
   white-space: nowrap;
 }
 
-/* --------------------------------------------------------------------------
-   Section Styles
-   -------------------------------------------------------------------------- */
 .tool-section {
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
 }
 
-/* --------------------------------------------------------------------------
-   Additional Utility Classes
-   -------------------------------------------------------------------------- */
 .char-count {
   font-size: var(--text-xs);
   color: var(--text-muted);
@@ -2911,9 +2896,6 @@
   }
 }
 
-/* --------------------------------------------------------------------------
-   Responsive Adjustments
-   -------------------------------------------------------------------------- */
 @media (max-width: 640px) {
   .tool-header {
     padding: var(--space-5) var(--space-5);
@@ -3068,7 +3050,7 @@
   border-color: var(--accent);
   background: var(--accent);
   color: var(--surface);
-  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.3);
+  box-shadow: 0 8px 24px rgba(163, 163, 163, 0.3);
   transform: scale(1.05);
 }
 
@@ -3102,7 +3084,7 @@
 .server-select:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2);
+  box-shadow: 0 0 0 4px rgba(163, 163, 163, 0.2);
 }
 
 .server-select:disabled {
@@ -3137,10 +3119,6 @@
   font-weight: 700;
 }
 
-.speedtest-advanced-metrics {
-  margin-bottom: 24px;
-}
-
 .metrics-row {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -3166,19 +3144,19 @@
 }
 
 .metric-card.metric-ping {
-  border-left-color: #06b6d4;
+  border-left-color: #a3a3a3;
 }
 
 .metric-card.metric-jitter {
-  border-left-color: #8b5cf6;
+  border-left-color: #d4d4d4;
 }
 
 .metric-card.metric-packet {
-  border-left-color: #f59e0b;
+  border-left-color: #737373;
 }
 
 .metric-card.metric-stability {
-  border-left-color: #10b981;
+  border-left-color: #d4d4d4;
 }
 
 .metric-icon {
@@ -3347,17 +3325,17 @@
 }
 
 .use-case-item.suitable {
-  border-color: #10b981;
-  background: rgba(16, 185, 129, 0.05);
+  border-color: #d4d4d4;
+  background: rgba(212, 212, 212, 0.05);
 }
 
 .use-case-item.suitable:hover {
-  border-color: #10b981;
-  background: rgba(16, 185, 129, 0.1);
+  border-color: #d4d4d4;
+  background: rgba(212, 212, 212, 0.1);
 }
 
 .use-case-item.unsuitable {
-  border-color: #ef4444;
+  border-color: #a3a3a3;
   opacity: 0.6;
 }
 
@@ -3367,7 +3345,7 @@
 }
 
 .use-case-item.suitable i {
-  color: #10b981;
+  color: #d4d4d4;
 }
 
 .use-case-item span {
@@ -3449,23 +3427,6 @@
   font-family: monospace;
 }
 
-.history-speeds {
-  display: flex;
-  gap: 16px;
-  flex: 1;
-  flex-wrap: wrap;
-}
-
-.speed-down,
-.speed-up,
-.speed-ping {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 0.875rem;
-  font-weight: 500;
-}
-
 .history-category {
   font-size: 0.75rem;
   color: var(--accent);
@@ -3519,27 +3480,7 @@
   font-size: 0.875rem;
 }
 
-/* Responsive adjustments for advanced bandwidth tester */
-@media (max-width: 1024px) {
-  .speedtest-control-panel {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .control-actions {
-    margin-left: 0;
-  }
-
-  .control-actions .btn {
-    flex: 1;
-  }
-}
-
 @media (max-width: 768px) {
-  .speedtest-control-panel {
-    gap: 12px;
-    padding: 16px;
-  }
 
   .control-section {
     flex: 1;
@@ -3643,103 +3584,6 @@
   }
 }
 
-/* ============================================================================
-   BANDWIDTH TESTER TOOL STYLES
-   ============================================================================ */
-
-.speed-info-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 16px;
-  margin-bottom: 24px;
-}
-
-.speed-info-card {
-  display: flex;
-  gap: 12px;
-  padding: 16px;
-  background: var(--surface-alt);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  transition: all 0.3s ease;
-}
-
-.speed-info-card:hover {
-  border-color: var(--accent-subtle);
-  background: var(--accent-hover);
-}
-
-.speed-info-icon {
-  font-size: 24px;
-  color: var(--accent);
-  display: flex;
-  align-items: flex-start;
-  min-width: 24px;
-}
-
-.speed-info-content {
-  flex: 1;
-}
-
-.speed-info-title {
-  display: block;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 4px;
-}
-
-.speed-info-card p {
-  margin: 0;
-  font-size: 0.875rem;
-  color: var(--text-secondary);
-  line-height: 1.4;
-}
-
-.speed-progress-container {
-  margin-top: 32px;
-  padding: 32px 24px;
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(139, 92, 246, 0.08) 100%);
-  border-radius: 16px;
-  border: 2px solid rgba(99, 102, 241, 0.15);
-}
-
-.speed-progress-bar {
-  width: 100%;
-  height: 12px;
-  background: var(--border);
-  border-radius: 12px;
-  overflow: hidden;
-  margin-bottom: 20px;
-  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.speed-progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--accent), #a78bfa, #60a5fa);
-  border-radius: 12px;
-  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.speed-progress-label {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  text-align: center;
-}
-
-.speed-progress-label i {
-  animation: spin 1.5s linear infinite;
-  color: var(--accent);
-}
-
-.speedtest-advanced-metrics {
-  margin-bottom: 32px;
-}
-
 .metrics-row {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -3753,7 +3597,7 @@
   justify-content: center;
   gap: 12px;
   padding: 20px;
-  background: linear-gradient(135deg, var(--surface-alt) 0%, rgba(99, 102, 241, 0.03) 100%);
+  background: linear-gradient(135deg, var(--surface-alt) 0%, rgba(163, 163, 163, 0.03) 100%);
   border: 2px solid var(--border);
   border-radius: 16px;
   text-align: center;
@@ -3805,7 +3649,6 @@
   color: var(--text-primary);
 }
 
-/* Speed Results - Speedtest.com Inspired */
 .speed-results-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -3819,7 +3662,7 @@
   flex-direction: column;
   align-items: center;
   padding: 32px 24px;
-  background: linear-gradient(135deg, var(--surface-alt) 0%, rgba(99, 102, 241, 0.05) 100%);
+  background: linear-gradient(135deg, var(--surface-alt) 0%, rgba(163, 163, 163, 0.05) 100%);
   border: 2px solid var(--border);
   border-radius: 20px;
   text-align: center;
@@ -3841,14 +3684,14 @@
 .speed-result-card:hover {
   border-color: var(--accent);
   transform: translateY(-8px);
-  box-shadow: 0 20px 40px rgba(99, 102, 241, 0.15);
+  box-shadow: 0 20px 40px rgba(163, 163, 163, 0.15);
 }
 
 .speed-result-icon {
   font-size: 48px;
   margin-bottom: 16px;
   color: var(--accent);
-  filter: drop-shadow(0 4px 8px rgba(99, 102, 241, 0.2));
+  filter: drop-shadow(0 4px 8px rgba(163, 163, 163, 0.2));
 }
 
 .speed-result-label {
@@ -3888,7 +3731,7 @@
   font-size: 0.9rem;
   gap: 12px;
   padding: 8px;
-  background: rgba(99, 102, 241, 0.05);
+  background: rgba(163, 163, 163, 0.05);
   border-radius: 8px;
   align-items: center;
 }
@@ -3903,15 +3746,14 @@
   font-weight: 800;
 }
 
-/* Speed Chart - Gauge Style */
 .speed-chart {
   display: flex;
   flex-direction: column;
   gap: 28px;
   padding: 32px;
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(139, 92, 246, 0.08) 100%);
+  background: linear-gradient(135deg, rgba(163, 163, 163, 0.08) 0%, rgba(139, 92, 246, 0.08) 100%);
   border-radius: 20px;
-  border: 2px solid rgba(99, 102, 241, 0.1);
+  border: 2px solid rgba(163, 163, 163, 0.1);
   margin-bottom: 32px;
 }
 
@@ -3977,13 +3819,12 @@
   font-size: 1rem;
 }
 
-/* Connection Info */
 .connection-info-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: 16px;
   padding: 24px;
-  background: linear-gradient(135deg, var(--surface-alt) 0%, rgba(99, 102, 241, 0.03) 100%);
+  background: linear-gradient(135deg, var(--surface-alt) 0%, rgba(163, 163, 163, 0.03) 100%);
   border-radius: 16px;
   border: 2px solid var(--border);
   margin-bottom: 32px;
@@ -4010,11 +3851,10 @@
   font-weight: 800;
 }
 
-/* Recommendations - Speedtest Style */
 .speed-recommendations {
   padding: 32px;
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(139, 92, 246, 0.08) 100%);
-  border: 2px solid rgba(99, 102, 241, 0.15);
+  background: linear-gradient(135deg, rgba(163, 163, 163, 0.08) 0%, rgba(139, 92, 246, 0.08) 100%);
+  border: 2px solid rgba(163, 163, 163, 0.15);
   border-radius: 20px;
   border-left: 6px solid var(--accent);
   margin-bottom: 32px;
@@ -4061,11 +3901,10 @@
   margin-top: 2px;
 }
 
-/* Use Case Matrix */
 .use-case-matrix {
   padding: 32px;
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(139, 92, 246, 0.08) 100%);
-  border: 2px solid rgba(99, 102, 241, 0.15);
+  background: linear-gradient(135deg, rgba(163, 163, 163, 0.08) 0%, rgba(139, 92, 246, 0.08) 100%);
+  border: 2px solid rgba(163, 163, 163, 0.15);
   border-radius: 20px;
   border-left: 6px solid var(--accent);
   margin-bottom: 32px;
@@ -4112,7 +3951,7 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  background: rgba(99, 102, 241, 0.05);
+  background: rgba(163, 163, 163, 0.05);
   transition: left 0.4s ease;
   z-index: -1;
 }
@@ -4122,18 +3961,18 @@
 }
 
 .use-case-item.suitable {
-  border-color: #10b981;
-  background: rgba(16, 185, 129, 0.08);
+  border-color: #d4d4d4;
+  background: rgba(212, 212, 212, 0.08);
 }
 
 .use-case-item.suitable:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 24px rgba(16, 185, 129, 0.2);
+  box-shadow: 0 12px 24px rgba(212, 212, 212, 0.2);
 }
 
 .use-case-item.unsuitable {
   opacity: 0.5;
-  border-color: #ef4444;
+  border-color: #a3a3a3;
 }
 
 .use-case-item i {
@@ -4142,7 +3981,7 @@
 }
 
 .use-case-item.suitable i {
-  color: #10b981;
+  color: #d4d4d4;
 }
 
 .use-case-item span {
@@ -4162,7 +4001,6 @@
   font-size: 1.1rem;
 }
 
-/* History Section */
 .history-stats {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -4175,7 +4013,7 @@
   flex-direction: column;
   gap: 10px;
   padding: 20px;
-  background: linear-gradient(135deg, var(--surface-alt) 0%, rgba(99, 102, 241, 0.05) 100%);
+  background: linear-gradient(135deg, var(--surface-alt) 0%, rgba(163, 163, 163, 0.05) 100%);
   border: 2px solid var(--border);
   border-radius: 14px;
   text-align: center;
@@ -4212,7 +4050,7 @@
   align-items: center;
   gap: 16px;
   padding: 16px;
-  background: linear-gradient(135deg, var(--surface-alt) 0%, rgba(99, 102, 241, 0.03) 100%);
+  background: linear-gradient(135deg, var(--surface-alt) 0%, rgba(163, 163, 163, 0.03) 100%);
   border: 2px solid var(--border);
   border-radius: 12px;
   transition: all 0.4s ease;
@@ -4258,7 +4096,6 @@
   text-align: right;
 }
 
-/* Speed Reference Table */
 .speed-reference-table {
   display: flex;
   flex-direction: column;
@@ -4301,7 +4138,6 @@
   color: var(--accent);
 }
 
-/* Speed Info Cards */
 .speed-info-cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -4313,7 +4149,7 @@
   display: flex;
   gap: 16px;
   padding: 24px;
-  background: linear-gradient(135deg, var(--surface-alt) 0%, rgba(99, 102, 241, 0.05) 100%);
+  background: linear-gradient(135deg, var(--surface-alt) 0%, rgba(163, 163, 163, 0.05) 100%);
   border: 2px solid var(--border);
   border-radius: 16px;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -4322,7 +4158,7 @@
 .speed-info-card:hover {
   border-color: var(--accent);
   transform: translateY(-4px);
-  box-shadow: 0 12px 24px rgba(99, 102, 241, 0.1);
+  box-shadow: 0 12px 24px rgba(163, 163, 163, 0.1);
 }
 
 .speed-info-icon {
@@ -4352,7 +4188,6 @@
   line-height: 1.6;
 }
 
-/* Empty State */
 .tool-empty-state {
   padding: 60px 24px;
   text-align: center;
@@ -4363,7 +4198,7 @@
   font-size: 64px;
   color: var(--accent);
   margin-bottom: 24px;
-  filter: drop-shadow(0 8px 16px rgba(99, 102, 241, 0.2));
+  filter: drop-shadow(0 8px 16px rgba(163, 163, 163, 0.2));
 }
 
 .tool-empty-state h3 {
@@ -4399,7 +4234,7 @@
 .feature i {
   font-size: 2rem;
   color: var(--accent);
-  filter: drop-shadow(0 4px 8px rgba(99, 102, 241, 0.2));
+  filter: drop-shadow(0 4px 8px rgba(163, 163, 163, 0.2));
 }
 
 .feature span {
@@ -4408,13 +4243,7 @@
   font-weight: 600;
 }
 
-/* Responsive adjustments for speedtest.com inspired design */
 @media (max-width: 1024px) {
-  .speedtest-control-panel {
-    gap: 20px;
-    padding: 24px;
-  }
-
   .control-section {
     width: 100%;
   }
@@ -4449,11 +4278,6 @@
 }
 
 @media (max-width: 768px) {
-  .speedtest-control-panel {
-    gap: 16px;
-    padding: 20px;
-  }
-
   .control-label {
     font-size: 0.75rem;
   }
@@ -4631,11 +4455,6 @@
 }
 
 @media (max-width: 480px) {
-  .speedtest-control-panel {
-    padding: 16px;
-    gap: 12px;
-  }
-
   .control-options {
     flex-direction: column;
   }

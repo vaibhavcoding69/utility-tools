@@ -113,7 +113,6 @@ export function DiffTool() {
       </div>
 
       <div className="tool-content">
-        {/* Diff Inputs Grid */}
         <div className="diff-inputs-grid">
           <div className="diff-input-panel">
             <div className="diff-panel-header">
@@ -135,7 +134,6 @@ export function DiffTool() {
             />
           </div>
 
-          {/* Swap Button */}
           <div className="diff-swap-button-container">
             <button
               className="diff-swap-button"
@@ -168,7 +166,6 @@ export function DiffTool() {
           </div>
         </div>
 
-        {/* Options */}
         <div className="diff-options">
           <div className="diff-option">
             <label className="diff-option-label">
@@ -189,12 +186,13 @@ export function DiffTool() {
           </div>
         </div>
 
-        {/* Action Buttons */}
         <div className="tool-actions">
           <button
             className="btn primary"
             onClick={handleDiff}
             disabled={loading || !original || !modified}
+            title={loading ? "Processing..." : !original && !modified ? "Enter both texts first" : !original ? "Enter original text" : !modified ? "Enter modified text" : undefined}
+            title={loading ? "Processing..." : !original && !modified ? "Enter both texts first" : !original ? "Enter original text first" : !modified ? "Enter modified text first" : undefined}
           >
             {loading ? (
               <>
@@ -226,7 +224,6 @@ export function DiffTool() {
           </button>
         </div>
 
-        {/* Error Message */}
         {error && (
           <div className="tool-error">
             <i className="bi bi-exclamation-triangle" style={{ marginRight: "8px" }} />
@@ -234,7 +231,6 @@ export function DiffTool() {
           </div>
         )}
 
-        {/* Diff Results */}
         {diff && (
           <div className="tool-output-section">
             <div className="tool-section-header">
@@ -244,7 +240,6 @@ export function DiffTool() {
               </label>
             </div>
 
-            {/* Stats Cards */}
             <div className="diff-stats-grid">
               <div className="diff-stat-card additions">
                 <div className="diff-stat-icon">
@@ -275,7 +270,6 @@ export function DiffTool() {
               </div>
             </div>
 
-            {/* Diff Output */}
             <div className="diff-output-container">
               <div className="diff-output">
                 {renderDiff()}
@@ -284,7 +278,6 @@ export function DiffTool() {
           </div>
         )}
 
-        {/* Empty State */}
         {!diff && !error && (!original || !modified) && (
           <div className="tool-empty-state">
             <div className="empty-state-icon">
@@ -295,7 +288,6 @@ export function DiffTool() {
           </div>
         )}
 
-        {/* Info Card */}
         <div className="tool-info-card">
           <div className="info-card-header">
             <i className="bi bi-info-circle" />

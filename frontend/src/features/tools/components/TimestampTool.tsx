@@ -18,7 +18,6 @@ export default function TimestampTool() {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [copied, setCopied] = useState<string | null>(null);
 
-  // Update current time every second
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTime(new Date());
@@ -57,7 +56,6 @@ export default function TimestampTool() {
         setOutput(null);
         return;
       }
-      // Detect if milliseconds or seconds
       const isMs = ts > 9999999999;
       const date = new Date(isMs ? ts : ts * 1000);
       
@@ -142,7 +140,6 @@ export default function TimestampTool() {
       </div>
 
       <div className="tool-content">
-        {/* Live Clock Display */}
         <div className="live-clock-card">
           <div className="live-clock-header">
             <i className="bi bi-clock-fill" />
@@ -165,7 +162,6 @@ export default function TimestampTool() {
           </div>
         </div>
 
-        {/* Mode Toggle */}
         <div className="tool-tabs">
           <button
             className={`tool-tab ${mode === "to-date" ? "active" : ""}`}
@@ -183,7 +179,6 @@ export default function TimestampTool() {
           </button>
         </div>
 
-        {/* Input Section */}
         <div className="tool-input-section">
           <div className="tool-section-header">
             <label className="tool-label">
@@ -218,7 +213,6 @@ export default function TimestampTool() {
           </div>
         </div>
 
-        {/* Action Buttons */}
         <div className="tool-actions">
           <button 
             className="btn primary" 
@@ -234,7 +228,6 @@ export default function TimestampTool() {
           </button>
         </div>
 
-        {/* Error Message */}
         {error && (
           <div className="tool-error">
             <i className="bi bi-exclamation-triangle" style={{ marginRight: "8px" }} />
@@ -242,7 +235,6 @@ export default function TimestampTool() {
           </div>
         )}
 
-        {/* Results Grid */}
         {output && (
           <div className="tool-output-section">
             <div className="tool-section-header">
@@ -282,7 +274,6 @@ export default function TimestampTool() {
           </div>
         )}
 
-        {/* Empty State */}
         {!output && !error && (
           <div className="tool-empty-state">
             <div className="empty-state-icon">

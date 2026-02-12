@@ -1,10 +1,6 @@
 import { useState, useCallback, useEffect, useMemo, useRef } from "react";
 import { api } from "../../../lib/api";
 
-// ============================================================================
-// TYPES & INTERFACES
-// ============================================================================
-
 type EncodingType =
   | "base64" | "base64url" | "base32" | "base16" | "url" | "url-component"
   | "html" | "html-full" | "hex" | "hex-0x" | "binary" | "octal" | "decimal"
@@ -27,38 +23,17 @@ interface Encoding {
   example: { input: string; output: string };
 }
 
-interface HistoryEntry {
-  id: string;
-  timestamp: number;
-  input: string;
-  output: string;
-  encoding: EncodingType;
-  mode: Mode;
-}
-
 interface ChainStep {
   id: string;
   encoding: EncodingType;
   mode: Mode;
 }
 
-interface Preset {
-  id: string;
-  name: string;
-  description: string;
-  steps: ChainStep[];
-}
-
-// ============================================================================
-// CONSTANTS - ENCODINGS LIST
-// ============================================================================
-
 const ENCODINGS: Encoding[] = [
-  // Web & Data Encodings
   { id: "base64", name: "Base64", description: "Standard Base64 encoding (RFC 4648)", icon: "bi-file-binary", category: "web", canDecode: true, example: { input: "Hello World", output: "SGVsbG8gV29ybGQ=" } },
   { id: "base64url", name: "Base64 URL", description: "URL-safe Base64 (no padding)", icon: "bi-link-45deg", category: "web", canDecode: true, example: { input: "Hello World", output: "SGVsbG8gV29ybGQ" } },
-  { id: "base32", name: "Base32", description: "Base32 encoding (RFC 4648)", icon: "bi-grid-3x3", category: "web", canDecode: true, example: { input: "Hello", output: "JBSWY3DP" } },
-  { id: "base16", name: "Base16", description: "Base16/Hex encoding (RFC 4648)", icon: "bi-grid-1x2", category: "web", canDecode: true, example: { input: "Hi", output: "4869" } },
+  { id: "base32", name: "Base32", description: "Base32 encoding (RFC 4648)", icon: "bi-grid-3x2-gap", category: "web", canDecode: true, example: { input: "Hello", output: "JBSWY3DP" } },
+  { id: "base16", name: "Base16", description: "Base16/Hex encoding (RFC 4648)", icon: "bi-hexagon", category: "web", canDecode: true, example: { input: "Hi", output: "4869" } },
   { id: "url", name: "URL Encode", description: "Percent-encoding for URLs", icon: "bi-globe", category: "web", canDecode: true, example: { input: "Hello World!", output: "Hello%20World%21" } },
   { id: "url-component", name: "URL Component", description: "Full URL component encoding", icon: "bi-globe2", category: "web", canDecode: true, example: { input: "a=1&b=2", output: "a%3D1%26b%3D2" } },
   { id: "html", name: "HTML Entities", description: "Common HTML entity encoding", icon: "bi-code-slash", category: "web", canDecode: true, example: { input: "<div>", output: "&lt;div&gt;" } },
@@ -66,31 +41,27 @@ const ENCODINGS: Encoding[] = [
   { id: "quoted-printable", name: "Quoted-Printable", description: "Email MIME encoding", icon: "bi-envelope", category: "web", canDecode: true, example: { input: "Héllo", output: "H=C3=A9llo" } },
   { id: "punycode", name: "Punycode", description: "International domain names", icon: "bi-translate", category: "web", canDecode: true, example: { input: "münchen", output: "xn--mnchen-3ya" } },
   { id: "uuencode", name: "UUencode", description: "Unix-to-Unix encoding", icon: "bi-terminal", category: "web", canDecode: true, example: { input: "Hi", output: "&2&D" } },
-  // Numeric Encodings
   { id: "hex", name: "Hexadecimal", description: "Base-16 with spaces", icon: "bi-hash", category: "numeric", canDecode: true, example: { input: "ABC", output: "41 42 43" } },
-  { id: "hex-0x", name: "Hex (0x prefix)", description: "Hexadecimal with 0x prefix", icon: "bi-braces", category: "numeric", canDecode: true, example: { input: "Hi", output: "0x48 0x69" } },
-  { id: "binary", name: "Binary", description: "Base-2 representation", icon: "bi-0-circle", category: "numeric", canDecode: true, example: { input: "A", output: "01000001" } },
-  { id: "octal", name: "Octal", description: "Base-8 representation", icon: "bi-8-circle", category: "numeric", canDecode: true, example: { input: "A", output: "101" } },
+  { id: "hex-0x", name: "Hex (0x prefix)", description: "Hexadecimal with 0x prefix", icon: "bi-code", category: "numeric", canDecode: true, example: { input: "Hi", output: "0x48 0x69" } },
+  { id: "binary", name: "Binary", description: "Base-2 representation", icon: "bi-toggle-on", category: "numeric", canDecode: true, example: { input: "A", output: "01000001" } },
+  { id: "octal", name: "Octal", description: "Base-8 representation", icon: "bi-list-ol", category: "numeric", canDecode: true, example: { input: "A", output: "101" } },
   { id: "decimal", name: "Decimal", description: "ASCII decimal codes", icon: "bi-calculator", category: "numeric", canDecode: true, example: { input: "Hi", output: "72 105" } },
   { id: "ascii", name: "ASCII Codes", description: "Character code points", icon: "bi-123", category: "numeric", canDecode: true, example: { input: "AB", output: "65 66" } },
-  // Text Encodings
   { id: "unicode", name: "Unicode", description: "U+XXXX format", icon: "bi-fonts", category: "text", canDecode: true, example: { input: "A", output: "U+0041" } },
-  { id: "unicode-escape", name: "Unicode Escape", description: "\\uXXXX format", icon: "bi-textarea-t", category: "text", canDecode: true, example: { input: "Hi", output: "\\u0048\\u0069" } },
+  { id: "unicode-escape", name: "Unicode Escape", description: "\\uXXXX format", icon: "bi-escape", category: "text", canDecode: true, example: { input: "Hi", output: "\\u0048\\u0069" } },
   { id: "utf8", name: "UTF-8 Bytes", description: "UTF-8 byte sequence", icon: "bi-file-earmark-binary", category: "text", canDecode: true, example: { input: "é", output: "c3 a9" } },
   { id: "utf16", name: "UTF-16", description: "UTF-16 code units", icon: "bi-file-earmark-code", category: "text", canDecode: true, example: { input: "A", output: "0041" } },
   { id: "a1z26", name: "A1Z26", description: "A=1, B=2, ..., Z=26", icon: "bi-sort-alpha-down", category: "text", canDecode: true, example: { input: "ABC", output: "1-2-3" } },
   { id: "nato", name: "NATO Phonetic", description: "Alpha, Bravo, Charlie...", icon: "bi-megaphone", category: "text", canDecode: true, example: { input: "ABC", output: "Alpha Bravo Charlie" } },
-  { id: "morse", name: "Morse Code", description: "Dots and dashes", icon: "bi-broadcast", category: "text", canDecode: true, example: { input: "SOS", output: "... --- ..." } },
+  { id: "morse", name: "Morse Code", description: "Dots and dashes", icon: "bi-soundwave", category: "text", canDecode: true, example: { input: "SOS", output: "... --- ..." } },
   { id: "reverse", name: "Reverse", description: "Reverse string", icon: "bi-arrow-left-right", category: "text", canDecode: true, example: { input: "Hello", output: "olleH" } },
-  // Cipher Encodings
   { id: "rot13", name: "ROT13", description: "Rotate by 13 positions", icon: "bi-arrow-repeat", category: "cipher", canDecode: true, example: { input: "Hello", output: "Uryyb" } },
   { id: "rot5", name: "ROT5", description: "Rotate digits by 5", icon: "bi-5-circle", category: "cipher", canDecode: true, example: { input: "12345", output: "67890" } },
-  { id: "rot47", name: "ROT47", description: "Rotate ASCII 33-126", icon: "bi-arrow-clockwise", category: "cipher", canDecode: true, example: { input: "Hello!", output: "w6==@P" } },
-  { id: "caesar", name: "Caesar Cipher", description: "Shift cipher (configurable)", icon: "bi-shield", category: "cipher", canDecode: true, example: { input: "ABC", output: "DEF" } },
+  { id: "rot47", name: "ROT47", description: "Rotate ASCII 33-126", icon: "bi-arrow-counterclockwise", category: "cipher", canDecode: true, example: { input: "Hello!", output: "w6==@P" } },
+  { id: "caesar", name: "Caesar Cipher", description: "Shift cipher (configurable)", icon: "bi-incognito", category: "cipher", canDecode: true, example: { input: "ABC", output: "DEF" } },
   { id: "atbash", name: "Atbash", description: "Reverse alphabet (A↔Z)", icon: "bi-symmetry-vertical", category: "cipher", canDecode: true, example: { input: "ABC", output: "ZYX" } },
   { id: "vigenere", name: "Vigenère", description: "Polyalphabetic cipher", icon: "bi-key", category: "cipher", canDecode: true, example: { input: "HELLO", output: "RIJVS" } },
-  { id: "bacon", name: "Bacon Cipher", description: "Binary alphabet cipher", icon: "bi-menu-button-wide", category: "cipher", canDecode: true, example: { input: "AB", output: "AAAAA AAAAB" } },
-  // Hash Functions
+  { id: "bacon", name: "Bacon Cipher", description: "Binary alphabet cipher", icon: "bi-type-bold", category: "cipher", canDecode: true, example: { input: "AB", output: "AAAAA AAAAB" } },
   { id: "md5-hash", name: "MD5", description: "MD5 hash (one-way)", icon: "bi-fingerprint", category: "hash", canDecode: false, example: { input: "hello", output: "5d41402abc4b2a76b9719d911017c592" } },
   { id: "sha1-hash", name: "SHA-1", description: "SHA-1 hash (one-way)", icon: "bi-shield-lock", category: "hash", canDecode: false, example: { input: "hello", output: "aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d" } },
   { id: "sha256-hash", name: "SHA-256", description: "SHA-256 hash (one-way)", icon: "bi-shield-check", category: "hash", canDecode: false, example: { input: "hello", output: "2cf24dba5fb0a30e26e83b2ac5b9e29e..." } }
@@ -103,10 +74,6 @@ const CATEGORIES: Record<Category, { name: string; icon: string; description: st
   cipher: { name: "Ciphers", icon: "bi-shield-lock", description: "ROT13, Caesar, Vigenère" },
   hash: { name: "Hashes", icon: "bi-fingerprint", description: "MD5, SHA-1, SHA-256" }
 };
-
-// ============================================================================
-// ENCODING LOOKUP TABLES
-// ============================================================================
 
 const MORSE_CODE: Record<string, string> = {
   "A": ".-", "B": "-...", "C": "-.-.", "D": "-..", "E": ".", "F": "..-.",
@@ -166,51 +133,6 @@ const BACON_REVERSE = Object.fromEntries(
 
 const BASE32_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
 
-// ============================================================================
-// DEFAULT PRESETS
-// ============================================================================
-
-const DEFAULT_PRESETS: Preset[] = [
-  {
-    id: "url-base64",
-    name: "URL Safe Data",
-    description: "Base64 → URL encode for safe transmission",
-    steps: [
-      { id: "1", encoding: "base64", mode: "encode" },
-      { id: "2", encoding: "url", mode: "encode" }
-    ]
-  },
-  {
-    id: "double-rot13",
-    name: "Double ROT13",
-    description: "Apply ROT13 twice (returns original)",
-    steps: [
-      { id: "1", encoding: "rot13", mode: "encode" },
-      { id: "2", encoding: "rot13", mode: "encode" }
-    ]
-  },
-  {
-    id: "hex-base64",
-    name: "Hex to Base64",
-    description: "Convert hex string to Base64",
-    steps: [
-      { id: "1", encoding: "hex", mode: "decode" },
-      { id: "2", encoding: "base64", mode: "encode" }
-    ]
-  },
-  {
-    id: "html-safe",
-    name: "HTML Safe Text",
-    description: "Encode for safe HTML display",
-    steps: [{ id: "1", encoding: "html", mode: "encode" }]
-  }
-];
-
-// ============================================================================
-// ENCODING FUNCTIONS
-// ============================================================================
-
-// Base32 encode/decode
 const base32Encode = (input: string): string => {
   const bytes = new TextEncoder().encode(input);
   let bits = "";
@@ -241,7 +163,6 @@ const base32Decode = (input: string): string => {
   return new TextDecoder().decode(new Uint8Array(bytes));
 };
 
-// UUencode
 const uuEncode = (input: string): string => {
   const bytes = new TextEncoder().encode(input);
   let result = "";
@@ -273,7 +194,6 @@ const uuDecode = (input: string): string => {
   return new TextDecoder().decode(new Uint8Array(bytes));
 };
 
-// Punycode implementation
 const punyEncode = (input: string): string => {
   const base = 36, tMin = 1, tMax = 26, skew = 38, damp = 700;
   const initialBias = 72, initialN = 128;
@@ -371,7 +291,6 @@ const punyDecode = (input: string): string => {
   return output.join("");
 };
 
-// Simple hash functions (for demo - not cryptographically secure)
 const simpleHash = (input: string, bits: number): string => {
   const bytes = new TextEncoder().encode(input);
   let result = "";
@@ -386,7 +305,6 @@ const simpleHash = (input: string, bits: number): string => {
   return result;
 };
 
-// Vigenère cipher
 const vigenereEncode = (text: string, key: string): string => {
   if (!key) return text;
   const keyUpper = key.toUpperCase().replace(/[^A-Z]/g, "");
@@ -421,7 +339,6 @@ const vigenereDecode = (text: string, key: string): string => {
   });
 };
 
-// Main encode function
 const encode = (
   text: string,
   type: EncodingType,
@@ -430,7 +347,6 @@ const encode = (
   const { shift = 3, key = "KEY", separator = " " } = options;
   
   switch (type) {
-    // Web encodings
     case "base64":
       return btoa(unescape(encodeURIComponent(text)));
     case "base64url":
@@ -465,7 +381,6 @@ const encode = (
     case "uuencode":
       return uuEncode(text);
       
-    // Numeric encodings
     case "hex":
       return [...text].map(c => c.charCodeAt(0).toString(16).padStart(2, "0")).join(separator);
     case "hex-0x":
@@ -478,7 +393,6 @@ const encode = (
     case "ascii":
       return [...text].map(c => c.charCodeAt(0)).join(separator);
       
-    // Text encodings
     case "unicode":
       return [...text].map(c => `U+${c.charCodeAt(0).toString(16).toUpperCase().padStart(4, "0")}`).join(separator);
     case "unicode-escape":
@@ -500,7 +414,6 @@ const encode = (
     case "reverse":
       return [...text].reverse().join("");
       
-    // Ciphers
     case "rot13":
       return text.replace(/[A-Za-z]/g, c => {
         const base = c <= "Z" ? 65 : 97;
@@ -529,7 +442,6 @@ const encode = (
     case "bacon":
       return text.toUpperCase().split("").map(c => BACON_CIPHER[c] || c).join(" ");
       
-    // Hashes
     case "md5-hash":
       return simpleHash(text, 128);
     case "sha1-hash":
@@ -542,7 +454,6 @@ const encode = (
   }
 };
 
-// Main decode function
 const decode = (
   text: string,
   type: EncodingType,
@@ -551,7 +462,6 @@ const decode = (
   const { shift = 3, key = "KEY" } = options;
   
   switch (type) {
-    // Web encodings
     case "base64":
       return decodeURIComponent(escape(atob(text.trim())));
     case "base64url": {
@@ -589,7 +499,6 @@ const decode = (
     case "uuencode":
       return uuDecode(text);
       
-    // Numeric encodings
     case "hex":
       return text.trim().split(/[\s,]+/).filter(Boolean)
         .map(h => String.fromCharCode(parseInt(h, 16))).join("");
@@ -607,7 +516,6 @@ const decode = (
       return text.trim().split(/[\s,]+/).filter(Boolean)
         .map(n => String.fromCharCode(parseInt(n))).join("");
       
-    // Text encodings
     case "unicode":
       return text.trim().split(/[\s,]+/).filter(Boolean)
         .map(u => String.fromCharCode(parseInt(u.replace(/^U\+/i, ""), 16))).join("");
@@ -640,7 +548,6 @@ const decode = (
     case "reverse":
       return [...text].reverse().join("");
       
-    // Ciphers (self-inverse or with negative shift)
     case "rot13":
       return encode(text, "rot13");
     case "rot5":
@@ -656,7 +563,6 @@ const decode = (
     case "bacon":
       return text.trim().split(/\s+/).map(code => BACON_REVERSE[code] || code).join("");
       
-    // Hashes cannot be decoded
     case "md5-hash":
     case "sha1-hash":
     case "sha256-hash":
@@ -667,53 +573,52 @@ const decode = (
   }
 };
 
-// ============================================================================
-// CSS STYLES
-// ============================================================================
-
 const styles = `
 .encoder-tool {
   max-width: 100%;
   min-height: 100vh;
 }
 
-.encoder-toolbar {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-bottom: 20px;
-  padding: 12px 16px;
+.encoder-setup {
   background: var(--bg-glass-subtle);
   border: 1px solid var(--border-secondary);
   border-radius: var(--radius-lg);
+  margin-bottom: 24px;
+  overflow: hidden;
 }
 
-.encoder-toolbar-btn {
+.encoder-setup-header {
+  padding: 16px 20px;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-secondary);
+}
+
+.encoder-setup-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 8px 14px;
-  background: transparent;
-  border: 1px solid var(--border-secondary);
-  border-radius: var(--radius-md);
-  color: var(--text-secondary);
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.encoder-toolbar-btn:hover {
-  background: var(--bg-glass-hover);
-  border-color: var(--border-hover);
+  gap: 10px;
   color: var(--text-primary);
 }
 
-.encoder-toolbar-btn.active {
-  background: var(--accent-subtle);
-  border-color: var(--accent);
-  color: var(--text-primary);
+.encoder-setup-header h3 i {
+  color: var(--accent);
 }
+
+.encoder-setup .encoder-categories {
+  padding: 20px;
+  margin-bottom: 0;
+}
+
+.encoder-setup .encoder-options {
+  border-radius: 0;
+  border: none;
+  border-top: 1px solid var(--border-secondary);
+  margin-bottom: 0;
+}
+
 
 .encoder-tabs {
   display: flex;
@@ -804,7 +709,7 @@ const styles = `
 
 .encoder-category-desc {
   font-size: 12px;
-  color: var(--text-muted);
+  color: var(--text-secondary);
 }
 
 .encoder-category-grid {
@@ -819,8 +724,8 @@ const styles = `
   align-items: center;
   gap: 12px;
   padding: 12px;
-  background: var(--bg-primary);
-  border: 1px solid var(--border-secondary);
+  background: var(--bg-tertiary, var(--bg-primary));
+  border: 1px solid var(--border-primary);
   border-radius: var(--radius-md);
   cursor: pointer;
   transition: all 0.2s ease;
@@ -844,16 +749,16 @@ const styles = `
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--bg-secondary);
+  background: var(--bg-elevated, var(--bg-secondary));
   border-radius: var(--radius-md);
   font-size: 16px;
-  color: var(--text-secondary);
+  color: var(--text-primary);
   flex-shrink: 0;
 }
 
 .encoder-option.selected .encoder-option-icon {
   background: var(--accent);
-  color: white;
+  color: var(--text-inverse, #000);
 }
 
 .encoder-option-info {
@@ -870,7 +775,7 @@ const styles = `
 
 .encoder-option-desc {
   font-size: 11px;
-  color: var(--text-muted);
+  color: var(--text-secondary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -908,7 +813,7 @@ const styles = `
 .encoder-mode-btn.active {
   background: var(--accent);
   border-color: var(--accent);
-  color: white;
+  color: var(--text-inverse, #000);
 }
 
 .encoder-mode-btn.hash-only {
@@ -921,6 +826,19 @@ const styles = `
 .encoder-io {
   display: grid;
   gap: 20px;
+}
+
+@media (min-width: 1024px) {
+  .encoder-io {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+  
+  .encoder-actions {
+    grid-column: span 2;
+    margin: 0;
+    justify-content: center;
+  }
 }
 
 .encoder-panel {
@@ -1031,7 +949,7 @@ const styles = `
   border: 1px solid rgba(34, 197, 94, 0.2);
   border-radius: var(--radius-md);
   font-size: 12px;
-  color: #22c55e;
+  color: #d4d4d4;
 }
 
 .encoder-live-indicator i {
@@ -1070,7 +988,7 @@ const styles = `
 .encoder-btn-primary {
   background: var(--accent);
   border: none;
-  color: white;
+  color: var(--text-inverse, #000);
 }
 
 .encoder-btn-primary:hover {
@@ -1114,19 +1032,19 @@ const styles = `
 .encoder-message-error {
   background: rgba(239, 68, 68, 0.1);
   border: 1px solid rgba(239, 68, 68, 0.2);
-  color: #ef4444;
+  color: #a3a3a3;
 }
 
 .encoder-message-success {
   background: rgba(34, 197, 94, 0.1);
   border: 1px solid rgba(34, 197, 94, 0.2);
-  color: #22c55e;
+  color: #d4d4d4;
 }
 
 .encoder-message-info {
   background: rgba(59, 130, 246, 0.1);
   border: 1px solid rgba(59, 130, 246, 0.2);
-  color: #3b82f6;
+  color: #a3a3a3;
 }
 
 .encoder-options {
@@ -1330,7 +1248,7 @@ const styles = `
   border-radius: 50%;
   font-size: 12px;
   font-weight: 600;
-  color: white;
+  color: var(--text-inverse, #000);
 }
 
 .encoder-chain-step-info {
@@ -1364,7 +1282,7 @@ const styles = `
 
 .encoder-chain-step-remove:hover {
   background: rgba(239, 68, 68, 0.1);
-  color: #ef4444;
+  color: #a3a3a3;
 }
 
 .encoder-presets {
@@ -1582,14 +1500,6 @@ const styles = `
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   }
   
-  .encoder-toolbar {
-    padding: 10px;
-  }
-  
-  .encoder-toolbar-btn span {
-    display: none;
-  }
-  
   .encoder-mode-btn {
     padding: 10px;
     font-size: 13px;
@@ -1611,42 +1521,29 @@ const styles = `
 }
 `;
 
-// ============================================================================
-// MAIN COMPONENT
-// ============================================================================
-
 export default function EncoderDecoderTool() {
-  // State
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [encoding, setEncoding] = useState<EncodingType>("base64");
   const [mode, setMode] = useState<Mode>("encode");
   const [error, setError] = useState("");
   const [copied, setCopied] = useState(false);
-  const [liveMode, setLiveMode] = useState(false);
-  const [showOptions, setShowOptions] = useState(false);
-  const [showHistory, setShowHistory] = useState(false);
-  const [showChain, setShowChain] = useState(false);
-  const [showPresets, setShowPresets] = useState(false);
-  const [showInfo, setShowInfo] = useState(false);
+  const [liveMode] = useState(true);
   const [caesarShift, setCaesarShift] = useState(3);
   const [vigenereKey, setVigenereKey] = useState("KEY");
   const [separator, setSeparator] = useState(" ");
-  const [history, setHistory] = useState<HistoryEntry[]>([]);
-  const [chainSteps, setChainSteps] = useState<ChainStep[]>([]);
-  const [activeCategory, setActiveCategory] = useState<Category | "all">("all");
-  const [useApi, setUseApi] = useState(false);
+  const [chainSteps] = useState<ChainStep[]>([]);
+  const [activeCategory, setActiveCategory] = useState<Category>("web");
+  const [useApi] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
-  // Get current encoding info
   const currentEncoding = useMemo(() => 
     ENCODINGS.find(e => e.id === encoding),
     [encoding]
   );
 
-  // Group encodings by category
   const groupedEncodings = useMemo(() => {
     const groups: Record<Category, Encoding[]> = {
       web: [],
@@ -1663,13 +1560,10 @@ export default function EncoderDecoderTool() {
     return groups;
   }, []);
 
-  // Filter encodings based on active category
   const filteredEncodings = useMemo(() => {
-    if (activeCategory === "all") return groupedEncodings;
     return { [activeCategory]: groupedEncodings[activeCategory] };
   }, [activeCategory, groupedEncodings]);
 
-  // Process encoding/decoding (client-side)
   const processLocal = useCallback((inputText: string) => {
     const options = {
       shift: caesarShift,
@@ -1682,7 +1576,6 @@ export default function EncoderDecoderTool() {
       : decode(inputText, encoding, options);
   }, [encoding, mode, caesarShift, vigenereKey, separator]);
 
-  // Process encoding/decoding (API)
   const processApi = useCallback(async (inputText: string) => {
     const options = {
       shift: caesarShift,
@@ -1697,7 +1590,6 @@ export default function EncoderDecoderTool() {
     return response.result as string;
   }, [encoding, mode, caesarShift, vigenereKey, separator]);
 
-  // Main process function
   const process = useCallback(async () => {
     if (!input.trim()) {
       setOutput("");
@@ -1718,18 +1610,6 @@ export default function EncoderDecoderTool() {
       
       setOutput(result);
       
-      // Add to history
-      const entry: HistoryEntry = {
-        id: Date.now().toString(),
-        timestamp: Date.now(),
-        input: input.slice(0, 100),
-        output: result.slice(0, 100),
-        encoding,
-        mode
-      };
-      
-      setHistory(prev => [entry, ...prev.slice(0, 19)]);
-      
     } catch (e) {
       setError(e instanceof Error ? e.message : `Failed to ${mode}`);
       setOutput("");
@@ -1738,14 +1618,12 @@ export default function EncoderDecoderTool() {
     }
   }, [input, encoding, mode, useApi, processLocal, processApi]);
 
-  // Live mode effect
   useEffect(() => {
     if (!liveMode || !input.trim()) {
       if (liveMode && !input.trim()) setOutput("");
       return;
     }
     
-    // Don't use API in live mode for performance (too many requests)
     const timer = setTimeout(() => {
       try {
         const result = processLocal(input);
@@ -1759,7 +1637,6 @@ export default function EncoderDecoderTool() {
     return () => clearTimeout(timer);
   }, [liveMode, input, mode, processLocal]);
 
-  // Handle copy
   const handleCopy = async () => {
     if (!output) return;
     
@@ -1768,25 +1645,21 @@ export default function EncoderDecoderTool() {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
-      // Fallback
     }
   };
 
-  // Handle swap
   const handleSwap = () => {
     setInput(output);
     setOutput("");
     setMode(m => m === "encode" ? "decode" : "encode");
   };
 
-  // Handle clear
   const handleClear = () => {
     setInput("");
     setOutput("");
     setError("");
   };
 
-  // Handle download
   const handleDownload = () => {
     if (!output) return;
     
@@ -1799,7 +1672,6 @@ export default function EncoderDecoderTool() {
     URL.revokeObjectURL(url);
   };
 
-  // Handle file upload
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -1812,74 +1684,8 @@ export default function EncoderDecoderTool() {
     e.target.value = "";
   };
 
-  // Handle preset apply
-  const handleApplyPreset = (preset: Preset) => {
-    setChainSteps(preset.steps);
-    setShowChain(true);
-  };
-
-  // Handle chain execution
-  const handleExecuteChain = () => {
-    if (!input.trim() || chainSteps.length === 0) return;
-    
-    setError("");
-    
-    try {
-      let result = input;
-      
-      for (const step of chainSteps) {
-        const options = {
-          shift: caesarShift,
-          key: vigenereKey,
-          separator
-        };
-        
-        result = step.mode === "encode"
-          ? encode(result, step.encoding, options)
-          : decode(result, step.encoding, options);
-      }
-      
-      setOutput(result);
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "Chain execution failed");
-    }
-  };
-
-  // Handle add chain step
-  const handleAddChainStep = () => {
-    const newStep: ChainStep = {
-      id: Date.now().toString(),
-      encoding,
-      mode
-    };
-    setChainSteps(prev => [...prev, newStep]);
-  };
-
-  // Handle remove chain step
-  const handleRemoveChainStep = (id: string) => {
-    setChainSteps(prev => prev.filter(s => s.id !== id));
-  };
-
-  // Handle history item click
-  const handleHistoryClick = (entry: HistoryEntry) => {
-    setInput(entry.input);
-    setEncoding(entry.encoding);
-    setMode(entry.mode);
-  };
-
-  // Format time ago
-  const formatTimeAgo = (timestamp: number): string => {
-    const seconds = Math.floor((Date.now() - timestamp) / 1000);
-    if (seconds < 60) return "just now";
-    if (seconds < 3600) return `${Math.floor(seconds / 60)}m ago`;
-    if (seconds < 86400) return `${Math.floor(seconds / 3600)}h ago`;
-    return `${Math.floor(seconds / 86400)}d ago`;
-  };
-
-  // Check if current encoding is a hash
   const isHash = currentEncoding?.category === "hash";
 
-  // Reference examples
   const referenceExamples = [
     { name: "Base64", example: "SGVsbG8gV29ybGQ=", use: "Data URLs, API payloads" },
     { name: "URL", example: "Hello%20World", use: "Query strings, URLs" },
@@ -1894,77 +1700,8 @@ export default function EncoderDecoderTool() {
       <style>{styles}</style>
       
       <div className="encoder-tool tool-container">
-        {/* Toolbar */}
-        <div className="encoder-toolbar">
-          <button
-            className={`encoder-toolbar-btn ${liveMode ? "active" : ""}`}
-            onClick={() => setLiveMode(!liveMode)}
-          >
-            <i className="bi bi-lightning-charge" />
-            <span>Live</span>
-          </button>
-          
-          <button
-            className={`encoder-toolbar-btn ${useApi ? "active" : ""}`}
-            onClick={() => setUseApi(!useApi)}
-            title="Use backend API for encoding (supports server-side hashing)"
-          >
-            <i className="bi bi-cloud" />
-            <span>API</span>
-          </button>
-          
-          <button
-            className={`encoder-toolbar-btn ${showOptions ? "active" : ""}`}
-            onClick={() => setShowOptions(!showOptions)}
-          >
-            <i className="bi bi-sliders" />
-            <span>Options</span>
-          </button>
-          
-          <button
-            className={`encoder-toolbar-btn ${showChain ? "active" : ""}`}
-            onClick={() => setShowChain(!showChain)}
-          >
-            <i className="bi bi-link-45deg" />
-            <span>Chain</span>
-          </button>
-          
-          <button
-            className={`encoder-toolbar-btn ${showPresets ? "active" : ""}`}
-            onClick={() => setShowPresets(!showPresets)}
-          >
-            <i className="bi bi-bookmark" />
-            <span>Presets</span>
-          </button>
-          
-          <button
-            className={`encoder-toolbar-btn ${showHistory ? "active" : ""}`}
-            onClick={() => setShowHistory(!showHistory)}
-          >
-            <i className="bi bi-clock-history" />
-            <span>History</span>
-          </button>
-          
-          <button
-            className={`encoder-toolbar-btn ${showInfo ? "active" : ""}`}
-            onClick={() => setShowInfo(!showInfo)}
-          >
-            <i className="bi bi-info-circle" />
-            <span>Info</span>
-          </button>
-        </div>
 
-        {/* Category Tabs */}
         <div className="encoder-tabs">
-          <button
-            className={`encoder-tab ${activeCategory === "all" ? "active" : ""}`}
-            onClick={() => setActiveCategory("all")}
-          >
-            <i className="bi bi-grid-3x3-gap" />
-            All
-            <span className="encoder-tab-badge">{ENCODINGS.length}</span>
-          </button>
-          
           {(Object.entries(CATEGORIES) as [Category, typeof CATEGORIES[Category]][]).map(([cat, info]) => (
             <button
               key={cat}
@@ -1980,8 +1717,44 @@ export default function EncoderDecoderTool() {
           ))}
         </div>
 
-        {/* Options Panel */}
-        {showOptions && (
+        <div className="encoder-setup">
+          <div className="encoder-setup-header">
+            <h3><i className="bi bi-collection" /> Select Encoding & Configure</h3>
+          </div>
+
+          <div className="encoder-categories">
+            {(Object.entries(filteredEncodings) as [Category, Encoding[]][]).map(([category, encodings]) => (
+              <div key={category} className="encoder-category">
+                <div className="encoder-category-header">
+                  <div className="encoder-category-title">
+                    <i className={`bi ${CATEGORIES[category].icon}`} />
+                    {CATEGORIES[category].name}
+                  </div>
+                  <div className="encoder-category-desc">
+                    {CATEGORIES[category].description}
+                  </div>
+                </div>
+                <div className="encoder-category-grid">
+                  {encodings.map(enc => (
+                    <button
+                      key={enc.id}
+                      className={`encoder-option ${encoding === enc.id ? "selected" : ""}`}
+                      onClick={() => setEncoding(enc.id)}
+                    >
+                      <div className="encoder-option-icon">
+                        <i className={`bi ${enc.icon}`} />
+                      </div>
+                      <div className="encoder-option-info">
+                        <div className="encoder-option-name">{enc.name}</div>
+                        <div className="encoder-option-desc">{enc.description}</div>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+
           <div className="encoder-options">
             <div className="encoder-options-header">
               <i className="bi bi-gear" />
@@ -2033,136 +1806,8 @@ export default function EncoderDecoderTool() {
               </div>
             </div>
           </div>
-        )}
-
-        {/* Chain Panel */}
-        {showChain && (
-          <div className="encoder-chain">
-            <div className="encoder-chain-header">
-              <div className="encoder-chain-title">
-                <i className="bi bi-link-45deg" />
-                Encoding Chain
-              </div>
-              <div style={{ display: "flex", gap: 8 }}>
-                <button
-                  className="encoder-btn-secondary encoder-btn"
-                  style={{ padding: "6px 12px", fontSize: 12 }}
-                  onClick={handleAddChainStep}
-                >
-                  <i className="bi bi-plus" />
-                  Add Step
-                </button>
-                <button
-                  className="encoder-btn-primary encoder-btn"
-                  style={{ padding: "6px 12px", fontSize: 12 }}
-                  onClick={handleExecuteChain}
-                  disabled={chainSteps.length === 0 || !input.trim()}
-                >
-                  <i className="bi bi-play" />
-                  Execute
-                </button>
-              </div>
-            </div>
-            <div className="encoder-chain-steps">
-              {chainSteps.length === 0 ? (
-                <div style={{ padding: 20, textAlign: "center", color: "var(--text-muted)" }}>
-                  <i className="bi bi-info-circle" style={{ marginRight: 8 }} />
-                  Add encoding steps to create a chain
-                </div>
-              ) : (
-                chainSteps.map((step, idx) => {
-                  const encInfo = ENCODINGS.find(e => e.id === step.encoding);
-                  return (
-                    <div key={step.id} className="encoder-chain-step">
-                      <div className="encoder-chain-step-num">{idx + 1}</div>
-                      <div className="encoder-chain-step-info">
-                        <div className="encoder-chain-step-name">{encInfo?.name}</div>
-                        <div className="encoder-chain-step-mode">{step.mode}</div>
-                      </div>
-                      <button
-                        className="encoder-chain-step-remove"
-                        onClick={() => handleRemoveChainStep(step.id)}
-                      >
-                        <i className="bi bi-x" />
-                      </button>
-                    </div>
-                  );
-                })
-              )}
-            </div>
-          </div>
-        )}
-
-        {/* Presets Panel */}
-        {showPresets && (
-          <div className="encoder-presets">
-            <div className="encoder-presets-header">
-              <i className="bi bi-bookmark" />
-              Quick Presets
-            </div>
-            <div className="encoder-presets-grid">
-              {DEFAULT_PRESETS.map(preset => (
-                <button
-                  key={preset.id}
-                  className="encoder-preset"
-                  onClick={() => handleApplyPreset(preset)}
-                >
-                  <div className="encoder-preset-name">{preset.name}</div>
-                  <div className="encoder-preset-desc">{preset.description}</div>
-                  <div className="encoder-preset-steps">
-                    {preset.steps.map((step, idx) => (
-                      <span key={idx} className="encoder-preset-step">
-                        {step.mode === "encode" ? "→" : "←"} {step.encoding}
-                      </span>
-                    ))}
-                  </div>
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Encoding Selection */}
-        <div className="tool-section">
-          <div className="section-header">
-            <h3><i className="bi bi-collection" /> Select Encoding</h3>
-          </div>
-          
-          <div className="encoder-categories">
-            {(Object.entries(filteredEncodings) as [Category, Encoding[]][]).map(([category, encodings]) => (
-              <div key={category} className="encoder-category">
-                <div className="encoder-category-header">
-                  <div className="encoder-category-title">
-                    <i className={`bi ${CATEGORIES[category].icon}`} />
-                    {CATEGORIES[category].name}
-                  </div>
-                  <div className="encoder-category-desc">
-                    {CATEGORIES[category].description}
-                  </div>
-                </div>
-                <div className="encoder-category-grid">
-                  {encodings.map(enc => (
-                    <button
-                      key={enc.id}
-                      className={`encoder-option ${encoding === enc.id ? "selected" : ""}`}
-                      onClick={() => setEncoding(enc.id)}
-                    >
-                      <div className="encoder-option-icon">
-                        <i className={`bi ${enc.icon}`} />
-                      </div>
-                      <div className="encoder-option-info">
-                        <div className="encoder-option-name">{enc.name}</div>
-                        <div className="encoder-option-desc">{enc.description}</div>
-                      </div>
-                    </button>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
         </div>
 
-        {/* Mode Selection */}
         <div className="encoder-mode">
           <button
             className={`encoder-mode-btn ${mode === "encode" ? "active" : ""}`}
@@ -2181,9 +1826,7 @@ export default function EncoderDecoderTool() {
           </button>
         </div>
 
-        {/* Input/Output */}
-        <div className="encoder-io">
-          {/* Input Panel */}
+        <div className="encoder-io" style={{ marginTop: "20px" }}>
           <div className="encoder-panel">
             <div className="encoder-panel-header">
               <div className="encoder-panel-title">
@@ -2232,13 +1875,13 @@ export default function EncoderDecoderTool() {
             </div>
           </div>
 
-          {/* Actions */}
           {!liveMode && (
             <div className="encoder-actions">
               <button
                 className="encoder-btn encoder-btn-primary"
                 onClick={process}
                 disabled={!input.trim() || isProcessing}
+                title={isProcessing ? "Processing..." : !input.trim() ? "Enter input first" : undefined}
               >
                 {isProcessing ? (
                   <>
@@ -2273,7 +1916,6 @@ export default function EncoderDecoderTool() {
             </div>
           )}
 
-          {/* Messages */}
           {error && (
             <div className="encoder-message encoder-message-error">
               <i className="bi bi-exclamation-triangle" />
@@ -2288,7 +1930,6 @@ export default function EncoderDecoderTool() {
             </div>
           )}
 
-          {/* Output Panel */}
           <div className="encoder-panel">
             <div className="encoder-panel-header">
               <div className="encoder-panel-title">
@@ -2330,87 +1971,7 @@ export default function EncoderDecoderTool() {
           </div>
         </div>
 
-        {/* History Panel */}
-        {showHistory && history.length > 0 && (
-          <div className="encoder-history">
-            <div className="encoder-history-header">
-              <div className="encoder-history-title">
-                <i className="bi bi-clock-history" />
-                Recent History
-              </div>
-              <button
-                className="encoder-btn encoder-btn-secondary"
-                style={{ padding: "4px 10px", fontSize: 11 }}
-                onClick={() => setHistory([])}
-              >
-                Clear
-              </button>
-            </div>
-            <div className="encoder-history-list">
-              {history.map(entry => (
-                <div
-                  key={entry.id}
-                  className="encoder-history-item"
-                  onClick={() => handleHistoryClick(entry)}
-                >
-                  <div className="encoder-history-icon">
-                    <i className={`bi ${entry.mode === "encode" ? "bi-lock" : "bi-unlock"}`} />
-                  </div>
-                  <div className="encoder-history-info">
-                    <div className="encoder-history-text">{entry.input}</div>
-                    <div className="encoder-history-meta">
-                      {entry.encoding} • {entry.mode}
-                    </div>
-                  </div>
-                  <div className="encoder-history-time">
-                    {formatTimeAgo(entry.timestamp)}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Info Panel */}
-        {showInfo && currentEncoding && (
-          <div className="encoder-info">
-            <div className="encoder-info-header">
-              <i className={`bi ${currentEncoding.icon}`} />
-              {currentEncoding.name}
-            </div>
-            <div className="encoder-info-body">
-              <div className="encoder-info-section">
-                <div className="encoder-info-title">Description</div>
-                <div className="encoder-info-text">{currentEncoding.description}</div>
-              </div>
-              
-              <div className="encoder-info-section">
-                <div className="encoder-info-title">Example</div>
-                <div className="encoder-info-example">
-                  <div className="encoder-info-example-row">
-                    <span className="encoder-info-example-label">Input:</span>
-                    <span className="encoder-info-example-value">{currentEncoding.example.input}</span>
-                  </div>
-                  <div className="encoder-info-example-row">
-                    <span className="encoder-info-example-label">Output:</span>
-                    <span className="encoder-info-example-value">{currentEncoding.example.output}</span>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="encoder-info-section">
-                <div className="encoder-info-title">Properties</div>
-                <div className="encoder-info-text">
-                  Category: {CATEGORIES[currentEncoding.category].name}<br />
-                  Reversible: {currentEncoding.canDecode ? "Yes" : "No (one-way)"}
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Quick Reference */}
-        <div className="encoder-reference">
+        <div className="encoder-reference" style={{ marginTop: "20px" }}>
           <div className="encoder-reference-header">
             <i className="bi bi-lightbulb" />
             Quick Reference

@@ -161,8 +161,5 @@ curl -X POST "http://localhost:8000/api/security/validate/email" \
 - `429` - Rate limited
 - `500` - Server error
 
-## Interactive Docs
-Visit `/docs` on your API server for Swagger UI with live testing.
-
 ## Support
 [GitHub Repository](https://github.com/vaibhavcoding69/utility-tools)

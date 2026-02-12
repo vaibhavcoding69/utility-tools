@@ -1,19 +1,17 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Hero } from "./Hero";
-import api from "../../lib/api";
-import { toolIndex, searchTools, getQuickActions} from "../../config/tools";
+import { searchTools, getQuickActions} from "../../config/tools";
 import { 
   Search, 
   ArrowUpRight,
   Check
 } from "lucide-react";
 import Lottie from 'lottie-react';
-import accuracyAnimation from '../../assets/icons8-accuracy.json'; // Downloaded Lottie animation
-import lockAnimation from '../../assets/icons8-lock.json'; // Lock icon animation
-import developerAnimation from '../../assets/icons8-developer.json'; // Developer icon animation
+import accuracyAnimation from '../../assets/icons8-accuracy.json';
+import lockAnimation from '../../assets/icons8-lock.json';
+import developerAnimation from '../../assets/icons8-developer.json';
 
-// Premium feature showcase data
 const premiumFeatures = [
   {
     badge: "Developer Experience",
@@ -53,200 +51,8 @@ const premiumFeatures = [
   }
 ];
 
-// const tools = [
-//   {
-//     category: "Developer",
-//     items: [
-//       "JSON Formatter",
-//       "Base64 Encoder",
-//       "UUID Generator",
-//       "JWT Decoder",
-//       "Regex Tester",
-//       "URL Encoder",
-//     ],
-//     href: "/tools/developer",
-//   },
-//   {
-//     category: "Security",
-//     items: [
-//       "Password Generator",
-//       "Hash Generator",
-//       "TOTP Generator",
-//       "HMAC Generator",
-//     ],
-//     href: "/tools/security",
-//   },
-//   {
-//     category: "Data",
-//     items: [
-//       "CSV to JSON",
-//       "JSON to CSV",
-//       "SQL Formatter",
-//       "Fake Data Generator",
-//       "Base Converter",
-//     ],
-//     href: "/tools/data",
-//   },
-// ];
-
-// const categoryFilters = [
-//   {
-//     label: "Developer",
-//     caption: "Encoding, payloads, diffing",
-//     href: "/tools/developer",
-//   },
-//   {
-//     label: "Security",
-//     caption: "Passwords, hashes, TOTP",
-//     href: "/tools/security",
-//   },
-//   { label: "Data", caption: "CSV/JSON, SQL, fake data", href: "/tools/data" },
-// ];
-
-// const toolIndex = [
-//   {
-//     name: "JSON Formatter",
-//     description: "Format & validate JSON payloads",
-//     href: "/tools/developer/json",
-//     category: "Developer",
-//     keywords: ["json", "format", "validate"],
-//   },
-//   {
-//     name: "Base64 Encoder",
-//     description: "Encode/decode Base64 strings",
-//     href: "/tools/developer/base64",
-//     category: "Developer",
-//     keywords: ["base64", "encode", "decode"],
-//   },
-//   {
-//     name: "URL Encoder",
-//     description: "Escape URLs safely",
-//     href: "/tools/developer/url",
-//     category: "Developer",
-//     keywords: ["url", "encode", "decode"],
-//   },
-//   {
-//     name: "UUID Generator",
-//     description: "Generate UUID v1 & v4",
-//     href: "/tools/developer/uuid",
-//     category: "Developer",
-//     keywords: ["uuid", "id", "unique"],
-//   },
-//   {
-//     name: "Regex Tester",
-//     description: "Run expressions with flags",
-//     href: "/tools/developer/regex",
-//     category: "Developer",
-//     keywords: ["regex", "pattern", "test"],
-//   },
-//   {
-//     name: "JWT Decoder",
-//     description: "Inspect token payloads",
-//     href: "/tools/developer/jwt",
-//     category: "Developer",
-//     keywords: ["jwt", "token"],
-//   },
-//   {
-//     name: "Text Diff",
-//     description: "Compare two inputs",
-//     href: "/tools/developer/diff",
-//     category: "Developer",
-//     keywords: ["diff", "compare"],
-//   },
-//   {
-//     name: "Password Generator",
-//     description: "Create secure passwords",
-//     href: "/tools/security/password",
-//     category: "Security",
-//     keywords: ["password", "generator"],
-//   },
-//   {
-//     name: "Hash Generator",
-//     description: "SHA, MD5, and more",
-//     href: "/tools/security/hash",
-//     category: "Security",
-//     keywords: ["hash", "sha", "md5"],
-//   },
-//   {
-//     name: "TOTP Generator",
-//     description: "2FA compatible codes",
-//     href: "/tools/security/totp",
-//     category: "Security",
-//     keywords: ["totp", "2fa"],
-//   },
-//   {
-//     name: "CSV to JSON",
-//     description: "Convert CSV quickly",
-//     href: "/tools/data/csv-to-json",
-//     category: "Data",
-//     keywords: ["csv", "json"],
-//   },
-//   {
-//     name: "JSON to CSV",
-//     description: "Flatten arrays to CSV",
-//     href: "/tools/data/json-to-csv",
-//     category: "Data",
-//     keywords: ["json", "csv"],
-//   },
-//   {
-//     name: "SQL Formatter",
-//     description: "Beautify SQL queries",
-//     href: "/tools/data/sql",
-//     category: "Data",
-//     keywords: ["sql", "format"],
-//   },
-//   {
-//     name: "Fake Data",
-//     description: "Generate personas & more",
-//     href: "/tools/data/fake-data",
-//     category: "Data",
-//     keywords: ["fake", "data", "mock"],
-//   },
-//   {
-//     name: "Base Converter",
-//     description: "Convert between bases",
-//     href: "/tools/data/base-converter",
-//     category: "Data",
-//     keywords: ["base", "convert"],
-//   },
-// ];
-
 const quickActions = getQuickActions();
 
-const toolIdByHref: Record<string, string> = {
-  "/tools/developer/json": "json",
-  "/tools/developer/base64": "base64",
-  "/tools/developer/url": "url",
-  "/tools/developer/uuid": "uuid",
-  "/tools/developer/regex": "regex",
-  "/tools/developer/jwt": "jwt",
-  "/tools/developer/diff": "diff",
-  "/tools/security/password": "password",
-  "/tools/security/hash": "hash",
-  "/tools/security/totp": "totp",
-  "/tools/data/csv-to-json": "csv-to-json",
-  "/tools/data/json-to-csv": "json-to-csv",
-  "/tools/data/sql": "sql",
-  "/tools/data/fake-data": "fake-data",
-  "/tools/data/base-converter": "base-converter",
-};
-
-const sortByUsage = (items: typeof toolIndex, usage: Record<string, number>) => {
-  return [...items].sort((a, b) => {
-    const aKey = toolIdByHref[a.href];
-    const bKey = toolIdByHref[b.href];
-    const aCount = aKey ? usage[aKey] || 0 : 0;
-    const bCount = bKey ? usage[bKey] || 0 : 0;
-
-    if (bCount !== aCount) {
-      return bCount - aCount;
-    }
-
-    return a.name.localeCompare(b.name);
-  });
-};
-
-// Simple scroll-triggered reveal animations
 function useRevealOnScroll() {
   useEffect(() => {
     const elements = Array.from(document.querySelectorAll(".reveal"));
@@ -271,34 +77,12 @@ function useRevealOnScroll() {
 
 function UtilityDock() {
   const [query, setQuery] = useState("");
-  const [usage, setUsage] = useState<Record<string, number>>({});
-  useEffect(() => {
-    let active = true;
-    api
-      .toolUsage(10)
-      .then((response) => {
-        if (!active || !response?.success) return;
-        const map: Record<string, number> = {};
-        (response.tools as { id: string; count: number }[]).forEach((tool) => {
-          map[tool.id] = tool.count;
-        });
-        setUsage(map);
-      })
-      .catch(() => {
-        if (!active) return;
-        setUsage({});
-      });
-
-    return () => {
-      active = false;
-    };
-  }, []);
 
   const normalized = query.trim().toLowerCase();
   const results = normalized ? searchTools(query) : [];
 
   const visibleResults = results.slice(0, 5);
-  const sortedQuickActions = sortByUsage(quickActions, usage);
+  const sortedQuickActions = quickActions;
 
   return (
     <section className="command-dock" aria-label="Tool navigation">
@@ -461,7 +245,6 @@ export default function HomePage() {
       <div className="reveal">
         <UtilityDock />
       </div>
-      {/* <FeaturesSection /> */}
       <StatsSection />
       <PremiumFeaturesSection />
       <CTASection />

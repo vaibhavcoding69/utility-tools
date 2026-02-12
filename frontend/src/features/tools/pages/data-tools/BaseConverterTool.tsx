@@ -85,6 +85,7 @@ export function BaseConverterTool() {
             className="btn primary"
             onClick={handleConvert}
             disabled={loading || !value}
+            title={loading ? "Processing..." : !value ? "Enter a number first" : undefined}
           >
             {loading ? "Converting..." : "Convert"}
           </button>

@@ -3,7 +3,6 @@ import platform
 import subprocess
 import sys
 
-
 def run_backend():
     root = os.path.abspath(os.path.dirname(__file__))
     backend_dir = os.path.join(root, "backend")
@@ -24,7 +23,6 @@ def run_backend():
     ]
     return subprocess.Popen(cmd, cwd=root)
 
-
 def run_frontend():
     root = os.path.abspath(os.path.dirname(__file__))
     frontend_dir = os.path.join(root, "frontend")
@@ -33,10 +31,8 @@ def run_frontend():
         sys.stderr.write("frontend directory not found.\n")
         sys.exit(1)
 
-    # Determine npm command based on OS
     npm_cmd = "npm.cmd" if platform.system() == "Windows" else "npm"
 
-    # Check if npm is available
     try:
         subprocess.run([npm_cmd, "--version"], check=True, capture_output=True)
     except (subprocess.CalledProcessError, FileNotFoundError):
@@ -47,16 +43,13 @@ def run_frontend():
     cmd = [npm_cmd, "run", "dev", "--", "--host", "0.0.0.0", "--port", "5173"]
     return subprocess.Popen(cmd, cwd=frontend_dir)
 
-
 if __name__ == "__main__":
     backend_proc = run_backend()
     frontend_proc = run_frontend()
     try:
-        # Wait on the frontend if it started; backend is reload-enabled
         if frontend_proc:
             frontend_proc.wait()
         else:
-            # If no frontend, wait on backend
             backend_proc.wait()
     except KeyboardInterrupt:
         pass

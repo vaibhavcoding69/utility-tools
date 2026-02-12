@@ -1,9 +1,10 @@
-"""
-Main FastAPI application for Utility Tools.
+import sys
+from pathlib import Path
 
-This is the entry point for the Utility Tools API, bringing together all
-the route modules and middleware configuration.
-"""
+# Add the backend directory to sys.path so imports work regardless of cwd
+current_dir = Path(__file__).resolve().parent
+if str(current_dir) not in sys.path:
+    sys.path.insert(0, str(current_dir))
 
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
@@ -16,17 +17,11 @@ from app.config import (
 from app.utils import save_usage_stats, increment_request_count, increment_tool_usage, get_tool_key_from_path
 from app.api import health, developer, security, data
 
-
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Handle application startup and shutdown events."""
-    # Startup
     yield
-    # Shutdown - save usage stats
     save_usage_stats()
 
-
-# Create FastAPI app
 app = FastAPI(
     title=APP_TITLE,
     version=APP_VERSION,
@@ -34,7 +29,6 @@ app = FastAPI(
     lifespan=lifespan
 )
 
-# Configure CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=CORS_ORIGINS,
@@ -43,19 +37,15 @@ app.add_middleware(
     allow_headers=CORS_ALLOW_HEADERS,
 )
 
-# Include route modules
-app.include_router(health.router)
-app.include_router(developer.router, prefix="/api")
-app.include_router(security.router, prefix="/api")
-app.include_router(data.router, prefix="/api")
-
+app.include_router(health)
+app.include_router(developer, prefix="/api/developer")
+app.include_router(security, prefix="/api/security")
+app.include_router(data, prefix="/api/data")
 
 @app.middleware("http")
 async def track_usage(request: Request, call_next):
-    """Middleware to track API usage statistics."""
     response = await call_next(request)
 
-    # Track usage for API endpoints
     path = request.url.path
     if path.startswith("/api/"):
         increment_request_count()
@@ -65,7 +55,6 @@ async def track_usage(request: Request, call_next):
             increment_tool_usage(tool_key)
 
     return response
-
 
 if __name__ == "__main__":
     import uvicorn

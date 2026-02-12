@@ -50,7 +50,7 @@ export default function EnvNetlifyTool() {
           </div>
         </div>
         <div className="tool-actions">
-          <button className="btn primary" onClick={convert} disabled={!envText || loading}>
+          <button className="btn primary" onClick={convert} disabled={!envText || loading} title={loading ? "Processing..." : !envText ? "Enter .env content first" : undefined}>
             {loading ? "Converting..." : "Convert"}
           </button>
         </div>

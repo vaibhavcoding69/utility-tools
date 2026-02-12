@@ -1,4 +1,3 @@
-// Data tool components barrel export
 export { CsvToJsonTool } from "./CsvToJsonTool";
 export { JsonToCsvTool } from "./JsonToCsvTool";
 export { SqlFormatterTool } from "./SqlFormatterTool";

@@ -1,4 +1,3 @@
-// Tool components barrel export
 export { default as JsonFormatter } from "./JsonFormatter";
 export { default as EncoderDecoderTool } from "./EncoderDecoderTool";
 export { default as UuidGenerator } from "./UuidGenerator";

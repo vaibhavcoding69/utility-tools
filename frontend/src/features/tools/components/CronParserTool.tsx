@@ -37,7 +37,6 @@ export default function CronParserTool() {
   ): string => {
     const parts: string[] = [];
 
-    // Time
     if (minute === "0" && hour === "0") {
       parts.push("At midnight");
     } else if (minute === "0" && hour === "12") {
@@ -54,7 +53,6 @@ export default function CronParserTool() {
       parts.push(`At ${hour.padStart(2, "0")}:${minute.padStart(2, "0")}`);
     }
 
-    // Day of month
     if (dom !== "*") {
       if (dom.includes(",")) {
         parts.push(`on day ${dom} of the month`);
@@ -66,7 +64,6 @@ export default function CronParserTool() {
       }
     }
 
-    // Month
     const months = [
       "Jan",
       "Feb",
@@ -88,7 +85,6 @@ export default function CronParserTool() {
       }
     }
 
-    // Day of week
     const days = [
       "Sunday",
       "Monday",
@@ -121,7 +117,6 @@ export default function CronParserTool() {
 
     for (let i = 0; i < count && runs.length < count; i++) {
       current.setMinutes(current.getMinutes() + 1);
-      // Simplified - just show approximate next runs
       if (runs.length === 0) {
         runs.push(current.toLocaleString());
       } else {

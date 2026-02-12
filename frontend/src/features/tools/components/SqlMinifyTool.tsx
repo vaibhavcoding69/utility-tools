@@ -42,7 +42,7 @@ export default function SqlMinifyTool() {
           />
         </div>
         <div className="tool-actions">
-          <button className="btn primary" onClick={minify} disabled={!input || loading}>
+          <button className="btn primary" onClick={minify} disabled={!input || loading} title={loading ? "Processing..." : !input ? "Enter SQL query first" : undefined}>
             {loading ? "Minifying..." : "Minify"}
           </button>
           <button className="btn secondary" onClick={copy} disabled={!output}>
@@ -52,7 +52,7 @@ export default function SqlMinifyTool() {
         {error && <div className="tool-error">{error}</div>}
         <div className="tool-output-section">
           <label className="tool-label">Minified SQL</label>
-          <pre className="tool-output">{output || "Result will appear here"}</pre>
+          <pre className="tool-output">{output || "Output will appear here..."}</pre>
         </div>
       </div>
     </div>

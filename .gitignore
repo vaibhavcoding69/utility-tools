@@ -1,5 +1,4 @@
 /.vscode
-/plans
 .env
 __pycache__/
 *.py[cod]

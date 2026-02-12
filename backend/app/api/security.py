@@ -1,7 +1,3 @@
-"""
-Security Tools API - Comprehensive endpoints for security utilities
-"""
-
 from fastapi import APIRouter, HTTPException, Query
 from pydantic import BaseModel, Field
 from typing import Optional, List
@@ -12,11 +8,6 @@ import re
 import base64
 import hmac
 
-# 
-# Pydantic Models
-# 
-
-
 class PasswordGenerateOptions(BaseModel):
     length: int = Field(16, ge=4, le=128)
     include_uppercase: bool = True
@@ -26,53 +17,43 @@ class PasswordGenerateOptions(BaseModel):
     exclude_ambiguous: bool = False
     count: int = Field(1, ge=1, le=50)
 
-
 class PasswordPayload(BaseModel):
     password: str
-
 
 class HashPayload(BaseModel):
     data: str
     algorithm: str = "sha256"
     encoding: str = "hex"
 
-
 class HashVerifyPayload(BaseModel):
     data: str
     hash: str
     algorithm: str = "sha256"
-
 
 class HmacPayload(BaseModel):
     data: str
     key: str
     algorithm: str = "sha256"
 
-
 class EmailValidatePayload(BaseModel):
     email: str
-
 
 class EncryptPayload(BaseModel):
     data: str
     key: str
 
-
 class SecretTokenPayload(BaseModel):
     length: int = Field(32, ge=8, le=256)
     format: str = "hex"
-
 
 class ChecksumPayload(BaseModel):
     data: str
     algorithm: str = "crc32"
 
-
 class OTPPayload(BaseModel):
     secret: Optional[str] = None
     digits: int = Field(6, ge=6, le=8)
     period: int = 30
-
 
 class PasswordPolicyPayload(BaseModel):
     password: str
@@ -84,13 +65,7 @@ class PasswordPolicyPayload(BaseModel):
     max_repeated: int = 3
     banned_words: Optional[List[str]] = None
 
-
 router = APIRouter()
-
-# 
-# Password Generation
-# 
-
 
 @router.get("/password/generate", summary="Generate Password")
 async def password_generate(
@@ -170,7 +145,6 @@ async def password_generate(
 
     return result
 
-
 @router.post("/password/generate", summary="Generate Password (POST)")
 async def password_generate_post(options: PasswordGenerateOptions):
     return await password_generate(
@@ -182,12 +156,6 @@ async def password_generate_post(options: PasswordGenerateOptions):
         options.exclude_ambiguous,
         options.count,
     )
-
-
-# 
-# Password Strength Analysis
-# 
-
 
 @router.post("/password/strength", summary="Check Password Strength")
 async def password_strength(payload: PasswordPayload):
@@ -316,7 +284,6 @@ async def password_strength(payload: PasswordPayload):
         "warnings": warnings,
     }
 
-
 @router.post("/password/policy", summary="Check Password Policy")
 async def password_policy(payload: PasswordPolicyPayload):
     pwd, violations, passed = payload.password, [], []
@@ -364,12 +331,6 @@ async def password_policy(payload: PasswordPolicyPayload):
         "passed": passed,
     }
 
-
-# 
-# Hashing
-# 
-
-
 @router.post("/hash/generate", summary="Generate Hash")
 async def hash_generate(payload: HashPayload):
     algorithms = {
@@ -408,7 +369,6 @@ async def hash_generate(payload: HashPayload):
         "digest_size_bytes": hash_obj.digest_size,
     }
 
-
 @router.post("/hash/verify", summary="Verify Hash")
 async def hash_verify(payload: HashVerifyPayload):
     algorithms = {
@@ -436,7 +396,6 @@ async def hash_verify(payload: HashVerifyPayload):
         "provided_hash": payload.hash,
     }
 
-
 @router.post("/hash/all", summary="Generate All Hashes")
 async def hash_all(payload: HashPayload):
     data_bytes = payload.data.encode("utf-8")
@@ -453,12 +412,6 @@ async def hash_all(payload: HashPayload):
         ]
     }
     return {"success": True, "hashes": results, "input_length": len(payload.data)}
-
-
-# 
-# HMAC
-# 
-
 
 @router.post("/hmac/generate", summary="Generate HMAC")
 async def hmac_generate(payload: HmacPayload):
@@ -480,12 +433,6 @@ async def hmac_generate(payload: HmacPayload):
         "algorithm": alg,
         "signature_base64": base64.b64encode(bytes.fromhex(signature)).decode("utf-8"),
     }
-
-
-# 
-# Email Validation
-# 
-
 
 @router.post("/validate/email", summary="Validate Email")
 async def validate_email(payload: EmailValidatePayload):
@@ -529,12 +476,6 @@ async def validate_email(payload: EmailValidatePayload):
         "domain": domain or None,
     }
 
-
-# 
-# Secret/Token Generation
-# 
-
-
 @router.post("/secret/generate", summary="Generate Secret Token")
 async def secret_generate(payload: SecretTokenPayload):
     length = min(payload.length, 256)
@@ -555,7 +496,6 @@ async def secret_generate(payload: SecretTokenPayload):
         "entropy_bits": length * 8,
     }
 
-
 @router.get("/secret/api-key", summary="Generate API Key")
 async def generate_api_key(
     prefix: str = Query("sk"), length: int = Query(32, ge=16, le=64)
@@ -567,12 +507,6 @@ async def generate_api_key(
         "prefix": prefix,
         "length": len(f"{prefix}_{token}"),
     }
-
-
-# 
-# Checksum
-# 
-
 
 @router.post("/checksum/calculate", summary="Calculate Checksum")
 async def checksum_calculate(payload: ChecksumPayload):
@@ -601,12 +535,6 @@ async def checksum_calculate(payload: ChecksumPayload):
         "input_length": len(payload.data),
     }
 
-
-# 
-# XOR Encryption (Educational)
-# 
-
-
 @router.post("/encrypt/xor", summary="XOR Encrypt")
 async def xor_encrypt(payload: EncryptPayload):
     data, key = payload.data, payload.key
@@ -617,7 +545,6 @@ async def xor_encrypt(payload: EncryptPayload):
         "encrypted": base64.b64encode(encrypted.encode("latin-1")).decode("utf-8"),
         "warning": "XOR is NOT secure for production",
     }
-
 
 @router.post("/decrypt/xor", summary="XOR Decrypt")
 async def xor_decrypt(payload: EncryptPayload):
@@ -634,12 +561,6 @@ async def xor_decrypt(payload: EncryptPayload):
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-
-# 
-# TOTP (Time-based OTP)
-# 
-
-
 @router.post("/otp/generate", summary="Generate TOTP")
 async def otp_generate(payload: OTPPayload):
     import time
@@ -650,7 +571,7 @@ async def otp_generate(payload: OTPPayload):
     current_time = int(time.time())
     counter = current_time // payload.period
 
-    key = base64.b32decode(secret + "=" * (8 - len(secret) % 8))
+    key = base64.b32decode(secret + "=" * ((8 - len(secret) % 8) % 8))
     msg = counter.to_bytes(8, "big")
     hmac_hash = hmac.new(key, msg, hashlib.sha1).digest()
 
