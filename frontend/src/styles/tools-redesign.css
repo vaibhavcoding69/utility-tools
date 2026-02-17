@@ -99,6 +99,12 @@
   opacity: 0.7;
 }
 
+.input-length {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
 .tool-label-badge {
   display: inline-flex;
   align-items: center;
@@ -2045,10 +2051,11 @@
 }
 
 .live-clock-card {
-  background: linear-gradient(135deg, var(--accent) 0%, color-mix(in srgb, var(--accent) 70%, #d4d4d4) 100%);
+  background: linear-gradient(135deg, var(--gray-800) 0%, var(--gray-900) 100%);
+  border: 1px solid var(--border-primary);
   border-radius: var(--radius-lg);
   padding: var(--space-5);
-  color: white;
+  color: var(--text-primary);
 }
 
 .live-clock-header {
@@ -2057,7 +2064,7 @@
   gap: var(--space-2);
   font-size: var(--text-sm);
   font-weight: 500;
-  opacity: 0.9;
+  color: var(--text-secondary);
   margin-bottom: var(--space-3);
 }
 
@@ -2074,6 +2081,7 @@
   font-weight: 700;
   font-family: var(--font-mono);
   letter-spacing: 0.05em;
+  color: var(--text-primary);
 }
 
 .live-clock-details {
@@ -2087,11 +2095,12 @@
   align-items: center;
   gap: var(--space-2);
   font-size: var(--text-sm);
-  opacity: 0.9;
+  color: var(--text-secondary);
 }
 
 .clock-detail i {
   font-size: var(--text-xs);
+  opacity: 0.7;
 }
 
 .input-hint {
@@ -2638,6 +2647,50 @@
 .size-presets {
   display: flex;
   gap: var(--space-2);
+}
+
+/* Preset buttons grid used by Cron Parser */
+.algorithm-grid {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.algorithm-option {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-secondary);
+  background: var(--bg-primary);
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  min-width: 160px;
+}
+
+.algorithm-option:hover {
+  border-color: var(--border-hover);
+}
+
+.algorithm-option.selected {
+  border-color: var(--accent);
+  background: var(--accent-subtle);
+  color: var(--accent);
+}
+
+.algorithm-name {
+  font-size: var(--text-sm);
+  color: var(--text-primary);
+}
+
+.algorithm-desc {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
 }
 
 .size-preset-btn {
@@ -4514,3 +4567,48 @@
     font-size: 0.8rem;
   }
 }
+
+/* Cron reference table */
+.cron-reference-table {
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.cron-reference-table table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+}
+
+.cron-reference-table thead th {
+  text-align: left;
+  padding: var(--space-3) var(--space-4);
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid var(--border-primary);
+}
+
+.cron-reference-table tbody td {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--border-secondary);
+  color: var(--text-primary);
+}
+
+.cron-reference-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.cron-reference-table tbody td code {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  background: var(--bg-tertiary);
+  padding: 2px 6px;
+  border-radius: var(--radius-xs);
+  color: var(--text-secondary);
+}
+

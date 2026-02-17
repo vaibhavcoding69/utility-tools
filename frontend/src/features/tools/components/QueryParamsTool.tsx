@@ -28,14 +28,24 @@ export default function QueryParamsTool() {
   return (
     <div className="tool-container">
       <div className="tool-header">
-        <h2 className="tool-title">Query Params to JSON</h2>
+        <h2 className="tool-title">
+          <span className="tool-title-icon">
+            <i className="bi bi-question-circle" />
+          </span>
+          Query Params to JSON
+        </h2>
         <p className="tool-description">
-          Parse URL query parameters into a JSON object
+          Parse URL query parameters into a clean JSON object.
         </p>
       </div>
       <div className="tool-content">
         <div className="tool-input-section">
-          <label className="tool-label">Query String or URL</label>
+          <div className="tool-section-header">
+            <label className="tool-label">
+              <i className="bi bi-link-45deg" />
+              Query String or URL
+            </label>
+          </div>
           <input
             className="tool-input"
             type="text"
@@ -43,9 +53,13 @@ export default function QueryParamsTool() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
           />
+          <div className="input-hint">
+            Paste a full URL or just the query string starting with ?
+          </div>
         </div>
         <div className="tool-actions">
           <button className="btn primary" onClick={convert}>
+            <i className="bi bi-arrow-repeat" style={{ marginRight: "6px" }} />
             Convert
           </button>
           <button
@@ -53,11 +67,17 @@ export default function QueryParamsTool() {
             onClick={copyOutput}
             disabled={!output}
           >
+            <i className="bi bi-clipboard" style={{ marginRight: "6px" }} />
             Copy
           </button>
         </div>
         <div className="tool-output-section">
-          <label className="tool-label">JSON Output</label>
+          <div className="tool-section-header">
+            <label className="tool-label">
+              <i className="bi bi-braces" />
+              JSON Output
+            </label>
+          </div>
           <pre className="tool-output">{output || "{\n  \n}"}</pre>
         </div>
       </div>

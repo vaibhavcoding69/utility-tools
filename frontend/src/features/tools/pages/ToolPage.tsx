@@ -8,6 +8,7 @@ import {
   RegexTester,
   DiffTool,
   PasswordGenerator,
+  HashGenerator,
   TotpGenerator,
   CipherHashLab,
 } from "../components";
@@ -139,6 +140,24 @@ const developerTools: ToolConfig[] = [
     description: "Preview and convert Markdown",
     component: MarkdownTool,
   },
+  {
+    id: "cron-parser",
+    name: "Cron Parser",
+    description: "Parse cron expressions",
+    component: CronParserTool,
+  },
+  {
+    id: "query-params",
+    name: "Query Params to JSON",
+    description: "Parse URL query strings",
+    component: QueryParamsTool,
+  },
+  {
+    id: "env-netlify",
+    name: ".env → netlify.toml",
+    description: "Convert env to netlify config",
+    component: EnvNetlifyTool,
+  },
 ];
 
 const securityTools: ToolConfig[] = [
@@ -149,10 +168,10 @@ const securityTools: ToolConfig[] = [
     component: PasswordGenerator,
   },
   {
-    id: "json",
-    name: "JSON Formatter",
-    description: "Format and validate JSON",
-    component: JsonFormatter,
+    id: "hash",
+    name: "Hash Generator",
+    description: "SHA, MD5, BLAKE2 and more",
+    component: HashGenerator,
   },
   {
     id: "totp",
@@ -171,36 +190,6 @@ const securityTools: ToolConfig[] = [
     name: "Cipher & Hash Lab",
     description: "Classic ciphers plus hashing",
     component: CipherHashLab,
-  },
-  {
-    id: "regex",
-    name: "Regex Tester",
-    description: "Test regular expressions",
-    component: RegexTester,
-  },
-  {
-    id: "diff",
-    name: "Text Diff",
-    description: "Compare two texts",
-    component: DiffTool,
-  },
-  {
-    id: "cron-parser",
-    name: "Cron Parser",
-    description: "Parse cron expressions",
-    component: CronParserTool,
-  },
-  {
-    id: "query-params",
-    name: "Query Params to JSON",
-    description: "Parse URL query strings",
-    component: QueryParamsTool,
-  },
-  {
-    id: "json",
-    name: "JSON Formatter",
-    description: "Format and validate JSON",
-    component: JsonFormatter,
   },
 ];
 
@@ -260,12 +249,6 @@ const dataTools: ToolConfig[] = [
     component: LoremTool,
   },
   {
-    id: "env-netlify",
-    name: ".env → netlify.toml",
-    description: "Convert env to netlify config",
-    component: EnvNetlifyTool,
-  },
-  {
     id: "case-converter",
     name: "Case Converter",
     description: "Convert text cases",
@@ -276,18 +259,6 @@ const dataTools: ToolConfig[] = [
     name: "Color Picker",
     description: "Pick and convert colors",
     component: ColorPickerTool,
-  },
-  {
-    id: "cron-parser",
-    name: "Cron Parser",
-    description: "Parse cron expressions",
-    component: CronParserTool,
-  },
-  {
-    id: "random-string",
-    name: "Random String",
-    description: "Generate random strings",
-    component: RandomStringTool,
   },
   {
     id: "sql-minify",

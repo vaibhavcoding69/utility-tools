@@ -485,11 +485,11 @@ export default function CipherHashLab() {
               <i className="bi bi-arrow-left-right" />
               Mode
             </label>
-            <div className="flex rounded border border-neutral-700 overflow-hidden">
-              {(["encode", "decode"] as Mode[]).map((m) => (
+            <div className="flex rounded border border-secondary overflow-hidden">
+              {( ["encode", "decode"] as Mode[]).map((m) => (
                 <button
                   key={m}
-                  className={clsx("px-3 py-1 text-sm", m === mode ? "bg-emerald-600 text-white" : "bg-neutral-900 text-neutral-200")}
+                  className={clsx("btn", m === mode ? "primary" : "ghost")}
                   onClick={() => setMode(m)}
                 >
                   {m.toUpperCase()}
@@ -504,10 +504,7 @@ export default function CipherHashLab() {
               Backend API
             </label>
             <button
-              className={clsx(
-                "px-3 py-1 text-sm rounded border",
-                useApi ? "bg-amber-500/20 border-amber-400 text-amber-200" : "bg-neutral-900 border-neutral-700 text-neutral-200"
-              )}
+              className={clsx("btn", useApi ? "primary" : "ghost")}
               onClick={() => setUseApi((v) => !v)}
             >
               {useApi ? "On" : "Off"}
@@ -658,20 +655,17 @@ export default function CipherHashLab() {
         </div>
 
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-          <div className="rounded border border-neutral-800 bg-neutral-950/70 p-3 space-y-2">
-            <h4 className="text-sm font-semibold text-neutral-100">Algorithms</h4>
+          <div className="rounded border border-secondary bg-secondary p-3">
+            <h4 className="text-sm font-semibold text-primary">Algorithms</h4>
             <div className="space-y-3 max-h-72 overflow-auto pr-1">
               {algoGroups.map((group) => (
                 <div key={group.title} className="space-y-1">
-                  <div className="text-xs uppercase tracking-wide text-neutral-400">{group.title}</div>
+                  <div className="text-xs uppercase tracking-wide text-secondary">{group.title}</div>
                   <div className="flex flex-wrap gap-2">
                     {group.items.map((item) => (
                       <button
                         key={item.algo}
-                        className={clsx(
-                          "px-2 py-1 rounded border text-xs",
-                          item.algo === algo ? "bg-emerald-500/20 border-emerald-400 text-emerald-100" : "bg-neutral-900 border-neutral-800 text-neutral-200"
-                        )}
+                        className={clsx("btn", item.algo === algo ? "primary" : "ghost", "text-xs")}
                         onClick={() => {
                           setAlgo(item.algo);
                           setMode(item.mode);
@@ -686,17 +680,17 @@ export default function CipherHashLab() {
             </div>
           </div>
 
-          <div className="rounded border border-neutral-800 bg-neutral-950/70 p-3 space-y-2">
-            <h4 className="text-sm font-semibold text-neutral-100">Presets</h4>
+          <div className="rounded border border-secondary bg-secondary p-3">
+            <h4 className="text-sm font-semibold text-primary">Presets</h4>
             <div className="space-y-2">
               {presets.map((preset) => (
                 <button
                   key={preset.label}
-                  className="w-full text-left px-3 py-2 rounded bg-neutral-900 border border-neutral-800 hover:border-emerald-400 transition-colors"
+                  className="w-full text-left px-3 py-2 btn ghost"
                   onClick={() => handlePreset(preset.label)}
                 >
-                  <div className="text-sm text-neutral-100">{preset.label}</div>
-                  <div className="text-xs text-neutral-400">{preset.algo.toUpperCase()} • {preset.mode}</div>
+                  <div className="text-sm text-primary">{preset.label}</div>
+                  <div className="text-xs text-secondary">{preset.algo.toUpperCase()} • {preset.mode}</div>
                 </button>
               ))}
             </div>

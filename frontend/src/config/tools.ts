@@ -291,15 +291,6 @@ export const toolIndex: Tool[] = [
     tags: ["Color", "HEX", "RGB"],
   },
   {
-    name: "Number Base Converter",
-    description: "Binary, octal, decimal, hex",
-    href: "/tools/data/number-base",
-    category: "Data",
-    keywords: ["number", "base", "binary", "hex"],
-    icon: "bi-sliders",
-    tags: ["Number", "Binary"],
-  },
-  {
     name: "YAML to JSON",
     description: "Convert YAML to JSON",
     href: "/tools/data/yaml-json",

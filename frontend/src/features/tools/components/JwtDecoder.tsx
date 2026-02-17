@@ -46,19 +46,31 @@ export function JwtDecoder() {
   return (
     <div className="tool-container">
       <div className="tool-header">
-        <h2 className="tool-title">JWT Decoder</h2>
-        <p className="tool-description">Decode and inspect JSON Web Tokens</p>
+        <h2 className="tool-title">
+          <span className="tool-title-icon">
+            <i className="bi bi-shield-check" />
+          </span>
+          JWT Decoder
+        </h2>
+        <p className="tool-description">Decode and inspect JSON Web Tokens — view header, payload, and expiration status.</p>
       </div>
 
       <div className="tool-content">
         <div className="tool-input-section">
-          <label className="tool-label">JWT Token</label>
+          <div className="tool-section-header">
+            <label className="tool-label">
+              <i className="bi bi-key" />
+              JWT Token
+            </label>
+            <span className="input-length">{token.length} characters</span>
+          </div>
           <textarea
             className="tool-textarea"
             value={token}
             onChange={(e) => setToken(e.target.value)}
             placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
             rows={4}
+            spellCheck={false}
           />
         </div>
 
@@ -69,7 +81,17 @@ export function JwtDecoder() {
             disabled={loading || !token}
             title={loading ? "Decoding..." : !token ? "Enter a JWT token first" : undefined}
           >
-            {loading ? "Decoding..." : "Decode"}
+            {loading ? (
+              <>
+                <i className="bi bi-arrow-repeat" style={{ animation: "spin 1s linear infinite", marginRight: "6px" }} />
+                Decoding...
+              </>
+            ) : (
+              <>
+                <i className="bi bi-unlock" style={{ marginRight: "6px" }} />
+                Decode Token
+              </>
+            )}
           </button>
         </div>
 

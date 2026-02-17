@@ -143,52 +143,63 @@ export default function CronParserTool() {
   return (
     <div className="tool-container">
       <div className="tool-header">
-        <h2 className="tool-title">Cron Expression Parser</h2>
+        <h2 className="tool-title">
+          <span className="tool-title-icon">
+            <i className="bi bi-alarm" />
+          </span>
+          Cron Expression Parser
+        </h2>
         <p className="tool-description">
-          Parse and understand cron expressions
+          Parse and explain cron expressions with next-run previews and a handy field reference.
         </p>
       </div>
       <div className="tool-content">
         <div className="tool-input-section">
-          <label className="tool-label">Cron Expression</label>
+          <div className="tool-section-header">
+            <label className="tool-label">
+              <i className="bi bi-terminal" />
+              Cron Expression
+            </label>
+          </div>
           <input
             className="tool-input"
             type="text"
             placeholder="* * * * *"
             value={cronExpression}
             onChange={(e) => setCronExpression(e.target.value)}
-            style={{ fontFamily: "monospace", fontSize: "16px" }}
+            style={{ fontFamily: "var(--font-mono)", fontSize: "16px" }}
           />
-          <p
-            style={{
-              fontSize: "12px",
-              color: "var(--text-muted)",
-              marginTop: "4px",
-            }}
-          >
+          <div className="input-hint">
             Format: minute hour day-of-month month day-of-week
-          </p>
+          </div>
         </div>
         <div className="tool-output-section">
-          <label className="tool-label">Presets</label>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+          <div className="tool-section-header">
+            <label className="tool-label">
+              <i className="bi bi-bookmark" />
+              Presets
+            </label>
+          </div>
+          <div className="algorithm-grid">
             {presets.map((preset) => (
               <button
                 key={preset.value}
-                className="btn secondary"
+                className={`algorithm-option ${cronExpression === preset.value ? "selected" : ""}`}
                 onClick={() => setCronExpression(preset.value)}
-                style={{ fontSize: "12px", padding: "6px 12px" }}
               >
-                {preset.label}
+                <span className="algorithm-name">{preset.label}</span>
+                <span className="algorithm-desc" style={{ fontFamily: "var(--font-mono)" }}>{preset.value}</span>
               </button>
             ))}
           </div>
         </div>
         <div className="tool-actions">
           <button className="btn primary" onClick={parseCron}>
+            <i className="bi bi-play" style={{ marginRight: "6px" }} />
             Parse
           </button>
           <button className="btn secondary" onClick={copyExpression}>
+            <i className="bi bi-clipboard" style={{ marginRight: "6px" }} />
             Copy
           </button>
         </div>
@@ -203,89 +214,67 @@ export default function CronParserTool() {
         )}
         {nextRuns.length > 0 && (
           <div className="tool-output-section">
-            <label className="tool-label">
-              Next Scheduled Runs (approximate)
-            </label>
-            <div
-              style={{ display: "flex", flexDirection: "column", gap: "4px" }}
-            >
+            <div className="tool-section-header">
+              <label className="tool-label">
+                <i className="bi bi-calendar-event" />
+                Next Scheduled Runs
+              </label>
+            </div>
+            <div className="hash-results">
               {nextRuns.map((run, i) => (
-                <div
-                  key={i}
-                  style={{
-                    padding: "8px 12px",
-                    background: "var(--surface)",
-                    borderRadius: "4px",
-                    fontFamily: "monospace",
-                    fontSize: "13px",
-                  }}
-                >
-                  {run}
+                <div key={i} className="hash-result-item">
+                  <div className="hash-result-header">
+                    <span className="hash-algorithm">Run #{i + 1}</span>
+                  </div>
+                  <div className="hash-result-value">
+                    <code>{run}</code>
+                  </div>
                 </div>
               ))}
             </div>
           </div>
         )}
         <div className="tool-output-section">
-          <label className="tool-label">Field Reference</label>
-          <div style={{ fontSize: "12px", lineHeight: 1.6 }}>
-            <table style={{ width: "100%", borderCollapse: "collapse" }}>
+          <div className="tool-section-header">
+            <label className="tool-label">
+              <i className="bi bi-info-circle" />
+              Field Reference
+            </label>
+          </div>
+          <div className="cron-reference-table">
+            <table>
               <thead>
                 <tr>
-                  <th
-                    style={{
-                      textAlign: "left",
-                      padding: "8px",
-                      borderBottom: "1px solid var(--border)",
-                    }}
-                  >
-                    Field
-                  </th>
-                  <th
-                    style={{
-                      textAlign: "left",
-                      padding: "8px",
-                      borderBottom: "1px solid var(--border)",
-                    }}
-                  >
-                    Values
-                  </th>
-                  <th
-                    style={{
-                      textAlign: "left",
-                      padding: "8px",
-                      borderBottom: "1px solid var(--border)",
-                    }}
-                  >
-                    Special
-                  </th>
+                  <th>Field</th>
+                  <th>Values</th>
+                  <th>Special</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td style={{ padding: "8px" }}>Minute</td>
-                  <td>0-59</td>
-                  <td>* , - /</td>
+                  <td>Minute</td>
+                  <td><code>0-59</code></td>
+                  <td><code>* , - /</code></td>
                 </tr>
                 <tr>
-                  <td style={{ padding: "8px" }}>Hour</td>
-                  <td>0-23</td>
-                  <td>* , - /</td>
+                  <td>Hour</td>
+                  <td><code>0-23</code></td>
+                  <td><code>* , - /</code></td>
                 </tr>
                 <tr>
-                  <td style={{ padding: "8px" }}>Day of Month</td>
-                  <td>1-31</td>
-                  <td>* , - /</td>
+                  <td>Day of Month</td>
+                  <td><code>1-31</code></td>
+                  <td><code>* , - /</code></td>
                 </tr>
                 <tr>
-                  <td style={{ padding: "8px" }}>Month</td>
-                  <td>1-12</td>
-                  <td>* , - /</td>
+                  <td>Month</td>
+                  <td><code>1-12</code></td>
+                  <td><code>* , - /</code></td>
                 </tr>
                 <tr>
-                  <td style={{ padding: "8px" }}>Day of Week</td>
-                  <td>0-6 (Sun=0)</td>
-                  <td>* , - /</td>
+                  <td>Day of Week</td>
+                  <td><code>0-6 (Sun=0)</code></td>
+                  <td><code>* , - /</code></td>
                 </tr>
               </tbody>
             </table>

@@ -24,6 +24,20 @@ const tools = [
     icon: "bi-shuffle",
   },
   {
+    id: "yaml-json",
+    name: "YAML to JSON",
+    description: "Convert YAML to JSON",
+    tags: ["YAML", "JSON", "Convert"],
+    icon: "bi-filetype-yml",
+  },
+  {
+    id: "xml-json",
+    name: "XML ↔ JSON",
+    description: "Convert XML and JSON",
+    tags: ["XML", "JSON", "Convert"],
+    icon: "bi-file-earmark-code",
+  },
+  {
     id: "sql",
     name: "SQL Formatter",
     description: "Format and beautify SQL queries",
@@ -80,18 +94,11 @@ const tools = [
     icon: "bi-type",
   },
   {
-    id: "diff",
-    name: "Text Diff",
-    description: "Compare two texts and see differences",
-    tags: ["Compare", "Changes", "Merge"],
-    icon: "bi-arrow-left-right",
-  },
-  {
-    id: "text-stats",
-    name: "Text Statistics",
-    description: "Word count, char count, reading time",
-    tags: ["Words", "Characters", "Stats"],
-    icon: "bi-bar-chart-line",
+    id: "base-converter",
+    name: "Base Converter",
+    description: "Convert between number bases",
+    tags: ["Binary", "Hex", "Decimal"],
+    icon: "bi-calculator",
   },
 ];
 

@@ -25,17 +25,28 @@ export default function QrGeneratorTool() {
         qrContent = text;
     }
     
-    const url = `https://chart.googleapis.com/chart?cht=qr&chs=${size}x${size}&chl=${encodeURIComponent(qrContent)}&choe=UTF-8`;
+    // Use a public QR code service that returns a PNG image
+    const url = `https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&data=${encodeURIComponent(qrContent)}&format=png`;
     setQrUrl(url);
   };
 
   const downloadQR = () => {
     if (!qrUrl) return;
-    const link = document.createElement("a");
-    link.href = qrUrl;
-    link.download = `qrcode-${Date.now()}.png`;
-    link.click();
-    showCopiedFeedback("download");
+    // Fetch the image as a blob to avoid cross-origin download issues
+    fetch(qrUrl)
+      .then((res) => res.blob())
+      .then((blob) => {
+        const blobUrl = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = blobUrl;
+        link.download = `qrcode-${Date.now()}.png`;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        URL.revokeObjectURL(blobUrl);
+        showCopiedFeedback("download");
+      })
+      .catch((err) => console.error("Failed to download QR:", err));
   };
 
   const copyQrUrl = async () => {

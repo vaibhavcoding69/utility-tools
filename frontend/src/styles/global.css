@@ -2650,6 +2650,8 @@ blockquote {
       transparent 50%
     );
   animation: auroraFloat 20s ease-in-out infinite;
+  will-change: transform, opacity;
+  display: block;
 }
 [data-theme="light"] .hero-aurora::before {
   background:
@@ -2684,6 +2686,7 @@ blockquote {
     transparent
   );
   animation: gridMove 25s linear infinite;
+  will-change: transform;
   pointer-events: none;
 }
 [data-theme="light"] .hero-bg-grid {
@@ -2735,6 +2738,7 @@ blockquote {
       rgba(255, 255, 255, 0.02) 4px
     );
   animation: linesMove 30s linear infinite;
+  will-change: background-position;
   pointer-events: none;
 }
 [data-theme="light"] .hero-lines {
@@ -2759,7 +2763,7 @@ blockquote {
   position: absolute;
   inset: 0;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  opacity: 0.03;
+  opacity: 0.06;
   pointer-events: none;
 }
 .hero-grid {
