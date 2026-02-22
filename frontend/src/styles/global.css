@@ -37,7 +37,7 @@
   --border-active: rgba(255, 255, 255, 0.3);
   --border-subtle: rgba(255, 255, 255, 0.05);
 
-  --accent: #ffffff; 
+  --accent: #ffffff;
   --accent-hover: #d4d4d4;
   --accent-muted: #a3a3a3;
   --accent-subtle: rgba(255, 255, 255, 0.12);
@@ -2042,7 +2042,6 @@ blockquote {
   gap: var(--space-24);
 }
 
-/* Footer */
 .site-footer {
   width: 100%;
   border-top: 1px solid var(--border-secondary);
@@ -13285,4 +13284,13 @@ button.tool-card:hover {
 .chip-icon {
   width: 14px;
   height: 14px;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

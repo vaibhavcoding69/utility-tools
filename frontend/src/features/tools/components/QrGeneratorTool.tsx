@@ -25,14 +25,14 @@ export default function QrGeneratorTool() {
         qrContent = text;
     }
     
-    // Use a public QR code service that returns a PNG image
+
     const url = `https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&data=${encodeURIComponent(qrContent)}&format=png`;
     setQrUrl(url);
   };
 
   const downloadQR = () => {
     if (!qrUrl) return;
-    // Fetch the image as a blob to avoid cross-origin download issues
+
     fetch(qrUrl)
       .then((res) => res.blob())
       .then((blob) => {

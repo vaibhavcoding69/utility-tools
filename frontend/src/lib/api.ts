@@ -292,6 +292,20 @@ class ApiClient {
     });
   }
 
+  async shortenUrl(url: string, customSlug?: string) {
+    return this.request<ApiResponse>("/security/url/shorten", {
+      method: "POST",
+      body: JSON.stringify({ url, custom_slug: customSlug }),
+    });
+  }
+
+  async analyzeFileMetadata(fileData: string, fileName: string) {
+    return this.request<ApiResponse>("/security/metadata/file", {
+      method: "POST",
+      body: JSON.stringify({ file_data: fileData, file_name: fileName }),
+    });
+  }
+
   async csvToJson(data: string) {
     return this.request<ApiResponse>("/data/csv-to-json", {
       method: "POST",

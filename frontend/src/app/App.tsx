@@ -8,6 +8,7 @@ import SecurityToolsPage from "../features/tools/pages/SecurityToolsPage";
 import DataToolsPage from "../features/tools/pages/DataToolsPage";
 import ToolsHubPage from "../features/tools/pages/ToolsHubPage";
 import ToolPage from "../features/tools/pages/ToolPage";
+import UrlRedirect from "../features/tools/components/UrlRedirect";
 
 const baseTitle = "Utility Tools";
 const baseDescription = "A comprehensive collection of developer utilities and tools.";
@@ -75,6 +76,7 @@ export default function App() {
                 </>
               }
             />
+            <Route path="/u/:slug" element={<UrlRedirect />} />
             <Route
               path="/tools"
               element={

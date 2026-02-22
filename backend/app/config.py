@@ -65,7 +65,7 @@ SUPPORTED_ENCODINGS = {
     "url": ["url-encode", "url-decode"],
 }
 
-CORS_ORIGINS = ["*"]  # Configure appropriately for production
+CORS_ORIGINS = ["*"]
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_METHODS = ["*"]
 CORS_ALLOW_HEADERS = ["*"]

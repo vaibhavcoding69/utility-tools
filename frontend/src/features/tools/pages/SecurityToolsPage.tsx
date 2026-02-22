@@ -37,6 +37,20 @@ const tools = [
     icon: "bi-shield-lock",
     tags: ["Cipher", "Crypto", "ROT13"],
   },
+  {
+    id: "url-shortener",
+    name: "URL Shortener",
+    description: "Create short, memorable URLs",
+    icon: "bi-link-45deg",
+    tags: ["URL", "Shorten", "Slug"],
+  },
+  {
+    id: "file-metadata",
+    name: "File Metadata Analyzer",
+    description: "Extract and analyze file metadata",
+    icon: "bi-file-earmark",
+    tags: ["File", "Metadata", "Image", "PDF"],
+  },
 ];
 
 export default function SecurityToolsPage() {

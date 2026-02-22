@@ -34,7 +34,6 @@ def load_usage_stats() -> None:
         _tool_usage = {}
 
 def save_usage_stats() -> None:
-    # Disabled for serverless deployment (Vercel) - stats don't persist
     pass
 
 def increment_request_count() -> None:

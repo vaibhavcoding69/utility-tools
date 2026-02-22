@@ -352,7 +352,7 @@ const encode = (
     case "base64url":
       return btoa(unescape(encodeURIComponent(text)))
         .replace(/\+/g, "-")
-        .replace(/\//g, "_")
+        .replace(/\//g, "")
         .replace(/=+$/, "");
     case "base32":
       return base32Encode(text);
@@ -618,7 +618,6 @@ const styles = `
   border-top: 1px solid var(--border-secondary);
   margin-bottom: 0;
 }
-
 
 .encoder-tabs {
   display: flex;

@@ -593,3 +593,201 @@ async def otp_generate(payload: OTPPayload):
         "time_remaining": payload.period - (current_time % payload.period),
         "provisioning_uri": f"otpauth://totp/UtilityTools:user?secret={secret}&issuer=UtilityTools&digits={payload.digits}&period={payload.period}",
     }
+
+class UrlShortenPayload(BaseModel):
+    url: str
+    custom_slug: Optional[str] = None
+
+class FileMetadataPayload(BaseModel):
+    file_data: str
+    file_name: str
+
+import json
+import os
+
+URL_STORE_FILE = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "url_store.json")
+
+def load_url_store():
+    try:
+        if os.path.exists(URL_STORE_FILE):
+            with open(URL_STORE_FILE, "r") as f:
+                return json.load(f)
+    except:
+        pass
+    return {}
+
+def save_url_store(store):
+    try:
+        with open(URL_STORE_FILE, "w") as f:
+            json.dump(store, f)
+    except:
+        pass
+
+url_store = load_url_store()
+
+@router.post("/url/shorten", summary="Shorten a URL")
+async def shorten_url(payload: UrlShortenPayload):
+    import string
+    import random
+    
+    try:
+        if not payload.url.startswith(("http://", "https://")):
+            raise HTTPException(status_code=400, detail="URL must start with http:// or https://")
+        
+        slug = payload.custom_slug or "".join(random.choices(string.ascii_letters + string.digits, k=8))
+        
+        if slug in url_store:
+            if url_store[slug] != payload.url:
+                raise HTTPException(status_code=409, detail="Slug already exists for a different URL")
+        else:
+            url_store[slug] = payload.url
+            save_url_store(url_store)
+        
+        return {
+            "success": True,
+            "short_url": f"/u/{slug}",
+            "slug": slug,
+            "original_url": payload.url,
+        }
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+@router.get("/url/lookup/{slug}", summary="Look up short URL")
+async def lookup_url(slug: str):
+    if slug in url_store:
+        return {"success": True, "url": url_store[slug], "slug": slug}
+    else:
+        raise HTTPException(status_code=404, detail="Short URL not found")
+
+@router.get("/url/{slug}", summary="Redirect short URL")
+async def redirect_url(slug: str):
+    from fastapi.responses import RedirectResponse
+    
+    if slug in url_store:
+        return RedirectResponse(url=url_store[slug], status_code=301)
+    else:
+        raise HTTPException(status_code=404, detail="Short URL not found")
+
+@router.post("/metadata/file", summary="Analyze file metadata")
+async def file_metadata(payload: FileMetadataPayload):
+    try:
+        import mimetypes
+        import struct
+        
+        file_name = payload.file_name
+        file_data = payload.file_data
+        
+        try:
+            file_bytes = base64.b64decode(file_data)
+        except:
+            file_bytes = file_data.encode() if isinstance(file_data, str) else file_data
+        
+        _, ext = file_name.rsplit(".", 1) if "." in file_name else (file_name, "")
+        
+        mime_type, _ = mimetypes.guess_type(file_name)
+        
+        metadata = {
+            "success": True,
+            "file_name": file_name,
+            "file_size_bytes": len(file_bytes),
+            "extension": ext.lower(),
+            "mime_type": mime_type or "application/octet-stream",
+        }
+        
+        if mime_type and mime_type.startswith("image/"):
+            metadata["type"] = "image"
+            
+            if mime_type == "image/jpeg":
+                dimensions = extract_jpeg_dimensions(file_bytes)
+                if dimensions:
+                    metadata["width"], metadata["height"] = dimensions
+            elif mime_type == "image/png":
+                dimensions = extract_png_dimensions(file_bytes)
+                if dimensions:
+                    metadata["width"], metadata["height"] = dimensions
+            elif mime_type == "image/gif":
+                dimensions = extract_gif_dimensions(file_bytes)
+                if dimensions:
+                    metadata["width"], metadata["height"] = dimensions
+        
+        elif mime_type == "application/pdf":
+            metadata["type"] = "pdf"
+            try:
+                page_count = file_bytes.count(b"/Type/Page")
+                if page_count > 0:
+                    metadata["pages"] = page_count
+            except:
+                pass
+        
+        elif mime_type == "application/json":
+            metadata["type"] = "json"
+            try:
+                content = file_bytes.decode("utf-8")
+                import json
+                json_data = json.loads(content)
+                metadata["valid_json"] = True
+                metadata["keys"] = list(json_data.keys()) if isinstance(json_data, dict) else None
+            except:
+                metadata["valid_json"] = False
+        
+        elif mime_type and mime_type.startswith("text/"):
+            metadata["type"] = "text"
+            try:
+                content = file_bytes.decode("utf-8")
+                metadata["line_count"] = content.count("\n") + 1
+                metadata["character_count"] = len(content)
+            except:
+                try:
+                    content = file_bytes.decode("latin-1")
+                    metadata["line_count"] = content.count("\n") + 1
+                    metadata["character_count"] = len(content)
+                except:
+                    pass
+        
+        else:
+            metadata["type"] = "binary"
+        
+        return metadata
+    
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+def extract_jpeg_dimensions(data: bytes):
+    """Extract width and height from JPEG file"""
+    try:
+        offset = 0
+        while offset < len(data):
+            offset = data.find(b"\xff", offset)
+            if offset == -1:
+                break
+            marker = data[offset + 1]
+            if marker == 0xc0 or marker == 0xc1 or marker == 0xc2:
+                height = (data[offset + 5] << 8) + data[offset + 6]
+                width = (data[offset + 7] << 8) + data[offset + 8]
+                return (width, height)
+            offset += 2
+    except:
+        pass
+    return None
+
+def extract_png_dimensions(data: bytes):
+    """Extract width and height from PNG file"""
+    try:
+        if data.startswith(b"\x89PNG"):
+            width = int.from_bytes(data[16:20], "big")
+            height = int.from_bytes(data[20:24], "big")
+            return (width, height)
+    except:
+        pass
+    return None
+
+def extract_gif_dimensions(data: bytes):
+    """Extract width and height from GIF file"""
+    try:
+        if data[:3] in (b"GIF87a", b"GIF89a"):
+            width = int.from_bytes(data[6:8], "little")
+            height = int.from_bytes(data[8:10], "little")
+            return (width, height)
+    except:
+        pass
+    return None

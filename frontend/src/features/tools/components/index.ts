@@ -15,3 +15,5 @@ export { default as SqlMinifyTool } from "./SqlMinifyTool";
 export { default as JsonYamlTool } from "./JsonYamlTool";
 export { default as ImageResizeTool } from "./ImageResizeTool";
 export { default as CipherHashLab } from "./CipherHashLab";
+export { default as UrlShortenerTool } from "./UrlShortenerTool";
+export { default as FileMetadataAnalyzerTool } from "./FileMetadataAnalyzerTool";

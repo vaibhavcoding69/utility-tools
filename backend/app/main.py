@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.base import BaseHTTPMiddleware
+from fastapi.responses import RedirectResponse
 
 from app.api.router import api_router
 
@@ -39,3 +40,13 @@ async def root():
 @app.get("/api/v1/stats/requests")
 async def get_request_count():
     return {"count": request_count}
+
+
+@app.get("/u/{slug}")
+async def redirect_short_url(slug: str):
+    from app.api.security import url_store
+    
+    if slug in url_store:
+        return RedirectResponse(url=url_store[slug], status_code=301)
+    else:
+        return {"error": "Short URL not found", "status": 404}

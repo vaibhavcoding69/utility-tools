@@ -11,6 +11,8 @@ import {
   HashGenerator,
   TotpGenerator,
   CipherHashLab,
+  UrlShortenerTool,
+  FileMetadataAnalyzerTool,
 } from "../components";
 import {
   CsvToJsonTool,
@@ -190,6 +192,18 @@ const securityTools: ToolConfig[] = [
     name: "Cipher & Hash Lab",
     description: "Classic ciphers plus hashing",
     component: CipherHashLab,
+  },
+  {
+    id: "url-shortener",
+    name: "URL Shortener",
+    description: "Create short, memorable URLs",
+    component: UrlShortenerTool,
+  },
+  {
+    id: "file-metadata",
+    name: "File Metadata Analyzer",
+    description: "Extract and analyze file metadata",
+    component: FileMetadataAnalyzerTool,
   },
 ];
 
