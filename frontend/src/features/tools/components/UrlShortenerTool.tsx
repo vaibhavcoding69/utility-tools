@@ -38,7 +38,7 @@ export function UrlShortenerTool() {
 
   const handleCopy = async () => {
     try {
-      const fullUrl = `https://z1x.qzz.io${shortUrl}`;
+      const fullUrl = `https://z1x.vercel.app${shortUrl}`;
       await navigator.clipboard.writeText(fullUrl);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
@@ -147,7 +147,7 @@ export function UrlShortenerTool() {
                 Shortened URL
               </div>
               <div className="result-output">
-                <code>{`https://z1x.qzz.io${shortUrl}`}</code>
+                <code>{`https://z1x.vercel.app${shortUrl}`}</code>
                 <button
                   className="btn-icon"
                   onClick={handleCopy}
