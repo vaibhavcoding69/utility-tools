@@ -1,5 +1,6 @@
 {
   "version": 2,
+  "outputDirectory": "frontend/dist",
   "builds": [
     {
       "src": "api/index.py",
@@ -18,11 +19,11 @@
   ],
   "routes": [
     {
-      "src": "/api/.*",
+      "src": "/api/(.*)",
       "dest": "api/index.py"
     },
     {
-      "src": "/u/.*",
+      "src": "/u/(.*)",
       "dest": "api/index.py"
     },
     {
