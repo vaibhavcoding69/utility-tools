@@ -1,6 +1,6 @@
 import { useRouteError, isRouteErrorResponse, Link, useNavigate } from "react-router-dom";
 import { ChevronRight, AlertTriangle, Home, RefreshCw, Search } from "lucide-react";
-import "../../../src/styles/global.css";
+import "../../styles/global.css";
 
 interface RouteError {
   status?: number;
