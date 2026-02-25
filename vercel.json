@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "cd frontend && npm install && npm run build",
+  "buildCommand": "cd frontend && npm install && npm run build && cp -r dist ../api/dist",
   "builds": [
     {
       "src": "api/index.py",
@@ -12,20 +12,8 @@
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "api/index.py"
-    },
-    {
-      "src": "/u/(.*)",
-      "dest": "api/index.py"
-    },
-    {
-      "handle": "filesystem"
-    },
-    {
       "src": "/(.*)",
       "dest": "api/index.py"
     }
-  ],
-  "outputDirectory": "frontend/dist"
+  ]
 }
