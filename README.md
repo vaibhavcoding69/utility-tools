@@ -2,19 +2,7 @@
 
 A comprehensive collection of developer utilities with a FastAPI backend and React frontend, designed for deployment on Vercel.
 
-## Tech Stack
-
-### Frontend
-- **Framework**: React 18 + TypeScript
-- **Build Tool**: Vite
-- **Styling**: Tailwind CSS
-- **State Management**: Zustand
-- **UI Components**: Custom components with Lucide React icons
-
-### Backend
-- **Framework**: FastAPI (Python 3.11+)
-- **API**: RESTful API with OpenAPI/Swagger documentation
-- **Deployment**: Vercel Serverless Functions
+![34314](https://github.com/user-attachments/assets/2effc2ca-cd61-4802-91ed-477035489187)
 
 ## Features
 
@@ -48,6 +36,22 @@ A comprehensive collection of developer utilities with a FastAPI backend and Rea
 - **Word Counter**: Count words, characters, and lines in text
 - **Case Converter**: Convert text to various cases (uppercase, lowercase, camelCase, snake_case, etc.)
 - **Random String Generator**: Generate random strings with customizable character sets
+
+---
+
+## Tech Stack
+
+### Frontend
+- **Framework**: React 18 + TypeScript
+- **Build Tool**: Vite
+- **Styling**: Tailwind CSS
+- **State Management**: Zustand
+- **UI Components**: Custom components with Lucide React icons
+
+### Backend
+- **Framework**: FastAPI (Python 3.11+)
+- **API**: RESTful API with OpenAPI/Swagger documentation
+- **Deployment**: Vercel Serverless Functions
 
 ## Getting Started
 
@@ -83,48 +87,55 @@ python main.py
 ```
 The API will be available at `http://localhost:8000` and the frontend will be available at `http://localhost:5173`.
 
+### Deploy to Vercel
+
+Deploy this project to Vercel with one click:
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fvaibhavcoding69%2Futility-tools)
+
+---
+
 ## API Documentation
 
 Complete API documentation is available in [API_REFERENCE.md](./API_REFERENCE.md).
 
 Once the backend is running, you can test the API endpoints using the examples provided in [API_REFERENCE.md](API_REFERENCE.md).
 
-## Deploy to Vercel
-
-Deploy this project to Vercel with one click:
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fvaibhavcoding69%2Futility-tools)
-
 ## Project Structure
 
 ```
 utility-tools/
-├── API_REFERENCE.md      # Complete API documentation
+├── api/
+    └── index.py             # Vercel serverless functions
+├── API_REFERENCE.md         # Complete API documentation
 ├── backend/
-│   ├── index.py         # FastAPI application entry point
-│   ├── usage_stats.json # API usage statistics
+│   ├── index.py             # FastAPI application entry point
+│   ├── usage_stats.json     # API usage statistics
 │   └── app/
-│       ├── api/         # API route modules
-│       ├── models/      # Pydantic models
-│       └── utils/       # Utility functions
+│       ├── api/             # API route modules
+│       ├── models/          # Pydantic models
+│       └── utils/           # Utility functions
 ├── frontend/
-│   ├── public/          # Static assets
+│   ├── public/              # Static assets
 │   ├── src/
-│   │   ├── components/  # React components
-│   │   │   ├── tools/   # Tool components
-│   │   │   ├── layout/  # Layout components
-│   │   │   └── features/# Feature components
-│   │   ├── lib/         # Utilities and API client
-│   │   ├── config/      # Configuration files
-│   │   └── styles/      # CSS styles
+│       ├── components/      # React components
+│           ├── tools/       # Tool components
+│           ├── layout/      # Layout components
+│           └── features/    # Feature components
+│       ├── lib/             # Utilities and API client
+│       ├── config/          # Configuration files
+│       └── styles/          # CSS styles
 │   ├── package.json
 │   ├── vite.config.ts
 │   └── tailwind.config.js
-├── main.py              # Development runner
-├── requirements.txt     # Python dependencies
-├── vercel.json          # Vercel configuration
-└── README.md            # This file
+├── main.py                  # Development runner
+├── requirements.txt         # Python dependencies
+├── vercel.json              # Vercel configuration
+├── LICENSE                  # License 
+└── README.md                # This file
 ```
+
+---
 
 ## Contributing
 
