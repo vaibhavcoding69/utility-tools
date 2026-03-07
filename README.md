@@ -147,4 +147,4 @@ This project is open source and available under the MIT License.
 
 ## Authors
 
-Created by [vaibhavcoding69](https://github.com/vaibhavcoding69).
+Created by [redac1ed](https://github.com/redac1ed).
