@@ -39,20 +39,6 @@ A comprehensive collection of developer utilities with a FastAPI backend and Rea
 
 ---
 
-## Tech Stack
-
-### Frontend
-- **Framework**: React 18 + TypeScript
-- **Build Tool**: Vite
-- **Styling**: Tailwind CSS
-- **State Management**: Zustand
-- **UI Components**: Custom components with Lucide React icons
-
-### Backend
-- **Framework**: FastAPI (Python 3.11+)
-- **API**: RESTful API with OpenAPI/Swagger documentation
-- **Deployment**: Vercel Serverless Functions
-
 ## Getting Started
 
 ### Prerequisites
@@ -61,7 +47,7 @@ A comprehensive collection of developer utilities with a FastAPI backend and Rea
 - Python 3.11+
 - npm or yarn
 
-### Local Development
+### Local 
 
 1. Clone the repository:
 ```bash
@@ -83,11 +69,11 @@ cd ..
 
 4. Run the development servers:
 ```bash
-python main.py
+python main.py 
 ```
 The API will be available at `http://localhost:8000` and the frontend will be available at `http://localhost:5173`.
 
-### Deploy to Vercel
+### Vercel
 
 Deploy this project to Vercel with one click:
 
@@ -100,40 +86,6 @@ Deploy this project to Vercel with one click:
 Complete API documentation is available in [API_REFERENCE.md](./API_REFERENCE.md).
 
 Once the backend is running, you can test the API endpoints using the examples provided in [API_REFERENCE.md](API_REFERENCE.md).
-
-## Project Structure
-
-```
-utility-tools/
-├── api/
-    └── index.py             # Vercel serverless functions
-├── API_REFERENCE.md         # Complete API documentation
-├── backend/
-│   ├── index.py             # FastAPI application entry point
-│   ├── usage_stats.json     # API usage statistics
-│   └── app/
-│       ├── api/             # API route modules
-│       ├── models/          # Pydantic models
-│       └── utils/           # Utility functions
-├── frontend/
-│   ├── public/              # Static assets
-│   ├── src/
-│       ├── components/      # React components
-│           ├── tools/       # Tool components
-│           ├── layout/      # Layout components
-│           └── features/    # Feature components
-│       ├── lib/             # Utilities and API client
-│       ├── config/          # Configuration files
-│       └── styles/          # CSS styles
-│   ├── package.json
-│   ├── vite.config.ts
-│   └── tailwind.config.js
-├── main.py                  # Development runner
-├── requirements.txt         # Python dependencies
-├── vercel.json              # Vercel configuration
-├── LICENSE                  # License 
-└── README.md                # This file
-```
 
 ---
 
