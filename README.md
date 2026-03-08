@@ -65,7 +65,7 @@ A comprehensive collection of developer utilities with a FastAPI backend and Rea
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/vaibhavcoding69/utility-tools.git
+git clone https://github.com/redac1ed/utility-tools.git
 cd utility-tools
 ```
 
